@@ -1,0 +1,1 @@
+class_name SpellCardDefinition extends CardDefinition

@@ -18,6 +18,11 @@ config/icon="res://icon.svg"
 [autoload]
 
 TriggerSystem="*uid://yhjby1hhpxk7"
+GameState="*uid://cahouvljhv0iw"
+RulesEngine="*uid://cef852jxfyk50"
+ZoneManager="*uid://bojcj5h4snwtf"
+TurnController="*uid://cdxsaqei70kaf"
+GameActions="*uid://bhpd2krdpwpm8"
 
 [physics]
 
