@@ -23,6 +23,9 @@ const HOVER_Z_INDEX := 100
 @onready var endurance_label: Label = $EnduranceLabel
 @onready var card_text_label: Label = $CardTextLabel
 
+var hovered: bool = false
+var selected: bool = false
+
 var card_instance: CardInstance = null
 
 # Called when the node enters the scene tree for the first time.
@@ -30,6 +33,8 @@ func _ready() -> void:
 	add_to_group("cards")
 	input_pickable = true
 	input_event.connect(_on_input_event)
+	mouse_entered.connect(_on_mouse_entered)
+	mouse_exited.connect(_on_mouse_exited)
 	
 	get_viewport().physics_object_picking_first_only = true
 	
@@ -49,6 +54,34 @@ func _refresh_visuals() -> void:
 	else:
 		endurance_label.text = ""
 		attack_label.text = ""
+
+func set_selected(value: bool) -> void:
+	selected = value
+	queue_redraw()
+ 
+func _on_mouse_entered() -> void:
+	hovered = true
+	queue_redraw()
+ 
+func _on_mouse_exited() -> void:
+	hovered = false
+	queue_redraw()
+ 
+func _draw() -> void:
+	#Selection wins over hover when both are true, so you can tell a
+	#chosen card apart from one you're merely mousing over while choosing.
+	if selected:
+		_draw_outline(Color(0.3, 0.6, 1.0, 0.95), 5.0)
+	elif hovered:
+		_draw_outline(Color(1, 1, 1, 0.6), 5)
+ 
+func _draw_outline(color: Color, width: float) -> void:
+	var shape_node := get_node_or_null("CollisionShape2D") as CollisionShape2D
+	if shape_node == null or not (shape_node.shape is RectangleShape2D):
+		return
+	var size: Vector2 = shape_node.shape.size
+	var rect := Rect2(shape_node.position - size / 2, size)
+	draw_rect(rect, color, false, width)
 
 func _on_input_event(_viewport: Node, event: InputEvent, _shape_idx: int) -> void:
 	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT:

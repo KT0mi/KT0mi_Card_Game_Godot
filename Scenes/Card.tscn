@@ -14,46 +14,46 @@ font_size = 12
 script = ExtResource("1_pnb5n")
 
 [node name="Sprite" type="Sprite2D" parent="." unique_id=875783404]
-position = Vector2(-0.25, -0.25)
+position = Vector2(-0.75, 0.24998474)
 scale = Vector2(128.5, 224.49998)
 texture = SubResource("PlaceholderTexture2D_3p273")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=806803082]
-position = Vector2(0.25, -0.25000763)
+position = Vector2(-0.25, 0.24996948)
 shape = SubResource("RectangleShape2D_h8wm0")
 
 [node name="NameLabel" type="Label" parent="." unique_id=1762791428]
-offset_left = -44.0
-offset_top = -106.00001
-offset_right = 43.0
-offset_bottom = -83.00001
+offset_left = -44.5
+offset_top = -105.50002
+offset_right = 42.5
+offset_bottom = -82.50002
 text = "Card Name"
 horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="AttackLabel" type="Label" parent="." unique_id=588477204]
-offset_left = -64.0
-offset_top = 80.0
-offset_right = -32.0
-offset_bottom = 112.0
+offset_left = -64.5
+offset_top = 80.49999
+offset_right = -32.5
+offset_bottom = 112.5
 text = "0"
 horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="EnduranceLabel" type="Label" parent="." unique_id=794828416]
-offset_left = 32.0
-offset_top = 80.0
-offset_right = 64.0
-offset_bottom = 112.0
+offset_left = 31.5
+offset_top = 80.49999
+offset_right = 63.5
+offset_bottom = 112.5
 text = "0"
 horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="CardTextLabel" type="Label" parent="." unique_id=753727268]
-offset_left = -64.0
-offset_top = -16.000008
-offset_right = 64.0
-offset_bottom = 79.99999
+offset_left = -64.5
+offset_top = -15.5000305
+offset_right = 63.5
+offset_bottom = 80.499985
 text = "Card Text"
 label_settings = SubResource("LabelSettings_pnb5n")
 autowrap_mode = 2

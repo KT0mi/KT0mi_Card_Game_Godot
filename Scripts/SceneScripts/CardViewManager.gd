@@ -9,7 +9,8 @@ var _holder_nodes: Dictionary = {} #"player id: zone type" : CardHolder (Scene)
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	ZoneManager.card_zone_changed.connect(_on_zone_changed)
-	
+	DamagePipeline.change_card_endurance.connect(_refresh_card_visuals)
+
 #Called by CardHolder._ready()
 func register_holder(holder: CardHolder) -> void:
 	var player := GameState.player_one if holder.owner_is_player_one else GameState.player_two
@@ -35,3 +36,10 @@ func holder_for(card_instance: CardInstance) -> CardHolder:
 	if card_instance == null:
 		return null
 	return _holder_nodes.get(_key(card_instance.owner, card_instance.current_zone))
+	
+func card_node_for(instance: CardInstance) -> Card:
+	return _card_nodes.get(instance)
+	
+func _refresh_card_visuals(card_instance: CardInstance) -> void:
+	var card := card_node_for(card_instance)
+	card._refresh_visuals()

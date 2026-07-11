@@ -14,6 +14,8 @@ var damage_modifiers: Array[Callable] = []
 func _init(def: CardDefinition, p: Player) -> void:
 	definition = def
 	owner = p
+	if def is CreatureCardDefinition:
+		current_endurance = def.endurance
 
 func is_creature() -> bool:
 	return definition is CreatureCardDefinition

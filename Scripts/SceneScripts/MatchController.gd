@@ -111,6 +111,7 @@ func _on_choice_requested(req: ChoiceRequest) -> void:
 	for option in req.options:
 		var cb := CheckBox.new()
 		cb.text = _describe_option(option)
+		cb.toggled.connect(func(pressed: bool): _on_option_toggled(option, pressed))
 		_choice_panel.add_child(cb)
 		_choice_checkboxes[option] = cb
 		
@@ -119,11 +120,21 @@ func _on_choice_requested(req: ChoiceRequest) -> void:
 	confirm.pressed.connect(_on_choice_confirmed)
 	_choice_panel.add_child(confirm)
 
+func _on_option_toggled(option, pressed: bool) -> void:
+	if option is CardInstance:
+		var node := CardViewManager.card_node_for(option)
+		if node:
+			node.set_selected(pressed)
+
 func _on_choice_confirmed() -> void:
 	var selected: Array = []
 	for option in _choice_checkboxes:
 		if _choice_checkboxes[option].button_pressed:
 			selected.append(option)
+		if option is CardInstance:
+			var node := CardViewManager.card_node_for(option)
+			if node:
+				node.set_selected(false)
 			
 	var submited:= ChoiceManager.submit(selected)
 	if submited:
