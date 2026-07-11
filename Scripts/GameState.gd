@@ -22,6 +22,8 @@ func opponent_of(player: Player) -> Player:
 #Active-player-first resolution order for simultaneous triggers.
 func turn_order() -> Array[Player]:
 	var active := TurnController.current_player
+	if active == null:
+		return [player_one, player_two]
 	return [active, opponent_of(active)]
 
 func all_cards_in_play() -> Array[CardInstance]:

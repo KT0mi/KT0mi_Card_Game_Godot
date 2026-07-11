@@ -9,6 +9,8 @@ class_name CardHolder
 @export var owner_is_player_one: bool = true
 @export var zone_type: Zone.Type = Zone.Type.ARENA
 
+@export var show_debug_outline: bool = true
+
 var held_cards: Array[Card] = []
 
 # Called when the node enters the scene tree for the first time.
@@ -16,6 +18,29 @@ func _ready() -> void:
 	add_to_group("card_holders")
 	input_pickable = false
 	CardViewManager.register_holder(self)
+	queue_redraw()
+	
+func _draw() -> void:
+	if not show_debug_outline:
+		return
+ 
+	var shape_node := get_node_or_null("CollisionShape2D") as CollisionShape2D
+	if shape_node == null or not (shape_node.shape is RectangleShape2D):
+		return
+ 
+	var size: Vector2 = shape_node.shape.size
+	var rect := Rect2(shape_node.position - size / 2, size)
+ 
+	draw_rect(rect, Color(1, 1, 1, 0.08))
+	draw_rect(rect, Color(1, 1, 1, 0.5), false, 2.0)
+ 
+	var label := "%s (P%d)" % [
+		Zone.Type.keys()[zone_type],
+		1 if owner_is_player_one else 2,
+	]
+	draw_string(ThemeDB.fallback_font, rect.position + Vector2(4, 16), label,
+		HORIZONTAL_ALIGNMENT_LEFT, -1, 13)
+
 
 func can_accept(_card: Card) -> bool:
 	return capacity < 0 or held_cards.size() < capacity

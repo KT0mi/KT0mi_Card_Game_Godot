@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://dm7cn05jd22ab" path="res://Scripts/SceneScripts/MatchController.gd" id="1_5lt6y"]
 [ext_resource type="PackedScene" uid="uid://iixj5wm8e782" path="res://Scenes/CardHolder.tscn" id="2_8k7wh"]
+[ext_resource type="PackedScene" uid="uid://dlbv0s30abxbh" path="res://Scenes/ArenaHolder.tscn" id="3_8k7wh"]
 
 [node name="TestScene" type="Node2D" unique_id=1688716480]
 script = ExtResource("1_5lt6y")
@@ -20,9 +21,12 @@ position = Vector2(512, 448)
 capacity = -1
 zone_type = 0
 
-[node name="P1Arena" parent="." unique_id=56548692 instance=ExtResource("2_8k7wh")]
-position = Vector2(320, 288)
-capacity = 3
+[node name="P1Arena" parent="." unique_id=262156364 instance=ExtResource("3_8k7wh")]
+position = Vector2(192, 288)
+
+[node name="P1Arena2" parent="." unique_id=1267337120 instance=ExtResource("3_8k7wh")]
+position = Vector2(448, 256)
+rotation = 3.1415927
 
 [node name="P1Graveyard" parent="." unique_id=1817713873 instance=ExtResource("2_8k7wh")]
 position = Vector2(864, 288)
@@ -48,12 +52,6 @@ rotation = 3.1415927
 capacity = -1
 owner_is_player_one = false
 zone_type = 0
-
-[node name="P2Arena" parent="." unique_id=1954146559 instance=ExtResource("2_8k7wh")]
-position = Vector2(448, 256)
-rotation = 3.1415927
-capacity = 3
-owner_is_player_one = false
 
 [node name="P2Graveyard" parent="." unique_id=796521439 instance=ExtResource("2_8k7wh")]
 position = Vector2(992, 256)

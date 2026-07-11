@@ -40,7 +40,7 @@ func _setup_players() -> void:
 		# RulesEngine.setup_match() long-term, alongside the special-card
 		# rule it already has -- kept here for now so the test harness
 		# stays self-contained and doesn't presume that decision for you.
-		var face := CardFactory.create_instance(&"player_face", player)
+		var face := CardFactory.create_instance(&"test_player_card", player)
 		_spawn_card_node(face)
 		await ZoneManager.move_to(face, Zone.Type.PLAYER, ZoneChangeEvent.Reason.MANUAL)
 

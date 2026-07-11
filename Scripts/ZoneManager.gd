@@ -21,5 +21,6 @@ func move_to(card: CardInstance, to_zone: Zone.Type,
 	if to_zone == Zone.Type.ARENA and card.is_creature():
 		card.current_endurance = card.definition.endurance
 		
+	card_zone_changed.emit(card, from_zone, to_zone)
 	await TriggerSystem.emit(Events.ZONE_CHANGE, 
 		ZoneChangeEvent.new(card, from_zone, to_zone, reason))
