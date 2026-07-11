@@ -12,7 +12,7 @@ func check_state_based_actions() -> void:
 	for player in GameState.players():
 		for card in player.arena.duplicate(): 
 			if card.current_endurance <= 0:
-				return
+				await ZoneManager.move_to(card, Zone.Type.GRAVEYARD, ZoneChangeEvent.Reason.DEATH)
 				
 		for card in player.player_zone.duplicate():
 			if card.current_endurance <= 0:

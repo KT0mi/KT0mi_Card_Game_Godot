@@ -9,6 +9,11 @@ size = Vector2(127.5, 224.5)
 
 [node name="Card" type="Area2D" unique_id=528451555]
 script = ExtResource("1_pnb5n")
+spring_stiffness = null
+damping = null
+tilt_strength = null
+max_tilt_degrees = null
+tilt_recover_speed = null
 
 [node name="Sprite" type="Sprite2D" parent="." unique_id=875783404]
 position = Vector2(63.75, 111.74999)
@@ -18,3 +23,12 @@ texture = SubResource("PlaceholderTexture2D_3p273")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=806803082]
 position = Vector2(64.25, 111.75)
 shape = SubResource("RectangleShape2D_h8wm0")
+
+[node name="Label" type="Label" parent="." unique_id=1762791428]
+offset_left = 20.0
+offset_top = 6.0
+offset_right = 107.0
+offset_bottom = 29.0
+text = "Card Name"
+horizontal_alignment = 1
+vertical_alignment = 1

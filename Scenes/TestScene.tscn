@@ -1,18 +1,63 @@
 [gd_scene format=3 uid="uid://djfukqy5i4dww"]
 
-[ext_resource type="PackedScene" uid="uid://07qc2b2jhuei" path="res://Scenes/Card.tscn" id="1_5lt6y"]
+[ext_resource type="Script" uid="uid://dm7cn05jd22ab" path="res://Scripts/SceneScripts/MatchController.gd" id="1_5lt6y"]
 [ext_resource type="PackedScene" uid="uid://iixj5wm8e782" path="res://Scenes/CardHolder.tscn" id="2_8k7wh"]
 
 [node name="TestScene" type="Node2D" unique_id=1688716480]
+script = ExtResource("1_5lt6y")
 
-[node name="Card" parent="." unique_id=528451555 instance=ExtResource("1_5lt6y")]
-position = Vector2(64, 64)
+[node name="P1Deck" parent="." unique_id=2121250337 instance=ExtResource("2_8k7wh")]
+position = Vector2(1024, 288)
+capacity = -1
+zone_type = 2
 
-[node name="Card2" parent="." unique_id=1621083592 instance=ExtResource("1_5lt6y")]
-position = Vector2(928, 128)
+[node name="P1PlayerZone" parent="." unique_id=2061988723 instance=ExtResource("2_8k7wh")]
+position = Vector2(0, 288)
+zone_type = 4
 
-[node name="CardHolder" parent="." unique_id=2121250337 instance=ExtResource("2_8k7wh")]
-position = Vector2(736, 224)
+[node name="P1Hand" parent="." unique_id=510289264 instance=ExtResource("2_8k7wh")]
+position = Vector2(512, 448)
+capacity = -1
+zone_type = 0
 
-[node name="CardHolder2" parent="." unique_id=2061988723 instance=ExtResource("2_8k7wh")]
-position = Vector2(288, 224)
+[node name="P1Arena" parent="." unique_id=56548692 instance=ExtResource("2_8k7wh")]
+position = Vector2(320, 288)
+capacity = 3
+
+[node name="P1Graveyard" parent="." unique_id=1817713873 instance=ExtResource("2_8k7wh")]
+position = Vector2(864, 288)
+capacity = -1
+zone_type = 3
+
+[node name="P2Deck" parent="." unique_id=498374642 instance=ExtResource("2_8k7wh")]
+position = Vector2(1152, 256)
+rotation = 3.1415927
+capacity = -1
+owner_is_player_one = false
+zone_type = 2
+
+[node name="P2PlayerZone" parent="." unique_id=1116025579 instance=ExtResource("2_8k7wh")]
+position = Vector2(128, 256)
+rotation = 3.1415927
+owner_is_player_one = false
+zone_type = 4
+
+[node name="P2Hand" parent="." unique_id=1733684403 instance=ExtResource("2_8k7wh")]
+position = Vector2(640, 128)
+rotation = 3.1415927
+capacity = -1
+owner_is_player_one = false
+zone_type = 0
+
+[node name="P2Arena" parent="." unique_id=1954146559 instance=ExtResource("2_8k7wh")]
+position = Vector2(448, 256)
+rotation = 3.1415927
+capacity = 3
+owner_is_player_one = false
+
+[node name="P2Graveyard" parent="." unique_id=796521439 instance=ExtResource("2_8k7wh")]
+position = Vector2(992, 256)
+rotation = 3.1415927
+capacity = -1
+owner_is_player_one = false
+zone_type = 3

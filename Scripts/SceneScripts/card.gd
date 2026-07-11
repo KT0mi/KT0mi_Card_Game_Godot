@@ -17,6 +17,10 @@ var velocity: Vector2 = Vector2.ZERO
 static var _active_drag: Card = null
 const HOVER_Z_INDEX := 100
 
+#Visual Vars
+@onready
+var name_label: Label = $Label
+
 var card_instance: CardInstance = null
 
 # Called when the node enters the scene tree for the first time.
@@ -34,6 +38,7 @@ func bind(instance: CardInstance) -> void:
 	
 func _refresh_visuals() -> void:
 	#Fill with visual representation of card instance
+	name_label.text = card_instance.definition.card_name
 	pass
 
 func _on_input_event(_viewport: Node, event: InputEvent, _shape_idx: int) -> void:

@@ -10,7 +10,7 @@ var current_phase: Phase = Phase.START_TURN
 var current_player: Player
 
 func round_counter() -> int:
-	return ceili(turn_counter/2)
+	return ceili(turn_counter/2.0)
 
 func start_match() -> void:
 	RulesEngine.setup_match()
@@ -19,17 +19,16 @@ func start_match() -> void:
 func advance_phase() -> void:
 	match current_phase:
 		Phase.START_TURN:	await _enter_phase(Phase.DRAW)
-		Phase.DRAW:			await _enter_phase(Phase.DRAW)
-		Phase.PLAY:			await _enter_phase(Phase.DRAW)
-		Phase.BATTLE:		await _enter_phase(Phase.DRAW)
-		Phase.END_TURN:		await _enter_phase(Phase.DRAW)
+		Phase.DRAW:			await _enter_phase(Phase.PLAY)
+		Phase.PLAY:			await _enter_phase(Phase.BATTLE)
+		Phase.BATTLE:		await _enter_phase(Phase.END_TURN)
+		Phase.END_TURN:		await _end_turn_and_pass()
 
 func _enter_phase(phase: Phase) -> void:
 	var event := PhaseEvent.new(current_player)
 	
 	match phase:
 		Phase.START_TURN:
-			if turn_counter > 0: await TriggerSystem.emit(Events.BATTLE_PHASE_END, event)
 			current_phase = phase
 			await TriggerSystem.emit(Events.START_PHASE_START, event)
 		Phase.DRAW:
@@ -52,5 +51,9 @@ func _enter_phase(phase: Phase) -> void:
 
 
 func _end_turn_and_pass() -> void:
+	var event := PhaseEvent.new(current_player)
+	await TriggerSystem.emit(Events.END_PHASE_END, event)
+	
 	current_player = GameState.opponent_of(current_player)
+	turn_counter += 1
 	await _enter_phase(Phase.START_TURN)

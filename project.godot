@@ -23,6 +23,7 @@ RulesEngine="*uid://cef852jxfyk50"
 ZoneManager="*uid://bojcj5h4snwtf"
 TurnController="*uid://cdxsaqei70kaf"
 GameActions="*uid://bhpd2krdpwpm8"
+CardDatabase="*uid://cqn88c4ncghs3"
 CardViewManager="*uid://drhoovfrn2on7"
 
 [physics]

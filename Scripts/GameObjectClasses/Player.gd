@@ -27,7 +27,7 @@ func all_cards() -> Array[CardInstance]:
 	result.append_array(hand)
 	result.append_array(arena)
 	result.append_array(graveyard)
-	result.append(player_zone)
+	result.append_array(player_zone)
 	return result
 	
 func can_add_to_arena() -> bool:

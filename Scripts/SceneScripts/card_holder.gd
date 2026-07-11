@@ -6,8 +6,8 @@ class_name CardHolder
 
 @export var snap_duration: float = 0.15
 
-var owner_is_player_one: bool = true
-var zone_type: Zone.Type = Zone.Type.ARENA
+@export var owner_is_player_one: bool = true
+@export var zone_type: Zone.Type = Zone.Type.ARENA
 
 var held_cards: Array[Card] = []
 
