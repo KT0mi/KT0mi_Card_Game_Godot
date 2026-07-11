@@ -47,6 +47,7 @@ func can_accept(_card: Card) -> bool:
 	
 func add_card(card: Card) -> void:
 	if card in held_cards:
+		_arrange_cards()
 		return
 		
 	held_cards.append(card)
