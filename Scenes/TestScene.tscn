@@ -1,0 +1,18 @@
+[gd_scene format=3 uid="uid://djfukqy5i4dww"]
+
+[ext_resource type="PackedScene" uid="uid://07qc2b2jhuei" path="res://Scenes/Card.tscn" id="1_5lt6y"]
+[ext_resource type="PackedScene" uid="uid://iixj5wm8e782" path="res://Scenes/CardHolder.tscn" id="2_8k7wh"]
+
+[node name="TestScene" type="Node2D" unique_id=1688716480]
+
+[node name="Card" parent="." unique_id=528451555 instance=ExtResource("1_5lt6y")]
+position = Vector2(64, 64)
+
+[node name="Card2" parent="." unique_id=1621083592 instance=ExtResource("1_5lt6y")]
+position = Vector2(928, 128)
+
+[node name="CardHolder" parent="." unique_id=2121250337 instance=ExtResource("2_8k7wh")]
+position = Vector2(736, 224)
+
+[node name="CardHolder2" parent="." unique_id=2061988723 instance=ExtResource("2_8k7wh")]
+position = Vector2(288, 224)

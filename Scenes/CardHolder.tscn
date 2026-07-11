@@ -1,0 +1,13 @@
+[gd_scene format=3 uid="uid://iixj5wm8e782"]
+
+[ext_resource type="Script" uid="uid://dolrgdmx33i72" path="res://Scripts/card_holder.gd" id="1_6f5jx"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_6f5jx"]
+size = Vector2(128, 224)
+
+[node name="CardHolder" type="Area2D" unique_id=2121250337]
+script = ExtResource("1_6f5jx")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=530572234]
+position = Vector2(64, 112)
+shape = SubResource("RectangleShape2D_6f5jx")
