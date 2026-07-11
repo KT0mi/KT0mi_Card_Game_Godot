@@ -3,22 +3,21 @@ class_name Card
 
 signal picked_up(card: Card)
 signal dropped(card: Card)
-signal snapped(card: Card, holder, CardHolder)
 
+#Movement vars
 @export var spring_stiffness: float = 0.2
 @export var damping: float = 0.1
-
 @export var tilt_strength: float = 1.0
 @export var max_tilt_degrees: float = 10.0
 @export var tilt_recover_speed: float = 10.0
 
 var dragging: bool = false
 var velocity: Vector2 = Vector2.ZERO
-var current_holder: CardHolder = null
 
 static var _active_drag: Card = null
-
 const HOVER_Z_INDEX := 100
+
+var card_instance: CardInstance = null
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -27,6 +26,15 @@ func _ready() -> void:
 	input_event.connect(_on_input_event)
 	
 	get_viewport().physics_object_picking_first_only = true
+	
+func bind(instance: CardInstance) -> void:
+	card_instance = instance
+	CardViewManager.register_card_node(instance, self)
+	_refresh_visuals()
+	
+func _refresh_visuals() -> void:
+	#Fill with visual representation of card instance
+	pass
 
 func _on_input_event(_viewport: Node, event: InputEvent, _shape_idx: int) -> void:
 	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT:
@@ -59,10 +67,6 @@ func _start_drag() -> void:
 	velocity = Vector2.ZERO
 	z_index = HOVER_Z_INDEX
 	
-	if current_holder:
-		current_holder.remove_card(self)
-		current_holder = null
-		
 	picked_up.emit(self)
 
 func _end_drag() -> void:
@@ -75,11 +79,17 @@ func _end_drag() -> void:
 	dropped.emit(self)
 	
 	var holder := _find_best_holder()
-	if holder:
-		snap_to_holder(holder)
-	else: 
-		if current_holder:
-			snap_to_holder(current_holder)
+	var moved := false
+	if holder and card_instance:
+		moved = await _attempt_card_action(holder)
+	
+	if not moved:
+		_snap_back_to_current_holder()
+
+func _attempt_card_action(holder: CardHolder) -> bool:
+	if holder.zone_type == Zone.Type.ARENA:
+		return await GameActions.try_play_card(card_instance.owner, card_instance)
+	return false
 
 func _find_best_holder() -> CardHolder:
 	var best: CardHolder = null
@@ -93,7 +103,8 @@ func _find_best_holder() -> CardHolder:
 				best = area
 	return best
 
-func snap_to_holder(holder: CardHolder) -> void:
-	current_holder = holder
-	holder.add_card(self)
-	snapped.emit(self, holder)
+func _snap_back_to_current_holder() -> void:
+	#Illegal move or dropped from empty space
+	var holder: CardHolder = CardViewManager.holder_for(card_instance)
+	if holder:
+		holder.add_card(self)

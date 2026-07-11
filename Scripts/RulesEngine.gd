@@ -5,12 +5,18 @@ extends Node
 #Does not actually decide if a certain thing is legal
 #That is relegated to GameActions
 
+signal player_defeated(player: Player)
+
 func check_state_based_actions() -> void:
 	#Creatures die when their health is at 0 in the end turn phase
 	for player in GameState.players():
 		for card in player.arena.duplicate(): 
 			if card.current_endurance <= 0:
 				return
+				
+		for card in player.player_zone.duplicate():
+			if card.current_endurance <= 0:
+				player_defeated.emit(player)
 
 func setup_match() -> void:
 	#Rules for match setup
@@ -21,4 +27,6 @@ func setup_match() -> void:
 				player.deck.erase(card)
 				player.hand.append(card)
 				card.current_zone = Zone.Type.HAND
-				
+	
+	#var face_card := CardInstance.new(CardDatabase.get_definition(&"player_face"), player)
+	#await ZoneManager.move_to(face_card, Zone.Type.PLAYER, ZoneChangeEvent.Reason.MANUAL)

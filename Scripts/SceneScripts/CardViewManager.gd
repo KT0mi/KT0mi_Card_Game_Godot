@@ -1,0 +1,37 @@
+extends Node
+##Autoload
+
+# Main script to sync visuals and card game logic
+
+var _card_nodes: Dictionary = {} #CardInstance -> Card (Scene)
+var _holder_nodes: Dictionary = {} #"player id: zone type" : CardHolder (Scene)
+
+# Called when the node enters the scene tree for the first time.
+func _ready() -> void:
+	ZoneManager.card_zone_changed.connect(_on_zone_changed)
+	
+#Called by CardHolder._ready()
+func register_holder(holder: CardHolder) -> void:
+	var player := GameState.player_one if holder.owner_is_player_one else GameState.player_two
+	_holder_nodes[_key(player, holder.zone_type)] = holder
+
+#Called by Card._ready()
+func register_card_node(instance: CardInstance, node: Card) -> void:
+	_card_nodes[instance] = node
+
+func _on_zone_changed(card: CardInstance, _from_zone: Zone.Type, to_zone: Zone.Type) -> void:
+	var node: Card = _card_nodes.get(card)
+	if node == null:
+		return  # card has no visual representation yet/anymore -- fine, e.g. still in deck
+ 
+	var holder: CardHolder = _holder_nodes.get(_key(card.owner, to_zone))
+	if holder:
+		holder.add_card(node)
+
+func _key(player: Player, zone: Zone.Type) -> String:
+	return "%s:%s" % [player.get_instance_id(), zone]
+	
+func holder_for(card_instance: CardInstance) -> CardHolder:
+	if card_instance == null:
+		return null
+	return _holder_nodes.get(_key(card_instance.owner, card_instance.current_zone))

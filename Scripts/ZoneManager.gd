@@ -5,6 +5,9 @@ extends Node
 #The only place any card's current_zone should actually change
 #Also makes sure all cards are followed when changing zones
 
+#signal to sync visuals - seperate from game logic
+signal card_zone_changed(card: CardInstance, from_zone: Zone.Type, to_zone: Zone.Type)
+
 func move_to(card: CardInstance, to_zone: Zone.Type,
 	reason: ZoneChangeEvent.Reason = ZoneChangeEvent.Reason.MANUAL) -> void:
 	var from_zone := card.current_zone

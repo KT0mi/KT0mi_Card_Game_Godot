@@ -1,9 +1,13 @@
 extends Area2D
 class_name CardHolder
 
-@export var capacity: int = 1
+##-1 means unlimited
+@export var capacity: int = -1
 
 @export var snap_duration: float = 0.15
+
+var owner_is_player_one: bool = true
+var zone_type: Zone.Type = Zone.Type.ARENA
 
 var held_cards: Array[Card] = []
 
@@ -11,6 +15,7 @@ var held_cards: Array[Card] = []
 func _ready() -> void:
 	add_to_group("card_holders")
 	input_pickable = false
+	CardViewManager.register_holder(self)
 
 func can_accept(_card: Card) -> bool:
 	return capacity < 0 or held_cards.size() < capacity
