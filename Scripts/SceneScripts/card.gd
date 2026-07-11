@@ -113,4 +113,3 @@ func _snap_back_to_current_holder() -> void:
 	var holder: CardHolder = CardViewManager.holder_for(card_instance)
 	if holder:
 		holder.add_card(self)
-		holder._arrange_cards()

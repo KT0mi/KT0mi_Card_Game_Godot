@@ -25,7 +25,13 @@ func try_play_card(player: Player, card: CardInstance) -> bool:
 	if card.is_creature():
 		await ZoneManager.move_to(card, Zone.Type.ARENA, ZoneChangeEvent.Reason.PLAY)
 	else:
-		await ZoneManager.move_to(card, Zone.Type.GRAVEYARD, ZoneChangeEvent.Reason.PLAY)
+		if card.is_spell():		
+			await (card.definition as SpellCardDefinition).resolve_effect(card, event)
+			var def : SpellCardDefinition = card.definition
+			if def.cast_type == SpellCardDefinition.CastType.INSTANT:
+				await ZoneManager.move_to(card, Zone.Type.GRAVEYARD, ZoneChangeEvent.Reason.PLAY)
+			else:
+				await ZoneManager.move_to(card, Zone.Type.SPELLBOOK, ZoneChangeEvent.Reason.PLAY)
 	
 	print("GameActions: Resolved try_play_card action sucessfully")
 	await TriggerSystem.emit(Events.CARD_PLAYED, event)

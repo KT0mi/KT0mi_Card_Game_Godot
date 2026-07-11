@@ -35,4 +35,4 @@ func all_cards_in_play() -> Array[CardInstance]:
 func is_ability_active(card: CardInstance, ability: Ability) -> bool:
 	if card.current_zone == Zone.Type.GRAVEYARD:
 		return ability.active_in_graveyard
-	return card.current_zone in [Zone.Type.ARENA, Zone.Type.PLAYER]
+	return card.current_zone in [Zone.Type.ARENA, Zone.Type.PLAYER, Zone.Type.SPELLBOOK]

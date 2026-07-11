@@ -8,6 +8,7 @@ var arena: Array[CardInstance] = []
 var deck: Array[CardInstance] = []
 var graveyard: Array[CardInstance] = []
 var player_zone: Array[CardInstance] = []
+var spellbook: Array[CardInstance] = []
 
 func _init(name: String) -> void:
 	player_name = name
@@ -20,6 +21,7 @@ func zone_array(zone: Zone.Type) -> Array[CardInstance]:
 		Zone.Type.DECK: return deck
 		Zone.Type.GRAVEYARD: return graveyard
 		Zone.Type.PLAYER: return player_zone
+		Zone.Type.SPELLBOOK: return spellbook
 		_: return []
 
 func all_cards() -> Array[CardInstance]:
@@ -28,7 +30,8 @@ func all_cards() -> Array[CardInstance]:
 	result.append_array(arena)
 	result.append_array(graveyard)
 	result.append_array(player_zone)
+	result.append_array(spellbook)
 	return result
-	
+
 func can_add_to_arena() -> bool:
 	return arena.size() < ARENA_MAX_SIZE

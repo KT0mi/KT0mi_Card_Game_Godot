@@ -2,10 +2,12 @@
 
 [ext_resource type="Script" uid="uid://dm7cn05jd22ab" path="res://Scripts/SceneScripts/MatchController.gd" id="1_5lt6y"]
 [ext_resource type="PackedScene" uid="uid://iixj5wm8e782" path="res://Scenes/CardHolder.tscn" id="2_8k7wh"]
+[ext_resource type="Resource" uid="uid://r1rcvqgiis1d" path="res://Decks/PlayerDeck.tres" id="2_iufkg"]
 [ext_resource type="PackedScene" uid="uid://dlbv0s30abxbh" path="res://Scenes/ArenaHolder.tscn" id="3_8k7wh"]
 
 [node name="TestScene" type="Node2D" unique_id=1688716480]
 script = ExtResource("1_5lt6y")
+player_one_deck = ExtResource("2_iufkg")
 
 [node name="P1Deck" parent="." unique_id=2121250337 instance=ExtResource("2_8k7wh")]
 position = Vector2(1024, 288)
@@ -24,38 +26,46 @@ zone_type = 0
 [node name="P1Arena" parent="." unique_id=262156364 instance=ExtResource("3_8k7wh")]
 position = Vector2(192, 288)
 
-[node name="P1Arena2" parent="." unique_id=1267337120 instance=ExtResource("3_8k7wh")]
-position = Vector2(448, 256)
-rotation = 3.1415927
-
 [node name="P1Graveyard" parent="." unique_id=1817713873 instance=ExtResource("2_8k7wh")]
 position = Vector2(864, 288)
 capacity = -1
 zone_type = 3
 
+[node name="P1Spellbook" parent="." unique_id=2068139386 instance=ExtResource("2_8k7wh")]
+position = Vector2(704, 288)
+capacity = -1
+zone_type = 5
+
+[node name="P2Arena" parent="." unique_id=1267337120 instance=ExtResource("3_8k7wh")]
+position = Vector2(192, 64)
+rotation = -6.2831855
+owner_is_player_one = false
+
 [node name="P2Deck" parent="." unique_id=498374642 instance=ExtResource("2_8k7wh")]
-position = Vector2(1152, 256)
-rotation = 3.1415927
+position = Vector2(1024, 64)
 capacity = -1
 owner_is_player_one = false
 zone_type = 2
 
 [node name="P2PlayerZone" parent="." unique_id=1116025579 instance=ExtResource("2_8k7wh")]
-position = Vector2(128, 256)
-rotation = 3.1415927
+position = Vector2(0, 64)
 owner_is_player_one = false
 zone_type = 4
 
 [node name="P2Hand" parent="." unique_id=1733684403 instance=ExtResource("2_8k7wh")]
-position = Vector2(640, 128)
-rotation = 3.1415927
+position = Vector2(512, -64)
 capacity = -1
 owner_is_player_one = false
 zone_type = 0
 
 [node name="P2Graveyard" parent="." unique_id=796521439 instance=ExtResource("2_8k7wh")]
-position = Vector2(992, 256)
-rotation = 3.1415927
+position = Vector2(864, 64)
 capacity = -1
 owner_is_player_one = false
 zone_type = 3
+
+[node name="P2Spellbook" parent="." unique_id=1497827241 instance=ExtResource("2_8k7wh")]
+position = Vector2(704, 64)
+capacity = -1
+owner_is_player_one = false
+zone_type = 5

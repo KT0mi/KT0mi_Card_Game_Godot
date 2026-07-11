@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="DeckData" format=3 uid="uid://r1rcvqgiis1d"]
+
+[ext_resource type="Script" uid="uid://byj4jqh3sw4qv" path="res://Scripts/CardDataScripts/DeckData.gd" id="1_vtkis"]
+
+[resource]
+script = ExtResource("1_vtkis")
+deck_name = "Player Deck"
+card_ids = Array[StringName]([&"mind_palace", &"mind_palace", &"mind_palace", &"mind_palace"])
+metadata/_custom_type_script = "uid://byj4jqh3sw4qv"

@@ -9,7 +9,8 @@ var condition: Callable
 ## from the graveyard itself) -- see GameState.is_ability_active().
 var active_in_graveyard: bool = false
  
-func _init(t: StringName, e: Callable,
+func _init(t: StringName, 
+		e: Callable,
 		c: Callable = func(_card, _event): return true,
 		graveyard: bool = false) -> void:
 	trigger = t

@@ -1,3 +1,3 @@
 class_name Zone
 
-enum Type {HAND, ARENA, DECK, GRAVEYARD, PLAYER}
+enum Type {HAND, ARENA, DECK, GRAVEYARD, PLAYER, SPELLBOOK}
