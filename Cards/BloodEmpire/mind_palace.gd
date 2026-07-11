@@ -5,10 +5,10 @@ func _init() -> void:
 	card_name = "Mind Palace"
 	card_text = "After 2 turns of play, draw 2 cards on the start of the play phase."
 	cast_type = SpellCardDefinition.CastType.PERSISTENT
-	sets = [&"war_of_power"]
+	sets = [&"blood_empire"]
 	
 func resolve_effect(card: CardInstance, event: PlayCardEvent) -> void:
-	card.counters.set("check", 2)
+	card.counters["check"] = 2
 	
 func _build_abilities() -> Array[Ability]:
 	return [Ability.new(Events.PLAY_PHASE_START, 
@@ -21,8 +21,5 @@ func _build_abilities() -> Array[Ability]:
 	),
 		Ability.new(Events.START_PHASE_START, 
 	func(card, event)->void:
-		GameActions.draw_cards(card.owner, 2)
-	,
-	func(card, event)->bool:
-		return TurnController.current_player == card.owner
+		card.counters["check"] -= 1
 	)]

@@ -18,8 +18,10 @@ static var _active_drag: Card = null
 const HOVER_Z_INDEX := 100
 
 #Visual Vars
-@onready
-var name_label: Label = $Label
+@onready var name_label: Label = $NameLabel
+@onready var attack_label: Label = $AttackLabel
+@onready var endurance_label: Label = $EnduranceLabel
+@onready var card_text_label: Label = $CardTextLabel
 
 var card_instance: CardInstance = null
 
@@ -38,8 +40,15 @@ func bind(instance: CardInstance) -> void:
 	
 func _refresh_visuals() -> void:
 	#Fill with visual representation of card instance
-	name_label.text = card_instance.definition.card_name
-	pass
+	var def : CardDefinition = card_instance.definition
+	name_label.text = def.card_name
+	card_text_label.text = def.card_text
+	if def is CreatureCardDefinition:
+		endurance_label.text = "%d" % card_instance.current_endurance
+		attack_label.text = "%d" % def.attack
+	else:
+		endurance_label.text = ""
+		attack_label.text = ""
 
 func _on_input_event(_viewport: Node, event: InputEvent, _shape_idx: int) -> void:
 	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT:

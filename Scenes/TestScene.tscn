@@ -10,16 +10,16 @@ script = ExtResource("1_5lt6y")
 player_one_deck = ExtResource("2_iufkg")
 
 [node name="P1Deck" parent="." unique_id=2121250337 instance=ExtResource("2_8k7wh")]
-position = Vector2(1024, 288)
+position = Vector2(1088, 399)
 capacity = -1
 zone_type = 2
 
 [node name="P1PlayerZone" parent="." unique_id=2061988723 instance=ExtResource("2_8k7wh")]
-position = Vector2(0, 288)
+position = Vector2(64, 399)
 zone_type = 4
 
 [node name="P1Hand" parent="." unique_id=510289264 instance=ExtResource("2_8k7wh")]
-position = Vector2(512, 448)
+position = Vector2(576, 526)
 capacity = -1
 zone_type = 0
 
@@ -27,12 +27,12 @@ zone_type = 0
 position = Vector2(192, 288)
 
 [node name="P1Graveyard" parent="." unique_id=1817713873 instance=ExtResource("2_8k7wh")]
-position = Vector2(864, 288)
+position = Vector2(928, 399)
 capacity = -1
 zone_type = 3
 
 [node name="P1Spellbook" parent="." unique_id=2068139386 instance=ExtResource("2_8k7wh")]
-position = Vector2(704, 288)
+position = Vector2(768, 399)
 capacity = -1
 zone_type = 5
 
@@ -42,30 +42,30 @@ rotation = -6.2831855
 owner_is_player_one = false
 
 [node name="P2Deck" parent="." unique_id=498374642 instance=ExtResource("2_8k7wh")]
-position = Vector2(1024, 64)
+position = Vector2(1088, 175)
 capacity = -1
 owner_is_player_one = false
 zone_type = 2
 
 [node name="P2PlayerZone" parent="." unique_id=1116025579 instance=ExtResource("2_8k7wh")]
-position = Vector2(0, 64)
+position = Vector2(64, 175)
 owner_is_player_one = false
 zone_type = 4
 
 [node name="P2Hand" parent="." unique_id=1733684403 instance=ExtResource("2_8k7wh")]
-position = Vector2(512, -64)
+position = Vector2(576, 47)
 capacity = -1
 owner_is_player_one = false
 zone_type = 0
 
 [node name="P2Graveyard" parent="." unique_id=796521439 instance=ExtResource("2_8k7wh")]
-position = Vector2(864, 64)
+position = Vector2(928, 175)
 capacity = -1
 owner_is_player_one = false
 zone_type = 3
 
 [node name="P2Spellbook" parent="." unique_id=1497827241 instance=ExtResource("2_8k7wh")]
-position = Vector2(704, 64)
+position = Vector2(768, 175)
 capacity = -1
 owner_is_player_one = false
 zone_type = 5

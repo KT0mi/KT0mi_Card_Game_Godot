@@ -39,10 +39,18 @@ func try_play_card(player: Player, card: CardInstance) -> bool:
 	
 func try_attack(attacker: CardInstance, target: CardInstance) -> bool:
 	print("GameActions: Requested try_attack action")
-	if TurnController.current_phase != TurnController.Phase.BATTLE:
+	
+	var event := AttackEvent.new(attacker, target)
+	await TriggerSystem.emit(Events.ATTACK_REQUEST, event)
+	if event.cancelled:
+		print("GameActions: Failed try_attack action. Reason: Request intercepted")
 		return false
 	
-	#Do rest of attack action logic
+	#Hook point for target redirection - not implemented
+	await DamagePipeline.apply_damage(event.target, attacker.definition.attack)
+	
+	print("GameActions: Resolved try_attack action sucessfully")
+	await TriggerSystem.emit(Events.ATTACK_RESOLVED, event)
 	return true
 
 func draw_cards(player: Player, amount: int) -> void:

@@ -13,12 +13,16 @@ const FALLBACK_DECK_IDS: Array[StringName] = [
 	&"test_spell", &"test_spell", &"test_spell", &"test_spell"
 ]
 
+var _canvas: CanvasLayer
 var _phase_label : Label
 var _zones_label : Label
+var _choice_panel: VBoxContainer
+var _choice_checkboxes: Dictionary = {}  # option -> CheckBox
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	_build_debug_ui()
+	ChoiceManager.choice_requested.connect(_on_choice_requested)
 	await _setup_players()
 	await TurnController.start_match()
 	_refresh_ui()
@@ -56,12 +60,12 @@ func _spawn_card_node(instance: CardInstance) -> Card:
 	return node
  
 func _build_debug_ui() -> void:
-	var canvas := CanvasLayer.new()
-	add_child(canvas)
+	_canvas = CanvasLayer.new()
+	add_child(_canvas)
  
 	var vbox := VBoxContainer.new()
 	vbox.position = Vector2(20, 20)
-	canvas.add_child(vbox)
+	_canvas.add_child(vbox)
  
 	_phase_label = Label.new()
 	vbox.add_child(_phase_label)
@@ -90,3 +94,44 @@ func _refresh_ui() -> void:
 		GameState.player_two.hand.size(), GameState.player_two.arena.size(),
 		GameState.player_two.deck.size(), GameState.player_two.graveyard.size(),
 	]
+
+func _on_choice_requested(req: ChoiceRequest) -> void:
+	if _choice_panel:
+		_choice_panel.queue_free()
+	_choice_checkboxes.clear()
+	
+	_choice_panel = VBoxContainer.new()
+	_choice_panel.position = Vector2(20, 160)
+	_canvas.add_child(_choice_panel)
+	
+	var label := Label.new()
+	label.text = "%s (Pick %d-%d)" % [req.prompt, req.min_count, req.max_count]
+	_choice_panel.add_child(label)
+	
+	for option in req.options:
+		var cb := CheckBox.new()
+		cb.text = _describe_option(option)
+		_choice_panel.add_child(cb)
+		_choice_checkboxes[option] = cb
+		
+	var confirm := Button.new()
+	confirm.text = "Confirm choice"
+	confirm.pressed.connect(_on_choice_confirmed)
+	_choice_panel.add_child(confirm)
+
+func _on_choice_confirmed() -> void:
+	var selected: Array = []
+	for option in _choice_checkboxes:
+		if _choice_checkboxes[option].button_pressed:
+			selected.append(option)
+			
+	var submited:= ChoiceManager.submit(selected)
+	if submited:
+		_choice_panel.queue_free()
+		_choice_panel = null
+		_refresh_ui()
+
+func _describe_option(option) -> String:
+	if option is CardInstance:
+		return option.definition.card_name
+	return str(option)

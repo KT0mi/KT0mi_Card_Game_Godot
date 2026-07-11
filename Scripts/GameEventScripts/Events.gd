@@ -20,3 +20,6 @@ const ZONE_CHANGE = &"on_zone_change"
 #Game Actions Events
 const PLAY_CARD_REQUEST = &"on_play_card_request"
 const CARD_PLAYED = &"on_card_played"
+const ATTACK_REQUEST = &"on_attack_request"
+const ATTACK_RESOLVED = &"on_attack_resolved"
+const DAMAGE_DEALT = &"on_damage_dealt"
