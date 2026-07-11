@@ -10,6 +10,7 @@ var held_cards: Array[Card] = []
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	add_to_group("card_holders")
+	input_pickable = false
 
 func can_accept(_card: Card) -> bool:
 	return capacity < 0 or held_cards.size() < capacity
