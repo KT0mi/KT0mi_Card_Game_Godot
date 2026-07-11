@@ -37,6 +37,22 @@ func try_play_card(player: Player, card: CardInstance) -> bool:
 	await TriggerSystem.emit(Events.CARD_PLAYED, event)
 	return true
 	
+func try_kill_card(card : CardInstance) -> bool:
+	print("GameActions: Requested try_kill_card action")
+	
+	var event := DeathEvent.new(card)
+	await TriggerSystem.emit(Events.KILL_REQUEST, event)
+	if event.cancelled:
+		print("GameActions: Failed try_kill_card action. Reason: Request intercepted")
+		return false
+		
+	#Hook point to change death mechanic
+	await ZoneManager.move_to(card, Zone.Type.GRAVEYARD, ZoneChangeEvent.Reason.DEATH)
+	
+	print("GameActions: Resolved try_kill_card action sucessfully")
+	await TriggerSystem.emit(Events.KILL_RESOLVED, event)
+	return true
+
 func try_attack(attacker: CardInstance, target: CardInstance) -> bool:
 	print("GameActions: Requested try_attack action")
 	

@@ -12,8 +12,8 @@ func check_state_based_actions() -> void:
 	for player in GameState.players():
 		for card in player.arena.duplicate(): 
 			if card.current_endurance <= 0:
-				await ZoneManager.move_to(card, Zone.Type.GRAVEYARD, ZoneChangeEvent.Reason.DEATH)
-				
+				#Card Death - Specific event when a card ends the turn with no endurance - cancellable
+				GameActions.try_kill_card(card)
 		for card in player.player_zone.duplicate():
 			if card.current_endurance <= 0:
 				player_defeated.emit(player)
