@@ -10,7 +10,7 @@ const CARD_SCENE := preload("res://Scenes/Card.tscn")
 
 const FALLBACK_DECK_IDS: Array[StringName] = [
 	&"test_creature", &"test_creature", &"test_creature", &"test_creature",
-	&"test_bolt", &"test_bolt", &"test_bolt", &"test_bolt"
+	&"test_spell", &"test_spell", &"test_spell", &"test_spell"
 ]
 
 var _phase_label : Label
@@ -18,7 +18,10 @@ var _zones_label : Label
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	pass # Replace with function body.
+	_build_debug_ui()
+	await _setup_players()
+	await TurnController.start_match()
+	_refresh_ui()
 
 func _setup_players() -> void:
 	for entry in [

@@ -9,11 +9,6 @@ size = Vector2(127.5, 224.5)
 
 [node name="Card" type="Area2D" unique_id=528451555]
 script = ExtResource("1_pnb5n")
-spring_stiffness = null
-damping = null
-tilt_strength = null
-max_tilt_degrees = null
-tilt_recover_speed = null
 
 [node name="Sprite" type="Sprite2D" parent="." unique_id=875783404]
 position = Vector2(63.75, 111.74999)
