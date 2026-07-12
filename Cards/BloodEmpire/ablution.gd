@@ -1,0 +1,16 @@
+extends SpellCardDefinition
+
+func _init() -> void:
+	id = &"ablution"
+	card_name = "Ablution"
+	card_text = "Choose 1 creature from your board: +1 Attack, -1 Endurance"
+	cast_type = SpellCardDefinition.CastType.INSTANT
+	sets = [&"blood_empire"]
+
+func resolve_effect(card: CardInstance, event: PlayCardEvent) -> void:
+	var targetA : Array = await ChoiceManager.request(
+		"Choose 1 creature from your board",
+		card.owner.arena.duplicate())
+	var t : CardInstance = targetA[0]
+	
+	t.current_endurance -= 1

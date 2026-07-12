@@ -12,6 +12,10 @@ func try_play_card(player: Player, card: CardInstance) -> bool:
 		print("GameActions: Failed try_play_card action. Reason: Not in play phase")
 		return false
 		
+	if TurnController.current_player != player:
+		print("GameActions: Failed try_play_card action: Reason: Not active player")
+		return false
+		
 	if card.is_creature() and not player.can_add_to_arena():
 		print("GameActions: Failed try_play_card action. Reason: Cannot have more than 3 cards in arena")
 		return false
@@ -25,7 +29,7 @@ func try_play_card(player: Player, card: CardInstance) -> bool:
 	if card.is_creature():
 		await ZoneManager.move_to(card, Zone.Type.ARENA, ZoneChangeEvent.Reason.PLAY)
 	else:
-		if card.is_spell():		
+		if card.is_spell():
 			await (card.definition as SpellCardDefinition).resolve_effect(card, event)
 			var def : SpellCardDefinition = card.definition
 			if def.cast_type == SpellCardDefinition.CastType.INSTANT:

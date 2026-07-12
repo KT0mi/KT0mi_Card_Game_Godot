@@ -13,6 +13,9 @@ signal dropped(card: Card)
 
 var dragging: bool = false
 var velocity: Vector2 = Vector2.ZERO
+var rest_rotation_degrees: float = 0.0
+func set_rest_rotation(degrees: float) -> void:
+	rest_rotation_degrees = degrees
 
 static var _active_drag: Card = null
 const HOVER_Z_INDEX := 100
@@ -102,7 +105,7 @@ func _physics_process(delta: float) -> void:
 		
 		rotation_degrees = clamp(velocity.x * tilt_strength, -max_tilt_degrees, max_tilt_degrees)
 	else:
-		rotation_degrees = move_toward(rotation_degrees, 0.0, tilt_recover_speed)
+		rotation_degrees = move_toward(rotation_degrees, rest_rotation_degrees, tilt_recover_speed)
 		
 	
 func _start_drag() -> void:
