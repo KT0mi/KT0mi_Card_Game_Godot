@@ -20,11 +20,15 @@ func register_holder(holder: CardHolder) -> void:
 func register_card_node(instance: CardInstance, node: Card) -> void:
 	_card_nodes[instance] = node
 
-func _on_zone_changed(card: CardInstance, _from_zone: Zone.Type, to_zone: Zone.Type) -> void:
+func _on_zone_changed(card: CardInstance, from_zone: Zone.Type, to_zone: Zone.Type) -> void:
 	var node: Card = _card_nodes.get(card)
 	if node == null:
 		return  # card has no visual representation yet/anymore -- fine, e.g. still in deck
- 
+	
+	var old_holder : CardHolder = _holder_nodes.get(_key(card.owner, from_zone))
+	if old_holder:
+		old_holder.remove_card(node)
+	
 	var holder: CardHolder = _holder_nodes.get(_key(card.owner, to_zone))
 	if holder:
 		holder.add_card(node)

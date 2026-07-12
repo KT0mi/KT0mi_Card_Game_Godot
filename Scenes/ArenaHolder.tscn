@@ -3,7 +3,7 @@
 [ext_resource type="Script" uid="uid://dolrgdmx33i72" path="res://Scripts/SceneScripts/card_holder.gd" id="1_eieim"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_6f5jx"]
-size = Vector2(256, 224)
+size = Vector2(436, 224)
 
 [node name="CardHolder" type="Area2D" unique_id=2121250337]
 script = ExtResource("1_eieim")
