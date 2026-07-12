@@ -75,3 +75,4 @@ zone_type = 3
 
 [node name="P2SpellBook2" parent="." unique_id=406898785 instance=ExtResource("5_0f5h7")]
 position = Vector2(1600, 400)
+owner_is_player_one = false

@@ -8,6 +8,7 @@ size = Vector2(320, 224)
 [node name="CardHolder" type="Area2D" unique_id=2121250337]
 script = ExtResource("1_ey86k")
 capacity = 1
+zone_type = 5
 arrangement = 1
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=530572234]

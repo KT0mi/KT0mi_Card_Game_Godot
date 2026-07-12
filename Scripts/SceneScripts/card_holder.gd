@@ -15,6 +15,21 @@ enum Arrangement {STACK, ROW, FAN}
 @export var card_spacing: float = 70.0
 @export var fan_angle_step_degrees: float = 6.0
 @export var fan_arc_height: float = 14.0
+var hovered : bool = false
+func set_hovered(value: bool) -> void:
+	hovered = value
+	queue_redraw()
+
+#Check if point (mouse pos) is within the collisionshape of the card holder
+#for card placing input purposes
+func contains_point(global_point: Vector2) -> bool:
+	var shape_node := get_node_or_null("CollisionShape2D") as CollisionShape2D
+	if shape_node == null or not (shape_node.shape is RectangleShape2D):
+		return false
+	var local_point := to_local(global_point)
+	var size: Vector2 = shape_node.shape.size
+	var rect := Rect2(shape_node.position - size / 2, size)
+	return rect.has_point(local_point)
 
 var held_cards: Array[Card] = []
 
@@ -35,9 +50,15 @@ func _draw() -> void:
  
 	var size: Vector2 = shape_node.shape.size
 	var rect := Rect2(shape_node.position - size / 2, size)
- 
+ 	
 	draw_rect(rect, Color(1, 1, 1, 0.08))
-	draw_rect(rect, Color(1, 1, 1, 0.5), false, 2.0)
+	if hovered:
+		#Hovered Outline
+		#Debug for now because I may want another way of showing
+		#card placement feedback
+		draw_rect(rect, Color(0.87, 0.705, 0.044, 0.89), false, 5.0)
+	else:
+		draw_rect(rect, Color(1, 1, 1, 0.5), false, 2.0)
  
 	var label := "%s (P%d) Cards: %d" % [
 		Zone.Type.keys()[zone_type],
@@ -46,6 +67,7 @@ func _draw() -> void:
 	]
 	draw_string(ThemeDB.fallback_font, rect.position + Vector2(4, 16), label,
 		HORIZONTAL_ALIGNMENT_LEFT, -1, 13)
+		
 
 
 func can_accept(_card: Card) -> bool:
@@ -85,7 +107,7 @@ func _arrange_cards() -> void:
 func _target_position(i : int, count : int) -> Vector2:
 	match arrangement:
 		Arrangement.STACK:
-			return Vector2.ZERO
+			return Vector2(0.0 + i, 0.0)
 		Arrangement.ROW:
 			return Vector2((i - (count - 1) / 2.0) * card_spacing, 0)
 		Arrangement.FAN:

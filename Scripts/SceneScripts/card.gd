@@ -25,9 +25,12 @@ const HOVER_Z_INDEX := 100
 @onready var attack_label: Label = $AttackLabel
 @onready var endurance_label: Label = $EnduranceLabel
 @onready var card_text_label: Label = $CardTextLabel
+@onready var card_back: ColorRect = $CardBack
+@onready var hidden_overlay: ColorRect = $HiddenOverlay
 
 var hovered: bool = false
 var selected: bool = false
+var _drop_target: CardHolder = null
 
 var card_instance: CardInstance = null
 
@@ -97,13 +100,14 @@ func _unhandled_input(event: InputEvent) -> void:
 			_end_drag()
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _physics_process(delta: float) -> void:
+func _physics_process(_delta: float) -> void:
 	if dragging:
 		var target := get_global_mouse_position()
 		velocity = velocity * damping + (target - global_position) * spring_stiffness
 		global_position += velocity
 		
 		rotation_degrees = clamp(velocity.x * tilt_strength, -max_tilt_degrees, max_tilt_degrees)
+		_update_drop_target(target)
 	else:
 		rotation_degrees = move_toward(rotation_degrees, rest_rotation_degrees, tilt_recover_speed)
 		
@@ -118,6 +122,16 @@ func _start_drag() -> void:
 	z_index = HOVER_Z_INDEX
 	
 	picked_up.emit(self)
+	
+func _update_drop_target(mouse_pos: Vector2) -> void:
+	var candidate := CardViewManager.holder_at_point(mouse_pos)
+	if candidate == _drop_target:
+		return
+	if _drop_target:
+		_drop_target.set_hovered(false)
+	_drop_target = candidate
+	if _drop_target:
+		_drop_target.set_hovered(true)
 
 func _end_drag() -> void:
 	dragging = false
@@ -128,7 +142,11 @@ func _end_drag() -> void:
 	
 	dropped.emit(self)
 	
-	var holder := _find_best_holder()
+	var holder := _drop_target
+	if holder:
+		holder.set_hovered(false)
+	_drop_target = null
+	
 	var moved := false
 	if holder and card_instance:
 		moved = await _attempt_card_action(holder)
@@ -140,18 +158,6 @@ func _attempt_card_action(holder: CardHolder) -> bool:
 	if holder.zone_type == Zone.Type.ARENA:
 		return await GameActions.try_play_card(card_instance.owner, card_instance)
 	return false
-
-func _find_best_holder() -> CardHolder:
-	var best: CardHolder = null
-	var best_dist := INF
-	
-	for area in get_overlapping_areas():
-		if area is CardHolder and area.can_accept(self):
-			var d := global_position.distance_squared_to(area.global_position)
-			if d < best_dist:
-				best_dist = d
-				best = area
-	return best
 
 func _snap_back_to_current_holder() -> void:
 	#Illegal move or dropped from empty space

@@ -32,6 +32,8 @@ func _on_zone_changed(card: CardInstance, from_zone: Zone.Type, to_zone: Zone.Ty
 	var holder: CardHolder = _holder_nodes.get(_key(card.owner, to_zone))
 	if holder:
 		holder.add_card(node)
+		
+	node._refresh_visuals()
 
 func _key(player: Player, zone: Zone.Type) -> String:
 	return "%s:%s" % [player.get_instance_id(), zone]
@@ -43,7 +45,13 @@ func holder_for(card_instance: CardInstance) -> CardHolder:
 	
 func card_node_for(instance: CardInstance) -> Card:
 	return _card_nodes.get(instance)
-	
+
+func holder_at_point(global_point: Vector2) -> CardHolder:
+	for holder in _holder_nodes.values():
+		if holder.contains_point(global_point):
+			return holder
+	return null
+
 func _refresh_card_visuals(card_instance: CardInstance) -> void:
 	var card := card_node_for(card_instance)
 	card._refresh_visuals()
