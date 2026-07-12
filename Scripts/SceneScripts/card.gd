@@ -43,6 +43,7 @@ func _ready() -> void:
 	mouse_exited.connect(_on_mouse_exited)
 	
 	get_viewport().physics_object_picking_first_only = true
+	DebugSettings.reveal_hidden_cards_changed.connect(func(_v): _update_hidden_state())
 	
 func bind(instance: CardInstance) -> void:
 	card_instance = instance
@@ -60,6 +61,14 @@ func _refresh_visuals() -> void:
 	else:
 		endurance_label.text = ""
 		attack_label.text = ""
+	_update_hidden_state()
+
+func _update_hidden_state() -> void:
+	var hidden := CardViewManager.is_card_hidden_from_local_view(card_instance)
+	var reveal := DebugSettings.reveal_hidden_cards
+	
+	card_back.visible = hidden and not reveal
+	hidden_overlay.visible = hidden and reveal
 
 func set_selected(value: bool) -> void:
 	selected = value

@@ -1,11 +1,12 @@
 [gd_scene format=3 uid="uid://07qc2b2jhuei"]
 
-[ext_resource type="Script" uid="uid://dvv3rnube10c7" path="res://Scripts/SceneScripts/card.gd" id="1_pnb5n"]
-
-[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_3p273"]
+[ext_resource type="Script" uid="uid://dvv3rnube10c7" path="res://Scripts/SceneScripts/Card.gd" id="1_pnb5n"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_h8wm0"]
 size = Vector2(127.5, 224.5)
+
+[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_pnb5n"]
+size = Vector2(127, 224)
 
 [sub_resource type="LabelSettings" id="LabelSettings_pnb5n"]
 font_size = 12
@@ -13,14 +14,12 @@ font_size = 12
 [node name="Card" type="Area2D" unique_id=528451555]
 script = ExtResource("1_pnb5n")
 
-[node name="Sprite" type="Sprite2D" parent="." unique_id=875783404]
-position = Vector2(-0.75, 0.24998474)
-scale = Vector2(128.5, 224.49998)
-texture = SubResource("PlaceholderTexture2D_3p273")
-
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=806803082]
 position = Vector2(-0.25, 0.24996948)
 shape = SubResource("RectangleShape2D_h8wm0")
+
+[node name="Sprite" type="Sprite2D" parent="." unique_id=1779053753]
+texture = SubResource("PlaceholderTexture2D_pnb5n")
 
 [node name="NameLabel" type="Label" parent="." unique_id=1762791428]
 offset_left = -44.5
@@ -71,6 +70,7 @@ offset_right = 64.0
 offset_bottom = 112.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 2
 color = Color(0.5940999, 0.3897707, 0.1912097, 1)
 
 [node name="HiddenOverlay" type="ColorRect" parent="." unique_id=670616284]
@@ -86,4 +86,5 @@ offset_right = 64.0
 offset_bottom = 112.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 2
 color = Color(0, 0, 0, 0.29411766)

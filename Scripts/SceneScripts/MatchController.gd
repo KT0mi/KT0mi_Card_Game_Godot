@@ -1,5 +1,11 @@
 extends Node2D
-##PLACEHOLDER SCRIPT
+######################################
+######## PLACEHOLDER SCRIPT ##########
+######################################
+#Since this is a connection between game logic and scene control, spawning, and debugging
+#this must later be refactored into smaller scripts and if possible passing as must logic 
+#into autoloaders
+
 #This sets up a match by building decks, spawning cards, cardholders
 #sets up a minimal debug ui
 
@@ -28,6 +34,8 @@ func _ready() -> void:
 	_refresh_ui()
 
 func _setup_players() -> void:
+	GameState.local_player = GameState.player_one #Default value for testing
+	
 	for entry in [
 		{player = GameState.player_one, deck = player_one_deck},
 		{player = GameState.player_two, deck = player_two_deck},
@@ -77,7 +85,12 @@ func _build_debug_ui() -> void:
 	advance_button.text = "Advance phase"
 	advance_button.pressed.connect(_on_advance_pressed)
 	vbox.add_child(advance_button)
- 
+	
+	var reveal_checkbox := CheckBox.new()
+	reveal_checkbox.text = "Reveal hidden cards (debug)"
+	reveal_checkbox.toggled.connect(func(pressed: bool): DebugSettings.reveal_hidden_cards = pressed)
+	vbox.add_child(reveal_checkbox)
+
 func _on_advance_pressed() -> void:
 	await TurnController.advance_phase()
 	_refresh_ui()

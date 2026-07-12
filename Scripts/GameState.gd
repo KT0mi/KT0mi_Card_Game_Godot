@@ -8,6 +8,9 @@ extends Node
 var player_one: Player
 var player_two: Player
 
+#Which player object the client is playing as
+var local_player: Player
+
 func players() -> Array[Player]:
 	return [player_one, player_two]
 

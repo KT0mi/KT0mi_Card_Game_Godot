@@ -52,6 +52,15 @@ func holder_at_point(global_point: Vector2) -> CardHolder:
 			return holder
 	return null
 
+func is_card_hidden_from_local_view(card_instance) -> bool:
+	if card_instance == null:
+		return false
+	if card_instance.current_zone == Zone.Type.DECK:
+		return true
+	if card_instance.current_zone == Zone.Type.HAND and card_instance.owner != GameState.local_player:
+		return true
+	return false
+
 func _refresh_card_visuals(card_instance: CardInstance) -> void:
 	var card := card_node_for(card_instance)
 	card._refresh_visuals()
