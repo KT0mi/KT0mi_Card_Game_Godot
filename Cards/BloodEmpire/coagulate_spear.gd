@@ -29,15 +29,11 @@ func resolve_effect(card: CardInstance, event: PlayCardEvent) -> void:
 		push_warning("coagulate_spear: resolve_effect: Wrong type for 'sacrifice' variable")
 		return
 	
-	GameActions.try_kill_card(sacrifice)
-	
-	var target_candidates : Array[CardInstance]
-	target_candidates.append_array(card.owner.arena)
-	target_candidates.append_array(card.owner.player_zone)
+	await GameActions.try_kill_card(sacrifice)
 	
 	var responseB := await ChoiceManager.request(
 		"Choose 1 card to deal 2 damage to.",
-		target_candidates,
+		GameState.all_cards_in_target_areas(),
 		1,
 		1,
 		card.owner)

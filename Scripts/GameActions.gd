@@ -8,6 +8,10 @@ extends Node
 
 func try_play_card(player: Player, card: CardInstance) -> bool:
 	print("GameActions: Requested try_play_card action")
+	if card.current_zone != Zone.Type.HAND:
+		print("GameActions: Failed try_play_card action. Reason: Card is not in hand")
+		return false
+	
 	if TurnController.current_phase != TurnController.Phase.PLAY:
 		print("GameActions: Failed try_play_card action. Reason: Not in play phase")
 		return false
@@ -30,6 +34,7 @@ func try_play_card(player: Player, card: CardInstance) -> bool:
 		await ZoneManager.move_to(card, Zone.Type.ARENA, ZoneChangeEvent.Reason.PLAY)
 	else:
 		if card.is_spell():
+			print("GameActions: try_play_card: Resolving instant spell effect of %s." % card.definition.id)
 			await (card.definition as SpellCardDefinition).resolve_effect(card, event)
 			var def : SpellCardDefinition = card.definition
 			if def.cast_type == SpellCardDefinition.CastType.INSTANT:

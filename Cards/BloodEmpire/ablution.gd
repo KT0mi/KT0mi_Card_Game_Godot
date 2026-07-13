@@ -10,7 +10,10 @@ func _init() -> void:
 func resolve_effect(card: CardInstance, event: PlayCardEvent) -> void:
 	var targetA : Array = await ChoiceManager.request(
 		"Choose 1 creature from your board",
-		card.owner.arena.duplicate())
+		card.owner.arena.duplicate(),
+		1,
+		1,
+		card.owner)
 	var t : CardInstance = targetA[0]
 	
 	CardMutationPipeline.modify_attack(t, 1)
