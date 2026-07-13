@@ -3,6 +3,9 @@ extends Node
 
 #5-phase State machine
 
+#Signal for systems that are external to game logic (UI, AI, etc.)
+signal phase_changed(phase: Phase, player: Player)
+
 enum Phase {START_TURN, DRAW, PLAY, BATTLE, END_TURN}
 
 var turn_counter: int = 0
@@ -53,6 +56,8 @@ func _enter_phase(phase: Phase) -> void:
 			current_phase = phase
 			await TriggerSystem.emit(Events.END_PHASE_START, event)
 			await RulesEngine.check_state_based_actions()
+			
+	phase_changed.emit(current_phase, current_player)
 
 func _end_turn_and_pass() -> void:
 	var event := PhaseEvent.new(current_player)
@@ -73,7 +78,8 @@ func _resolve_battle_phase() -> void:
 		"Choose attackers from arena cards",
 		current_player.arena.duplicate(),
 		0,
-		current_player.arena.size()
+		current_player.arena.size(),
+		current_player
 	)
 	
 	#If no attackers after choice, return

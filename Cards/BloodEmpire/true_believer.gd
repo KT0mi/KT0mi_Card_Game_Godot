@@ -1,8 +1,8 @@
 extends CreatureCardDefinition
 
 func _init() -> void:
-	id = &"neophyte"
-	card_name = "Neophyte"
+	id = &"true_believer"
+	card_name = "True Believer"
 	card_text = "When this card dies, choose 1 target and damage it for 1."
 	attack = 1
 	endurance = 2

@@ -5,5 +5,5 @@
 [resource]
 script = ExtResource("1_vtkis")
 deck_name = "Player Deck"
-card_ids = Array[StringName]([&"mind_palace", &"mind_palace", &"basic_wolf", &"basic_wolf", &"librarian", &"librarian", &"neophyte", &"neophyte"])
+card_ids = Array[StringName]([&"mind_palace", &"mind_palace", &"blood_wall", &"blood_wall", &"librarian", &"librarian", &"true_believer", &"true_believer", &"coagulate_spear", &"coagulate_spear", &"minor_blood_deacon", &"minor_blood_deacon", &"lucta", &"lucta", &"ablution", &"ablution"])
 metadata/_custom_type_script = "uid://byj4jqh3sw4qv"

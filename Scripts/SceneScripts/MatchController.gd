@@ -109,6 +109,9 @@ func _refresh_ui() -> void:
 	]
 
 func _on_choice_requested(req: ChoiceRequest) -> void:
+	if req.requesting_player != GameState.local_player:
+		return
+	
 	if _choice_panel:
 		_choice_panel.queue_free()
 	_choice_checkboxes.clear()

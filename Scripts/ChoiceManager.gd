@@ -7,8 +7,8 @@ signal choice_requested(request: ChoiceRequest)
 
 var _pending: ChoiceRequest = null
 
-func request(prompt: String, options: Array, min_count: int = 1, max_count: int = 1) -> Array:
-	var req := ChoiceRequest.new(prompt, options, min_count, max_count)
+func request(prompt: String, options: Array, min_count: int = 1, max_count: int = 1, requesting_player : Player = null) -> Array:
+	var req := ChoiceRequest.new(prompt, options, min_count, max_count, requesting_player)
 	_pending = req
 	choice_requested.emit(req)
 	var result: Array = await req.resolved

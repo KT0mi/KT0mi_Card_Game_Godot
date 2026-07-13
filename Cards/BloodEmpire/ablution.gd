@@ -13,4 +13,5 @@ func resolve_effect(card: CardInstance, event: PlayCardEvent) -> void:
 		card.owner.arena.duplicate())
 	var t : CardInstance = targetA[0]
 	
-	t.current_endurance -= 1
+	CardMutationPipeline.modify_attack(t, 1)
+	CardMutationPipeline.modify_endurance(t, -1)

@@ -11,7 +11,7 @@ func apply_damage(target: CardInstance, amount: int) -> void:
 	
 	for modifier in target.damage_modifiers.duplicate():
 		final_amount = await modifier.call(target, final_amount)
-		
+	
 	target.current_endurance -= final_amount
 	change_card_endurance.emit(target)
 	await TriggerSystem.emit(Events.DAMAGE_DEALT, DamageEvent.new(target, final_amount))

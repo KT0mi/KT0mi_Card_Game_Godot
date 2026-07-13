@@ -57,7 +57,7 @@ func _refresh_visuals() -> void:
 	card_text_label.text = def.card_text
 	if def is CreatureCardDefinition:
 		endurance_label.text = "%d" % card_instance.current_endurance
-		attack_label.text = "%d" % def.attack
+		attack_label.text = "%d" % card_instance.current_attack
 	else:
 		endurance_label.text = ""
 		attack_label.text = ""
