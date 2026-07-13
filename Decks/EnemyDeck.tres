@@ -4,4 +4,6 @@
 
 [resource]
 script = ExtResource("1_73rbb")
+deck_name = "Enemy Deck"
+card_ids = Array[StringName]([&"kill_spell", &"kill_spell", &"kill_spell", &"kill_spell", &"kill_spell", &"kill_spell", &"kill_spell", &"kill_spell"])
 metadata/_custom_type_script = "uid://byj4jqh3sw4qv"

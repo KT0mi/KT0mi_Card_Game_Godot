@@ -11,7 +11,18 @@ func _init() -> void:
 func _build_abilities() -> Array[Ability]:
 	return [Ability.new(Events.KILL_REQUEST,
 	func(card, event) -> void:
-		GameActions.draw_cards(card.owner, 1)
+		var result := await ChoiceManager.request(
+			"Choose a target and damage it for 1.",
+			GameState.all_cards_in_target_areas(),
+			1,
+			1,
+			card.owner
+		)
+		var target := result[0] as CardInstance
+		if target == null:
+			push_warning("true_believer: Ability: Wrong type for 'target' variable.")
+			return
+		DamagePipeline.apply_damage(target, 1)
 	,
 	func(card, event) -> bool: return event.card == card
 	)]

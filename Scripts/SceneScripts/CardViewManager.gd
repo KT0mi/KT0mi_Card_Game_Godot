@@ -10,6 +10,7 @@ var _holder_nodes: Dictionary = {} #"player id: zone type" : CardHolder (Scene)
 func _ready() -> void:
 	ZoneManager.card_zone_changed.connect(_on_zone_changed)
 	DamagePipeline.change_card_endurance.connect(_refresh_card_visuals)
+	CardMutationPipeline.card_stats_changed.connect(_refresh_card_visuals)
 
 #Called by CardHolder._ready()
 func register_holder(holder: CardHolder) -> void:

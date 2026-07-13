@@ -26,7 +26,7 @@ func zone_array(zone: Zone.Type) -> Array[CardInstance]:
 
 func all_cards() -> Array[CardInstance]:
 	var result: Array[CardInstance] = []
-	result.append_array(hand)
+	#result.append_array(hand)
 	result.append_array(arena)
 	result.append_array(graveyard)
 	result.append_array(player_zone)
