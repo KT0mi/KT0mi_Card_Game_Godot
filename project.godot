@@ -29,6 +29,7 @@ DamagePipeline="*uid://cuqh1a8s5hc0u"
 ChoiceManager="*uid://o4tlmm8e4i2s"
 DebugSettings="*uid://bo3is8qxf443k"
 CardMutationPipeline="*uid://d1gj7coote1o2"
+AiController="*uid://d2ebkkl6d4aw2"
 
 [display]
 

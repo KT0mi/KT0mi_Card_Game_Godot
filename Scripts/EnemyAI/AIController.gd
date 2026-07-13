@@ -21,6 +21,9 @@ func _on_phase_changed(phase: TurnController.Phase, player: Player) -> void:
 		return
 	if phase == TurnController.Phase.PLAY:
 		await _take_play_phase_actions()
+		
+	await get_tree().create_timer(1).timeout
+	await TurnController.advance_phase()
 
 func _take_play_phase_actions() -> void:
 	var ai := _ai_player()

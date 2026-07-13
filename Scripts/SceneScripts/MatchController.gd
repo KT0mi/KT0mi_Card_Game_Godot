@@ -29,6 +29,7 @@ var _choice_checkboxes: Dictionary = {}  # option -> CheckBox
 func _ready() -> void:
 	_build_debug_ui()
 	ChoiceManager.choice_requested.connect(_on_choice_requested)
+	TurnController.phase_changed.connect(func(phase, player) -> void: _refresh_ui())
 	await _setup_players()
 	await TurnController.start_match()
 	_refresh_ui()
@@ -109,8 +110,8 @@ func _refresh_ui() -> void:
 	]
 
 func _on_choice_requested(req: ChoiceRequest) -> void:
-	if req.requesting_player != GameState.local_player:
-		return
+	#if req.requesting_player != GameState.local_player:
+	#	return
 	
 	if _choice_panel:
 		_choice_panel.queue_free()
@@ -121,7 +122,11 @@ func _on_choice_requested(req: ChoiceRequest) -> void:
 	_canvas.add_child(_choice_panel)
 	
 	var label := Label.new()
-	label.text = "%s (Pick %d-%d)" % [req.prompt, req.min_count, req.max_count]
+	label.text = "Player %s: %s (Pick %d-%d)" % [
+		"1" if req.requesting_player == GameState.player_one else "2",
+		req.prompt,
+		req.min_count,
+		req.max_count]
 	_choice_panel.add_child(label)
 	
 	for option in req.options:

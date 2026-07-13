@@ -62,6 +62,7 @@ zone_type = 4
 
 [node name="P2Hand" parent="." unique_id=1733684403 instance=ExtResource("2_8k7wh")]
 position = Vector2(960, 112)
+rotation = 3.1415927
 capacity = -1
 owner_is_player_one = false
 zone_type = 0
