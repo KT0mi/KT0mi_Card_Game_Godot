@@ -91,6 +91,12 @@ func _build_debug_ui() -> void:
 	reveal_checkbox.text = "Reveal hidden cards (debug)"
 	reveal_checkbox.toggled.connect(func(pressed: bool): DebugSettings.reveal_hidden_cards = pressed)
 	vbox.add_child(reveal_checkbox)
+	
+	var show_all_choices_checkbox := CheckBox.new()
+	show_all_choices_checkbox.text = "Show all choices, incl. AI's (debug)"
+	show_all_choices_checkbox.toggled.connect(func(pressed: bool): DebugSettings.show_all_choices_in_debug_ui = pressed)
+	vbox.add_child(show_all_choices_checkbox)
+
 
 func _on_advance_pressed() -> void:
 	await TurnController.advance_phase()
@@ -110,8 +116,9 @@ func _refresh_ui() -> void:
 	]
 
 func _on_choice_requested(req: ChoiceRequest) -> void:
-	#if req.requesting_player != GameState.local_player:
-	#	return
+	if req.requesting_player != GameState.local_player and \
+	not DebugSettings.show_all_choices_in_debug_ui:
+		return
 	
 	if _choice_panel:
 		_choice_panel.queue_free()

@@ -20,9 +20,10 @@ func resolve_effect(card: CardInstance, event: PlayCardEvent) -> void:
 	var response := await ChoiceManager.request(
 		"Choose 1 Blood Wall from your Arena to sacrifice.",
 		candidates,
+		card.owner,
 		1,
-		1,
-		card.owner)
+		1
+		)
 	
 	var sacrifice := response[0] as CardInstance
 	if sacrifice == null:
@@ -34,9 +35,10 @@ func resolve_effect(card: CardInstance, event: PlayCardEvent) -> void:
 	var responseB := await ChoiceManager.request(
 		"Choose 1 card to deal 2 damage to.",
 		GameState.all_cards_in_target_areas(),
+		card.owner,
 		1,
-		1,
-		card.owner)
+		1
+		)
 		
 	var target := responseB[0] as CardInstance
 	if target == null:

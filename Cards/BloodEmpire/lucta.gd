@@ -8,5 +8,5 @@ func _init() -> void:
 	sets = [&"blood_empire"]
 
 func resolve_effect(card: CardInstance, event: PlayCardEvent) -> void:
-	DamagePipeline.apply_damage(card.owner.player_zone[0], 1)
-	DamagePipeline.apply_damage(GameState.opponent_of(card.owner).player_zone[0], 2)
+	await DamagePipeline.apply_damage(card.owner.player_zone[0], 1)
+	await DamagePipeline.apply_damage(GameState.opponent_of(card.owner).player_zone[0], 2)

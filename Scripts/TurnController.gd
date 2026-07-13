@@ -77,9 +77,9 @@ func _resolve_battle_phase() -> void:
 	var attackers: Array = await ChoiceManager.request(
 		"Choose attackers from arena cards",
 		current_player.arena.duplicate(),
+		current_player,
 		0,
 		current_player.arena.size(),
-		current_player
 	)
 	
 	#If no attackers after choice, return

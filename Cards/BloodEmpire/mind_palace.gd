@@ -13,8 +13,8 @@ func resolve_effect(card: CardInstance, event: PlayCardEvent) -> void:
 func _build_abilities() -> Array[Ability]:
 	return [Ability.new(Events.PLAY_PHASE_START, 
 	func(card, event)->void:
-		GameActions.draw_cards(card.owner, 1)
-		ZoneManager.move_to(card, Zone.Type.GRAVEYARD, ZoneChangeEvent.Reason.DEATH)
+		await GameActions.draw_cards(card.owner, 1)
+		await ZoneManager.move_to(card, Zone.Type.GRAVEYARD, ZoneChangeEvent.Reason.DEATH)
 	,
 	func(card, event)->bool:
 		return card.counters["check"] <= 0
