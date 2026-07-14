@@ -48,5 +48,5 @@ func submit(selected: Array) -> bool:
 	#out whatever the nested call just correctly activated.
 	if _pending == null:
 		_activate_next()
-
+	
 	return true

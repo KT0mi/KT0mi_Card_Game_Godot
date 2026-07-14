@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="DeckData" format=3 uid="uid://by3atcghcqf52"]
+
+[ext_resource type="Script" uid="uid://byj4jqh3sw4qv" path="res://Scripts/CardDataScripts/DeckData.gd" id="1_ily4q"]
+
+[resource]
+script = ExtResource("1_ily4q")
+deck_name = "Test Deck"
+card_ids = Array[StringName]([&"blood_wall", &"blood_wall", &"coagulate_spear", &"coagulate_spear"])
+metadata/_custom_type_script = "uid://byj4jqh3sw4qv"

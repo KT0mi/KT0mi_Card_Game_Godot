@@ -29,7 +29,7 @@ var _choice_checkboxes: Dictionary = {}  # option -> CheckBox
 func _ready() -> void:
 	_build_debug_ui()
 	ChoiceManager.choice_requested.connect(_on_choice_requested)
-	TurnController.phase_changed.connect(func(phase, player) -> void: _refresh_ui())
+	TurnController.phase_changed.connect(func(_phase, _player) -> void: _refresh_ui())
 	await _setup_players()
 	await TurnController.start_match()
 	_refresh_ui()
@@ -54,6 +54,7 @@ func _setup_players() -> void:
 		# rule it already has -- kept here for now so the test harness
 		# stays self-contained and doesn't presume that decision for you.
 		var face := CardFactory.create_instance(&"test_player_card", player)
+		face.definition.card_name = "You" if player == GameState.local_player else "Opponent"
 		_spawn_card_node(face)
 		await ZoneManager.move_to(face, Zone.Type.PLAYER, ZoneChangeEvent.Reason.MANUAL)
 
@@ -125,7 +126,7 @@ func _on_choice_requested(req: ChoiceRequest) -> void:
 	_choice_checkboxes.clear()
 	
 	_choice_panel = VBoxContainer.new()
-	_choice_panel.position = Vector2(20, 160)
+	_choice_panel.position = Vector2(20, 220)
 	_canvas.add_child(_choice_panel)
 	
 	var label := Label.new()
@@ -163,12 +164,23 @@ func _on_choice_confirmed() -> void:
 			var node := CardViewManager.card_node_for(option)
 			if node:
 				node.set_selected(false)
-			
+	
+	#Save reference to current choice panel
+	var panel_to_close := _choice_panel
+	
 	var submited:= ChoiceManager.submit(selected)
+	
 	if submited:
-		_choice_panel.queue_free()
-		_choice_panel = null
+		if panel_to_close:
+			panel_to_close.queue_free()
+		
+		#Only clear the shared reference if nothing newer has already
+		#taken its place -- otherwise this would null out the reference
+		#to the new panel that's now legitimately showing.
+		if _choice_panel == panel_to_close:
+			_choice_panel = null
 		_refresh_ui()
+
 
 func _describe_option(option) -> String:
 	if option is CardInstance:
