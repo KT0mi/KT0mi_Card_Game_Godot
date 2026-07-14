@@ -45,4 +45,4 @@ func resolve_effect(card: CardInstance, event: PlayCardEvent) -> void:
 		push_warning("coagulate_spear: resolve_effect: Wrong type for 'sacrifice' variable")
 		return
 	
-	DamagePipeline.apply_damage(target, 2)
+	await DamagePipeline.apply_damage(target, 2)

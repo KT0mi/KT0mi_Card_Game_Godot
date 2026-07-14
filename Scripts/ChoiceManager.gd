@@ -18,6 +18,7 @@ var _pending: ChoiceRequest = null
 var _queue: Array[ChoiceRequest] = []
 
 func request(prompt: String, options: Array, requesting_player: Player, min_count: int = 1, max_count: int = 1) -> Array:
+	print("ChoiceManager: Choice requested to player %s, adding to queue and activating next request." % "1" if requesting_player == GameState.player_one else "2")
 	var req := ChoiceRequest.new(prompt, options, min_count, max_count, requesting_player)
 	_queue.append(req)
 	if _pending == null:
@@ -41,5 +42,11 @@ func submit(selected: Array) -> bool:
 	var resolved_req := _pending
 	_pending = null
 	resolved_req.resolved.emit(selected)
-	_activate_next()
+	
+	#Only advance the queue
+	#here if nothing already did -- otherwise this unconditionally wipes
+	#out whatever the nested call just correctly activated.
+	if _pending == null:
+		_activate_next()
+
 	return true
