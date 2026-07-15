@@ -26,7 +26,7 @@ func setup_match() -> void:
 			if card.definition.is_special:
 				player.deck.erase(card)
 				player.hand.append(card)
-				card.current_zone = Zone.Type.HAND
+				ZoneManager.move_to(card, Zone.Type.HAND, ZoneChangeEvent.Reason.DRAW)
 		GameActions.draw_cards(player, 5)
 	
 	#var face_card := CardInstance.new(CardDatabase.get_definition(&"player_face"), player)

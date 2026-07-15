@@ -6,12 +6,13 @@ extends Node
 
 signal change_card_endurance(card : CardInstance)
 
-func apply_damage(target: CardInstance, amount: int) -> void:
-	var final_amount := amount
+func apply_damage(target: CardInstance, amount: int, source: CardInstance) -> void:
+	var event:= DamageEvent.new(target, amount, source)
+	await TriggerSystem.emit(Events.DAMAGE_REQUEST, event)
 	
-	for modifier in target.damage_modifiers.duplicate():
-		final_amount = await modifier.call(target, final_amount)
+	if event.cancelled:
+		return
 	
-	target.current_endurance -= final_amount
+	target.current_endurance -= event.amount
 	change_card_endurance.emit(target)
-	await TriggerSystem.emit(Events.DAMAGE_DEALT, DamageEvent.new(target, final_amount))
+	await TriggerSystem.emit(Events.DAMAGE_RESOLVED, event)

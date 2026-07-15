@@ -1,9 +1,9 @@
 extends SpellCardDefinition
 
 func _init() -> void:
-	id = &"coagulate_spear"
-	card_name = "Coagulate Spear"
-	card_text = "Sacrifice 1 Blood Wall from your Arena: Deal 2 damage to any card."
+	id = &"coagulate_sword"
+	card_name = "Coagulate Sword"
+	card_text = "Sacrifice 1 Blood Wall from your Arena: Deal 4 damage to any card of your opponent's arena."
 	cast_type = SpellCardDefinition.CastType.INSTANT
 	sets = [&"blood_empire"]
 
@@ -14,7 +14,7 @@ func resolve_effect(card: CardInstance, event: PlayCardEvent) -> void:
 			candidates.append(c)
 	
 	if candidates.is_empty():
-		print("coagulate_spear: resolve_effect: Skipped effect due to no valid candidates")
+		print("coagulate_sword: resolve_effect: Skipped effect due to no valid candidates")
 		return
 	
 	var response := await ChoiceManager.request(
@@ -27,14 +27,14 @@ func resolve_effect(card: CardInstance, event: PlayCardEvent) -> void:
 	
 	var sacrifice := response[0] as CardInstance
 	if sacrifice == null:
-		push_warning("coagulate_spear: resolve_effect: Wrong type for 'sacrifice' variable")
+		push_warning("coagulate_sword: resolve_effect: Wrong type for 'sacrifice' variable")
 		return
 	
 	await GameActions.try_kill_card(sacrifice)
 	
 	var responseB := await ChoiceManager.request(
 		"Choose 1 card to deal 2 damage to.",
-		GameState.all_cards_in_target_areas(),
+		GameState.opponent_of(card.owner).arena,
 		card.owner,
 		1,
 		1
@@ -42,7 +42,7 @@ func resolve_effect(card: CardInstance, event: PlayCardEvent) -> void:
 		
 	var target := responseB[0] as CardInstance
 	if target == null:
-		push_warning("coagulate_spear: resolve_effect: Wrong type for 'sacrifice' variable")
+		push_warning("coagulate_sword: resolve_effect: Wrong type for 'sacrifice' variable")
 		return
 	
-	await DamagePipeline.apply_damage(target, 2, card)
+	await DamagePipeline.apply_damage(target, 4, card)

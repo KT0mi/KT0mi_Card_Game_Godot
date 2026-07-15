@@ -73,7 +73,7 @@ func try_attack(attacker: CardInstance, target: CardInstance) -> bool:
 	
 	#Hook point for target redirection - not implemented
 	
-	await DamagePipeline.apply_damage(event.target, attacker.definition.attack)
+	await DamagePipeline.apply_damage(event.target, attacker.current_attack, attacker)
 	
 	print("GameActions: Resolved try_attack action sucessfully")
 	await TriggerSystem.emit(Events.ATTACK_RESOLVED, event)

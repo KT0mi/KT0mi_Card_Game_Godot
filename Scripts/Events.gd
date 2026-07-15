@@ -31,4 +31,5 @@ const KILL_RESOLVED = &"on_kill_resolved"
 #These are specific events that happen at the start/during/after a game pipeline
 #A pipeline is a method that changes a variable in game and is subject to
 #Modification
-const DAMAGE_DEALT = &"on_damage_dealt"
+const DAMAGE_REQUEST = &"on_damage_request"
+const DAMAGE_RESOLVED = &"on_damage_resolved"

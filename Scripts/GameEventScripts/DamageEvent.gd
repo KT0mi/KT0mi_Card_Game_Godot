@@ -1,10 +1,10 @@
-class_name DamageEvent extends GameEvent
-#Not cancellable - by the time this fires, damage already happened.
-#To intecept damage, go through DamagePipeline
+class_name DamageEvent extends CancellableEvent
 
 var target: CardInstance
 var amount: int
+var source: CardInstance
 
-func _init(t: CardInstance, a: int) -> void:
+func _init(t: CardInstance, a: int, s: CardInstance = null) -> void:
 	target = t
 	amount = a
+	source = s

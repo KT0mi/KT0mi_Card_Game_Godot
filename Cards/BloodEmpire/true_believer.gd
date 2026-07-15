@@ -22,7 +22,7 @@ func _build_abilities() -> Array[Ability]:
 		if target == null:
 			push_warning("true_believer: Ability: Wrong type for 'target' variable.")
 			return
-		await DamagePipeline.apply_damage(target, 1)
+		await DamagePipeline.apply_damage(target, 1, card)
 	,
 	func(card, event) -> bool: return event.card == card
 	)]

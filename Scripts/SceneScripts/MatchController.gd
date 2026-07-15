@@ -143,7 +143,7 @@ func _on_choice_requested(req: ChoiceRequest) -> void:
 		cb.toggled.connect(func(pressed: bool): _on_option_toggled(option, pressed))
 		_choice_panel.add_child(cb)
 		_choice_checkboxes[option] = cb
-		
+	
 	var confirm := Button.new()
 	confirm.text = "Confirm choice"
 	confirm.pressed.connect(_on_choice_confirmed)
@@ -180,7 +180,6 @@ func _on_choice_confirmed() -> void:
 		if _choice_panel == panel_to_close:
 			_choice_panel = null
 		_refresh_ui()
-
 
 func _describe_option(option) -> String:
 	if option is CardInstance:
