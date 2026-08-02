@@ -160,6 +160,38 @@ label_settings = SubResource("LabelSettings_h8wm0")
 horizontal_alignment = 1
 vertical_alignment = 1
 
+[node name="Gate" type="Control" parent="Labels" unique_id=135431206]
+layout_mode = 3
+anchors_preset = 0
+offset_top = 98.0
+offset_right = 40.0
+offset_bottom = 138.0
+mouse_filter = 2
+
+[node name="GateRect" type="NinePatchRect" parent="Labels/Gate" unique_id=1635803084]
+layout_mode = 0
+offset_left = -27.0
+offset_top = -8.0
+offset_right = 82.19
+offset_bottom = 32.0
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("3_h8wm0")
+patch_margin_left = 20
+patch_margin_top = 20
+patch_margin_right = 20
+patch_margin_bottom = 20
+
+[node name="GateLabel" type="Label" parent="Labels/Gate" unique_id=354365593]
+layout_mode = 0
+offset_left = -26.0
+offset_top = -11.0
+offset_right = 26.0
+offset_bottom = 12.0
+text = "0"
+label_settings = SubResource("LabelSettings_h8wm0")
+horizontal_alignment = 1
+vertical_alignment = 1
+
 [node name="CardBack" type="ColorRect" parent="." unique_id=428025629]
 visible = false
 anchors_preset = 8

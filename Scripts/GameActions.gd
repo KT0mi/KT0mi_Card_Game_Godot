@@ -6,6 +6,8 @@ extends Node
 #Action shape: check phase legally -> emit a cancellable "_request" event ->
 # bail if cancelled -> perform the state change -> emit the "resolved" notification.
 
+signal card_stat_changed(card: CardInstance)
+
 func try_play_card(player: Player, card: CardInstance) -> bool:
 	print("GameActions: Requested try_play_card action")
 	if card.current_zone != Zone.Type.HAND:
@@ -19,7 +21,11 @@ func try_play_card(player: Player, card: CardInstance) -> bool:
 	if TurnController.current_player != player:
 		print("GameActions: Failed try_play_card action: Reason: Not active player")
 		return false
-		
+	
+	if !card.is_playable(player.player_zone[0].get_endurance()):
+		print("GameActions: Failed try_play_card action: Reason: Card gated")
+		return false
+	
 	if card.is_creature() and not player.can_add_to_arena():
 		print("GameActions: Failed try_play_card action. Reason: Cannot have more than 3 cards in arena")
 		return false
@@ -86,3 +92,45 @@ func draw_cards(player: Player, amount: int) -> void:
 			return #Deck out
 		var card: CardInstance = player.deck.pop_back()
 		await ZoneManager.move_to(card, Zone.Type.HAND, ZoneChangeEvent.Reason.DRAW)
+
+func try_modify_attack(target: CardInstance, mod : StatModifer) -> bool:
+	print("GameActions: Requested try_modify_attack action")
+	var event := ModifierEvent.new(target, mod.source, mod)
+	await TriggerSystem.emit(Events.MODIFY_ATTACK_REQUEST, event)
+	if event.cancelled:
+		print("GameActions: Failed try_modify_attack action. Reason: Request intercepted")
+		return false
+	
+	target.attack_modifiers.append(mod)
+	card_stat_changed.emit(target)
+	print("GameActions: Resolved try_modify_attack action sucessfully.")
+	await TriggerSystem.emit(Events.MODIFY_ATTACK_RESOLVE, event)
+	return true
+
+func try_modify_endurance(target: CardInstance, mod : StatModifer) -> bool:
+	print("GameActions: Requested try_modify_endurance action")
+	var event := ModifierEvent.new(target, mod.source, mod)
+	await TriggerSystem.emit(Events.MODIFY_ENDURANCE_REQUEST, event)
+	if event.cancelled:
+		print("GameActions: Failed try_modify_endurance action. Reason: Request intercepted")
+		return false
+	
+	target.endurance_modifiers.append(mod)
+	card_stat_changed.emit(target)
+	print("GameActions: Resolved try_modify_endurance action sucessfully.")
+	await TriggerSystem.emit(Events.MODIFY_ENDURANCE_REQUEST, event)
+	return true
+
+func try_modify_gate(target: CardInstance, mod : GateModifier) -> bool:
+	print("GameActions: Requested try_modify_gate action")
+	var event := ModifierEvent.new(target, mod.source, mod)
+	await TriggerSystem.emit(Events.MODIFY_GATE_REQUEST, event)
+	if event.cancelled:
+		print("GameActions: Failed try_modify_gate action. Reason: Request intercepted")
+		return false
+	
+	target.gate_modifiers.append(mod)
+	card_stat_changed.emit(target)
+	print("GameActions: Resolved try_modify_gate action sucessfully.")
+	await TriggerSystem.emit(Events.MODIFY_GATE_RESOLVE, event)
+	return true

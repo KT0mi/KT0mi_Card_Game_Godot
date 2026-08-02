@@ -4,6 +4,7 @@ func _init() -> void:
 	id = &"fireball"
 	card_name = "Fireball"
 	card_text = "Deal 1 damage to every card in your opponents arena"
+	gate = CardGate.BasicGate(20)
 	cast_type = SpellCardDefinition.CastType.INSTANT
 	sets = [&"test_set"]
 

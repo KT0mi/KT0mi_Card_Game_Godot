@@ -10,6 +10,11 @@ var current_attack : int = 0
 var counters: Dictionary = {}
 var flags: Dictionary = {}
 
+#Typed modifier arrays for type safety when parsing modifiers
+var attack_modifiers : Array[StatModifer] = []
+var endurance_modifiers : Array[StatModifer] = []
+var gate_modifiers : Array[GateModifier] = []
+
 func _init(def: CardDefinition, p: Player) -> void:
 	definition = def
 	owner = p
@@ -25,3 +30,50 @@ func is_creature() -> bool:
 	
 func is_spell() -> bool:
 	return definition is SpellCardDefinition
+	
+func is_playable(against : int) -> bool:
+	var gate := get_gate()
+	if gate == null:
+		return true
+	return gate.is_playable(against)
+
+## Attribute Parsers - methods for parsing the current stats of the card given any modifiers
+
+func get_attack() -> int:
+	var value := current_attack
+	for modifier in attack_modifiers:
+		value = modifier.apply(value)
+	return value
+
+func get_endurance() -> int:
+	var value := current_endurance
+	for modifer in endurance_modifiers:	
+		value = modifer.apply(value)
+	return value
+	
+func get_gate() -> CardGate:
+	var gate := definition.gate
+	if gate == null:
+		return null
+	for modifier in gate_modifiers:
+		gate = modifier.apply(gate)
+	return gate
+
+## --- Cleanup ----------------------------------------------------------------
+ 
+## Removes a specific modifier, e.g. when its duration ends.
+func remove_modifier(array: Array, modifier: Modifier) -> void:
+	array.erase(modifier)
+ 
+## Strips every modifier granted by `src`, across all three arrays. Hook
+## this into whatever event handler notices a card leaving play, to clean
+## up any "while this card is in play" buffs it granted elsewhere.
+func clear_modifiers_from(src: CardInstance) -> void:
+	_strip_source(attack_modifiers, src)
+	_strip_source(endurance_modifiers, src)
+	_strip_source(gate_modifiers, src)
+ 
+func _strip_source(array: Array, src: CardInstance) -> void:
+	for i in range(array.size() - 1, -1, -1):
+		if array[i].source == src:
+			array.remove_at(i)

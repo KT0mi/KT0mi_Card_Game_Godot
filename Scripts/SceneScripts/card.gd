@@ -25,6 +25,7 @@ const HOVER_Z_INDEX := 100
 @onready var name_label: Label = $Labels/Name/NameLabel
 @onready var attack_label: Label = $Labels/Attack/AttackLabel
 @onready var endurance_label: Label = $Labels/Endurance/EnduranceLabel
+@onready var gate_label: Label = $Labels/Gate/GateLabel
 @onready var card_text_label: Label = $Labels/CardText/CardTextLabel
 @onready var card_back: ColorRect = $CardBack
 @onready var hidden_overlay: ColorRect = $HiddenOverlay
@@ -57,18 +58,31 @@ func _setup_visuals() -> void:
 	if def is SpellCardDefinition:
 		$Labels/Attack.visible = false
 		$Labels/Endurance.visible = false
-		$Labels/CardText/CardTextRect.set_size(Vector2(233, 216))
-		card_text_label.set_size(Vector2(113, 105))
+		#$Labels/CardText/CardTextRect.set_size(Vector2(233, 216))
+		#card_text_label.set_size(Vector2(113, 105))
 
 func _refresh_visuals() -> void:
 	#Fill with visual representation of card instance
 	var def : CardDefinition = card_instance.definition
 	name_label.text = def.card_name
 	card_text_label.text = def.card_text
+	gate_label.text = CardViewManager.refresh_gate_label(card_instance)
 	if def is CreatureCardDefinition:
-		endurance_label.text = "%d" % card_instance.current_endurance
-		attack_label.text = "%d" % card_instance.current_attack
-	else:
+		endurance_label.text = "%d" % card_instance.get_endurance()
+		attack_label.text = "%d" % card_instance.get_attack()
+		
+		#Modified Feedback
+		if card_instance.get_attack() > def.attack:
+			attack_label.add_theme_color_override("font_color", Color(0.0, 0.71, 0.154, 1.0))
+		elif card_instance.get_attack() < def.attack:
+			attack_label.add_theme_color_override("font_color", Color(0.816, 0.0, 0.0, 1.0))
+			
+		if card_instance.get_endurance() > def.endurance:
+			endurance_label.add_theme_color_override("font_color", Color(0.0, 0.71, 0.154, 1.0))
+		elif card_instance.get_endurance() < def.endurance:
+			endurance_label.add_theme_color_override("font_color", Color(0.816, 0.0, 0.0, 1.0))
+			
+	else:	
 		endurance_label.text = ""
 		attack_label.text = ""
 	_update_hidden_state()

@@ -11,11 +11,11 @@ func check_state_based_actions() -> void:
 	#Creatures die when their health is at 0 in the end turn phase
 	for player in GameState.players():
 		for card in player.arena.duplicate(): 
-			if card.current_endurance <= 0:
+			if card.get_endurance() <= 0:
 				#Card Death - Specific event when a card ends the turn with no endurance - cancellable
 				GameActions.try_kill_card(card)
 		for card in player.player_zone.duplicate():
-			if card.current_endurance <= 0:
+			if card.get_endurance() <= 0:
 				player_defeated.emit(player)
 
 func setup_match() -> void:
@@ -26,7 +26,7 @@ func setup_match() -> void:
 		for card in player.deck.duplicate():
 			if card.definition.is_special:
 				special_card = card
-		
+	
 		#If a player has a special card in his deck, draw it and draw 4 more cards
 		#If not, draw 7 cards
 		if special_card:
@@ -39,5 +39,3 @@ func setup_match() -> void:
 	
 	#var face_card := CardInstance.new(CardDatabase.get_definition(&"player_face"), player)
 	#await ZoneManager.move_to(face_card, Zone.Type.PLAYER, ZoneChangeEvent.Reason.MANUAL)
-	
-	

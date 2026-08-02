@@ -17,5 +17,17 @@ func resolve_effect(card: CardInstance, event: PlayCardEvent) -> void:
 		)
 	var t : CardInstance = targetA[0]
 	
-	await CardMutationPipeline.modify_attack(t, 1)
-	await CardMutationPipeline.modify_endurance(t, -1)
+	await GameActions.try_modify_attack(t,
+	StatModifer.new(
+		func(attack) -> int: return attack + 1,
+		card,
+		"+1 Attack"
+		)
+	)
+	await GameActions.try_modify_endurance(t,
+	StatModifer.new(
+		func(endurance) -> int: return endurance - 1,
+		card,
+		"-1 Endurance"
+		)
+	)

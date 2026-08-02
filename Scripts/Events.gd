@@ -26,6 +26,13 @@ const ATTACK_RESOLVED = &"on_attack_resolved"
 #Triggered when a kill card request is made
 const KILL_REQUEST = &"on_kill_request"
 const KILL_RESOLVED = &"on_kill_resolved"
+#Modifier Game Action Events
+const MODIFY_ATTACK_REQUEST = &"on_try_modify_attack"
+const MODIFY_ATTACK_RESOLVE = &"on_modify_attack"
+const MODIFY_ENDURANCE_REQUEST = &"on_try_modify_endurance"
+const MODIFY_ENDURANCE_RESOLVE = &"on_modify_endurance"
+const MODIFY_GATE_REQUEST = &"on_try_modify_gate"
+const MODIFY_GATE_RESOLVE = &"on_modify_gate"
 
 ##Pipeline Events
 #These are specific events that happen at the start/during/after a game pipeline

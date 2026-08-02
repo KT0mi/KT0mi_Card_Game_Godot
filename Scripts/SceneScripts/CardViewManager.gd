@@ -9,8 +9,8 @@ var _holder_nodes: Dictionary = {} #"player id: zone type" : CardHolder (Scene)
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	ZoneManager.card_zone_changed.connect(_on_zone_changed)
+	GameActions.card_stat_changed.connect(_refresh_card_visuals)
 	DamagePipeline.change_card_endurance.connect(_refresh_card_visuals)
-	CardMutationPipeline.card_stats_changed.connect(_refresh_card_visuals)
 	
 #Called by CardHolder._ready()
 func register_holder(holder: CardHolder) -> void:
@@ -66,3 +66,19 @@ func is_card_hidden_from_local_view(card_instance) -> bool:
 func _refresh_card_visuals(card_instance: CardInstance) -> void:
 	var card := card_node_for(card_instance)
 	card._refresh_visuals()
+
+func refresh_gate_label(card_instance: CardInstance) -> String:
+	var gate := card_instance.definition.gate
+	if gate == null:
+		return ""
+	match gate.gate_type:
+		CardGate.GateType.NONE:
+			return ""
+		CardGate.GateType.LESS_THAN:
+			return "<%d" % gate.value
+		CardGate.GateType.GREATER_THAN:
+			return ">%d" % gate.value
+		CardGate.GateType.INTERVAL:
+			return "%d-%d" % [gate.lower_bound, gate.upper_bound]
+		_:
+			return ""

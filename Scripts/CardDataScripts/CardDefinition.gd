@@ -4,6 +4,7 @@ class_name CardDefinition extends Resource
 @export var card_name: String
 @export var card_text: String
 @export var is_special: bool = false
+@export var gate: CardGate
 @export var sets: Array[StringName] = []
 @export var art: Texture2D
 
