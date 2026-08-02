@@ -19,6 +19,9 @@ var _queue: Array[ChoiceRequest] = []
 
 func request(prompt: String, options: Array, requesting_player: Player, min_count: int = 1, max_count: int = 1) -> Array:
 	print("ChoiceManager: Choice requested to player %s, adding to queue and activating next request." % "1" if requesting_player == GameState.player_one else "2")
+	if options.is_empty():
+		push_warning("ChoiceManager: 'options' array is empty, returning empty response")
+		return []
 	var req := ChoiceRequest.new(prompt, options, min_count, max_count, requesting_player)
 	_queue.append(req)
 	if _pending == null:

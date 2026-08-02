@@ -4,6 +4,7 @@ extends Node
 #scans game directory for CardDefinition scripts
 
 const CARDS_ROOT := "res://Cards/"
+const CARD_SPRITES_ROOT := "res://Assets/Images/Cards/Sprites/"
 
 var _definitions: Dictionary = {} # Stringname -> CardDefinition
 
@@ -41,9 +42,19 @@ func _load_definition(script_path: String) -> void:
 		return
 	if _definitions.has(def.id):
 		push_warning("CardDatabase: duplicate card id '%s' (%s)" % [def.id, script_path])
- 
+ 	
+	_load_card_sprite(def)
 	_definitions[def.id] = def
- 
+
+func _load_card_sprite(def: CardDefinition) -> void:
+	var path := CARDS_ROOT + def.id + "/"
+	var dir := DirAccess.open(path)
+	if dir == null:
+		push_warning("CardDatabase: could not open %s" % path)
+		def.art = preload("res://Assets/Images/Cards/Sprites/placeholder.png")
+		return
+	def.art = load(path)
+
 func get_definition(id: StringName) -> CardDefinition:
 	if not _definitions.has(id):
 		push_error("CardDatabase: unknown card id '%s'" % id)

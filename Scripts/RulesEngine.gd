@@ -22,12 +22,20 @@ func setup_match() -> void:
 	#Rules for match setup
 	#E.g: Players get x amount of cards, players get special card in hand
 	for player in GameState.players():
+		var special_card : CardInstance
 		for card in player.deck.duplicate():
 			if card.definition.is_special:
-				player.deck.erase(card)
-				player.hand.append(card)
-				ZoneManager.move_to(card, Zone.Type.HAND, ZoneChangeEvent.Reason.DRAW)
-		GameActions.draw_cards(player, 5)
+				special_card = card
+		
+		#If a player has a special card in his deck, draw it and draw 4 more cards
+		#If not, draw 7 cards
+		if special_card:
+			player.deck.erase(special_card)
+			player.hand.append(special_card)
+			ZoneManager.move_to(special_card, Zone.Type.HAND, ZoneChangeEvent.Reason.DRAW)
+			GameActions.draw_cards(player, 4)
+		else:
+			GameActions.draw_cards(player, 7)
 	
 	#var face_card := CardInstance.new(CardDatabase.get_definition(&"player_face"), player)
 	#await ZoneManager.move_to(face_card, Zone.Type.PLAYER, ZoneChangeEvent.Reason.MANUAL)

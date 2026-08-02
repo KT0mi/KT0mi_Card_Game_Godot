@@ -21,10 +21,11 @@ static var _active_drag: Card = null
 const HOVER_Z_INDEX := 100
 
 #Visual Vars
-@onready var name_label: Label = $NameLabel
-@onready var attack_label: Label = $AttackLabel
-@onready var endurance_label: Label = $EnduranceLabel
-@onready var card_text_label: Label = $CardTextLabel
+@onready var sprite: Sprite2D = $Sprite
+@onready var name_label: Label = $Labels/Name/NameLabel
+@onready var attack_label: Label = $Labels/Attack/AttackLabel
+@onready var endurance_label: Label = $Labels/Endurance/EnduranceLabel
+@onready var card_text_label: Label = $Labels/CardText/CardTextLabel
 @onready var card_back: ColorRect = $CardBack
 @onready var hidden_overlay: ColorRect = $HiddenOverlay
 
@@ -49,7 +50,16 @@ func bind(instance: CardInstance) -> void:
 	card_instance = instance
 	CardViewManager.register_card_node(instance, self)
 	_refresh_visuals()
-	
+
+func _setup_visuals() -> void:
+	var def : CardDefinition = card_instance.definition
+	sprite.texture = def.art
+	if def is SpellCardDefinition:
+		$Labels/Attack.visible = false
+		$Labels/Endurance.visible = false
+		$Labels/CardText/CardTextRect.set_size(Vector2(233, 216))
+		card_text_label.set_size(Vector2(113, 105))
+
 func _refresh_visuals() -> void:
 	#Fill with visual representation of card instance
 	var def : CardDefinition = card_instance.definition

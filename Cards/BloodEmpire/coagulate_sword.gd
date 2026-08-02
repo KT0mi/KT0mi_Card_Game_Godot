@@ -42,7 +42,7 @@ func resolve_effect(card: CardInstance, event: PlayCardEvent) -> void:
 		
 	var target := responseB[0] as CardInstance
 	if target == null:
-		push_warning("coagulate_sword: resolve_effect: Wrong type for 'sacrifice' variable")
+		push_warning("coagulate_sword: resolve_effect: Wrong type for 'target' variable")
 		return
 	
 	await DamagePipeline.apply_damage(target, 4, card)

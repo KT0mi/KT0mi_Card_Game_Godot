@@ -80,7 +80,7 @@ func try_attack(attacker: CardInstance, target: CardInstance) -> bool:
 	return true
 
 func draw_cards(player: Player, amount: int) -> void:
-	print("GameActions: Requested draw_cards action")
+	print("GameActions: Requested draw_cards action for player %s of %d cards" % ["1" if player == GameState.player_one else "2", amount])
 	for i in amount:
 		if player.deck.is_empty():
 			return #Deck out

@@ -117,6 +117,10 @@ func _refresh_ui() -> void:
 	]
 
 func _on_choice_requested(req: ChoiceRequest) -> void:
+	if req == null:
+		push_warning("MatchController: _on_choice_requested received a null request -- ignoring")
+		return
+	
 	if req.requesting_player != GameState.local_player and \
 	not DebugSettings.show_all_choices_in_debug_ui:
 		return

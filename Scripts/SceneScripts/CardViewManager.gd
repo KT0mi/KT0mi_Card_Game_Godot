@@ -11,7 +11,7 @@ func _ready() -> void:
 	ZoneManager.card_zone_changed.connect(_on_zone_changed)
 	DamagePipeline.change_card_endurance.connect(_refresh_card_visuals)
 	CardMutationPipeline.card_stats_changed.connect(_refresh_card_visuals)
-
+	
 #Called by CardHolder._ready()
 func register_holder(holder: CardHolder) -> void:
 	var player := GameState.player_one if holder.owner_is_player_one else GameState.player_two
@@ -20,6 +20,7 @@ func register_holder(holder: CardHolder) -> void:
 #Called by Card._ready()
 func register_card_node(instance: CardInstance, node: Card) -> void:
 	_card_nodes[instance] = node
+	node._setup_visuals()
 
 func _on_zone_changed(card: CardInstance, from_zone: Zone.Type, to_zone: Zone.Type) -> void:
 	var node: Card = _card_nodes.get(card)
