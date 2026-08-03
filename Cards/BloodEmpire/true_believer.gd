@@ -13,6 +13,7 @@ func _build_abilities() -> Array[Ability]:
 	func(card, event) -> void:
 		var result := await ChoiceManager.request(
 			"Choose a target and damage it for 1.",
+			Events.EFFECT_TAG,
 			GameState.all_cards_in_target_areas(),
 			card.owner,
 			1,

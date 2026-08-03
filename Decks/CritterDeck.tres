@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="DeckData" format=3 uid="uid://boajlc1qxckn8"]
+
+[ext_resource type="Script" uid="uid://byj4jqh3sw4qv" path="res://Scripts/CardDataScripts/DeckData.gd" id="1_jiq5g"]
+
+[resource]
+script = ExtResource("1_jiq5g")
+deck_name = "Critters Deck"
+card_ids = Array[StringName]([&"ambush_tactic", &"ambush_tactic", &"ambush_tactic", &"ambush_tactic", &"body_of_jormungandr", &"body_of_jormungandr", &"body_of_jormungandr", &"body_of_jormungandr", &"eye_of_jormungandr", &"eye_of_jormungandr", &"eye_of_jormungandr", &"eye_of_jormungandr", &"mouth_of_jormungandr", &"mouth_of_jormungandr", &"mouth_of_jormungandr", &"mouth_of_jormungandr", &"wild_giant_turtle", &"wild_giant_turtle", &"wild_giant_turtle", &"wild_giant_turtle", &"wolf_mother", &"wolf_mother", &"wolf_mother", &"wolf_mother", &"young_wolf", &"young_wolf", &"young_wolf", &"young_wolf", &"quill_armor", &"quill_armor", &"quill_armor", &"quill_armor", &"wild_cat", &"wild_cat", &"wild_cat", &"wild_cat", &"black_falcon", &"black_falcon", &"black_falcon", &"black_falcon"])
+metadata/_custom_type_script = "uid://byj4jqh3sw4qv"

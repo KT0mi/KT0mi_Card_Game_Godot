@@ -37,3 +37,6 @@ func is_playable(against : int) -> bool:
 ## COMMON CASE USES
 static func BasicGate(value : int) -> CardGate:
 	return CardGate.new(GateType.LESS_THAN, value)
+	
+static func None() -> CardGate:
+	return CardGate.new(GateType.NONE)

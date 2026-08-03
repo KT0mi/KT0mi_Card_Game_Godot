@@ -47,10 +47,9 @@ func _load_definition(script_path: String) -> void:
 	_definitions[def.id] = def
 
 func _load_card_sprite(def: CardDefinition) -> void:
-	var path := CARDS_ROOT + def.id + "/"
-	var dir := DirAccess.open(path)
-	if dir == null:
-		push_warning("CardDatabase: could not open %s" % path)
+	var path := CARD_SPRITES_ROOT + def.id + ".png"
+	if not FileAccess.file_exists(path):
+		push_warning("CardDatabase: could not find %s" % path)
 		def.art = preload("res://Assets/Images/Cards/Sprites/placeholder.png")
 		return
 	def.art = load(path)

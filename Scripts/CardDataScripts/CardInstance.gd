@@ -39,6 +39,9 @@ func is_playable(against : int) -> bool:
 
 ## Attribute Parsers - methods for parsing the current stats of the card given any modifiers
 
+func get_display_text() -> String:
+	return definition.get_display_text(self)
+
 func get_attack() -> int:
 	var value := current_attack
 	for modifier in attack_modifiers:
@@ -58,6 +61,25 @@ func get_gate() -> CardGate:
 	for modifier in gate_modifiers:
 		gate = modifier.apply(gate)
 	return gate
+
+## --- Counters --------------------------------
+func get_counter(key: StringName) -> int:
+	return counters.get(key, 0)
+
+func has_counter(key: StringName) -> int:
+	return get_counter(key) != 0
+	
+#Setting to 0 erases counter
+func set_counter(key: StringName, value: int) -> void:
+	if value == 0:
+		counters.erase(key)
+	else:
+		counters[key] = value
+
+func tick_counter(key: StringName, amount: int = 1) -> int:
+	var value := get_counter(key) + amount
+	set_counter(key, value)
+	return value
 
 ## --- Cleanup ----------------------------------------------------------------
  

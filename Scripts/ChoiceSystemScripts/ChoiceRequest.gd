@@ -9,13 +9,15 @@ var options: Array
 var min_count: int
 var max_count: int
 var requesting_player: Player
+var tag : StringName
 
-func _init(p: String, o: Array, min_c: int, max_c: int, rp: Player = null) -> void:
+func _init(p: String, o: Array, min_c: int, max_c: int, rp: Player = null, t = &"") -> void:
 	prompt = p
 	options = o
 	min_count = min_c
 	max_count = max_c
 	requesting_player = rp
+	tag = t
 
 func is_valid(selected: Array) -> bool:
 	if selected.size() < min_count or selected.size() > max_count:

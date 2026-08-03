@@ -38,6 +38,7 @@ func try_play_card(player: Player, card: CardInstance) -> bool:
 	
 	if card.is_creature():
 		await ZoneManager.move_to(card, Zone.Type.ARENA, ZoneChangeEvent.Reason.PLAY)
+		if card.definition.is_dazed: card.flags.set("dazed", true)
 	else:
 		if card.is_spell():
 			print("GameActions: try_play_card: Resolving instant spell effect of %s." % card.definition.id)
@@ -79,7 +80,8 @@ func try_attack(attacker: CardInstance, target: CardInstance) -> bool:
 	
 	#Hook point for target redirection - not implemented
 	
-	await DamagePipeline.apply_damage(event.target, attacker.current_attack, attacker)
+	await DamagePipeline.apply_damage(event.target, attacker.get_attack(), attacker)
+	await DamagePipeline.apply_damage(event.attacker, target.get_attack(), target)
 	
 	print("GameActions: Resolved try_attack action sucessfully")
 	await TriggerSystem.emit(Events.ATTACK_RESOLVED, event)

@@ -8,12 +8,21 @@ extends Node
 signal player_defeated(player: Player)
 
 func check_state_based_actions() -> void:
-	#Creatures die when their health is at 0 in the end turn phase
+	#Creatures die when their health is at 0 in the end turn phase 
+	#Creatures lose their dazed status at the end of the turn if they have them
 	for player in GameState.players():
-		for card in player.arena.duplicate(): 
+		#Cards in Arena
+		for c in player.arena.duplicate(): 
+		#Creatures lose dazed
+			var card : CardInstance = c
+			card.flags.set("dazed", false)
+			
 			if card.get_endurance() <= 0:
 				#Card Death - Specific event when a card ends the turn with no endurance - cancellable
 				GameActions.try_kill_card(card)
+		
+		
+		#Check for player death - will move to a persistent check later
 		for card in player.player_zone.duplicate():
 			if card.get_endurance() <= 0:
 				player_defeated.emit(player)

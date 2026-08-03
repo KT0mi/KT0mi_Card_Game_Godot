@@ -13,16 +13,17 @@ extends Node
 #waits its turn instead.
 
 signal choice_requested(request: ChoiceRequest)
+signal choice_resolved(request: ChoiceRequest)
 
 var _pending: ChoiceRequest = null
 var _queue: Array[ChoiceRequest] = []
 
-func request(prompt: String, options: Array, requesting_player: Player, min_count: int = 1, max_count: int = 1) -> Array:
+func request(prompt: String, tag: StringName, options: Array, requesting_player: Player, min_count: int = 1, max_count: int = 1) -> Array:
 	print("ChoiceManager: Choice requested to player %s, adding to queue and activating next request." % "1" if requesting_player == GameState.player_one else "2")
 	if options.is_empty():
 		push_warning("ChoiceManager: 'options' array is empty, returning empty response")
 		return []
-	var req := ChoiceRequest.new(prompt, options, min_count, max_count, requesting_player)
+	var req := ChoiceRequest.new(prompt, options, min_count, max_count, requesting_player, tag)
 	_queue.append(req)
 	if _pending == null:
 		_activate_next()
@@ -33,6 +34,8 @@ func _activate_next() -> void:
 		_pending = null
 		return
 	_pending = _queue.pop_front()
+	#Having a deferred call guarantees that "await req.resolved" is already listening
+	#Before the request is resolved so that I can avoid race-conditions
 	choice_requested.emit(_pending)
 
 func submit(selected: Array) -> bool:

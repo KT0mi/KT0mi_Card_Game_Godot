@@ -172,7 +172,7 @@ func _on_choice_confirmed() -> void:
 	#Save reference to current choice panel
 	var panel_to_close := _choice_panel
 	
-	var submited:= ChoiceManager.submit(selected)
+	var submited : bool = ChoiceManager.submit(selected)
 	
 	if submited:
 		if panel_to_close:

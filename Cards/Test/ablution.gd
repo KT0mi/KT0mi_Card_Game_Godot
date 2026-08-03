@@ -10,6 +10,7 @@ func _init() -> void:
 func resolve_effect(card: CardInstance, event: PlayCardEvent) -> void:
 	var targetA : Array = await ChoiceManager.request(
 		"Choose 1 creature from your board",
+		Events.EFFECT_TAG,
 		card.owner.arena.duplicate(),
 		card.owner,
 		1,

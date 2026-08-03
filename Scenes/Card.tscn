@@ -2,16 +2,12 @@
 
 [ext_resource type="Script" uid="uid://dvv3rnube10c7" path="res://Scripts/SceneScripts/Card.gd" id="1_pnb5n"]
 [ext_resource type="Texture2D" uid="uid://dkn0uibqujipt" path="res://Assets/Images/Test/border_1.png" id="2_3p273"]
-[ext_resource type="Texture2D" uid="uid://rfm4n84le83w" path="res://Assets/Images/Cards/Sprites/fireball_card.png" id="2_kphy1"]
+[ext_resource type="Texture2D" uid="uid://rfm4n84le83w" path="res://Assets/Images/Cards/Sprites/fireball.png" id="2_kphy1"]
 [ext_resource type="Texture2D" uid="uid://cngvbysyumswh" path="res://Assets/Images/Test/border_element_9slice.png" id="3_h8wm0"]
 [ext_resource type="Texture2D" uid="uid://k3hv0wjq3xgp" path="res://Assets/Images/Test/border_element.png" id="4_3m7nw"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_h8wm0"]
 size = Vector2(128, 228)
-
-[sub_resource type="LabelSettings" id="LabelSettings_pnb5n"]
-font_size = 10
-outline_color = Color(0, 0, 0, 1)
 
 [sub_resource type="LabelSettings" id="LabelSettings_3p273"]
 line_spacing = 0.5
@@ -64,15 +60,18 @@ patch_margin_top = 20
 patch_margin_right = 20
 patch_margin_bottom = 20
 
-[node name="CardTextLabel" type="Label" parent="Labels/CardText" unique_id=753727268]
+[node name="CardTextLabel" type="RichTextLabel" parent="Labels/CardText" unique_id=838028171]
 layout_mode = 0
 offset_left = -57.0
 offset_top = 2.0
 offset_right = 56.0
 offset_bottom = 87.0
-text = "Card Text"
-label_settings = SubResource("LabelSettings_pnb5n")
-autowrap_mode = 3
+mouse_filter = 2
+theme_override_font_sizes/normal_font_size = 10
+theme_override_font_sizes/bold_font_size = 10
+bbcode_enabled = true
+text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam nec quam erat. Integer aliquam, ex nec lacinia dictum, dui risus tincidunt lacus, at dapibus magna diam sed enim. Donec sodales ligula at molestie vulputate. Donec dapibus lobortis orci, et dapibus erat semper sit amet. Duis sed maximus sem. Fusce in pharetra felis. Morbi congue maximus diam a dapibus. Sed at diam libero. Phasellus eu cursus justo. Sed vulputate lacus non fermentum bibendum. Sed nec lobortis enim. Sed consectetur at tellus ut viverra. Etiam consequat massa sit amet odio accumsan sagittis. Maecenas iaculis at lacus at vulputate"
+scroll_active = false
 
 [node name="Name" type="Control" parent="Labels" unique_id=871133523]
 layout_mode = 3

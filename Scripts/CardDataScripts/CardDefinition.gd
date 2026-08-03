@@ -8,6 +8,12 @@ class_name CardDefinition extends Resource
 @export var sets: Array[StringName] = []
 @export var art: Texture2D
 
+#Overrideable on specific card definitions to inject dynamic instance state into
+#the displayed text. Defaults to card_text so that any card that doesn't have.
+#Dynamic text isn't affected and doesn't even have to touch this
+func get_display_text(_instance: CardInstance) -> String:
+	return card_text
+
 var _abilities_cache: Array[Ability] = []
 var _abilities_built: bool = false
  

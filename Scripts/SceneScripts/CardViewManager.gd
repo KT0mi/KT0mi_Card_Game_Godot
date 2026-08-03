@@ -68,7 +68,7 @@ func _refresh_card_visuals(card_instance: CardInstance) -> void:
 	card._refresh_visuals()
 
 func refresh_gate_label(card_instance: CardInstance) -> String:
-	var gate := card_instance.definition.gate
+	var gate := card_instance.get_gate()
 	if gate == null:
 		return ""
 	match gate.gate_type:
