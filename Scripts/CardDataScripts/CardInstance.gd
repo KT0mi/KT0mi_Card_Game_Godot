@@ -7,6 +7,9 @@ var current_zone: Zone.Type = Zone.Type.DECK
 var current_endurance: int = 0
 var current_attack : int = 0
 
+signal counter_changed(card : CardInstance, key : StringName)
+signal flag_changed(card : CardInstance, flag : StringName)
+
 var counters: Dictionary = {}
 var flags: Dictionary = {}
 
@@ -71,15 +74,30 @@ func has_counter(key: StringName) -> int:
 	
 #Setting to 0 erases counter
 func set_counter(key: StringName, value: int) -> void:
-	if value == 0:
+	if value ==	 0:
 		counters.erase(key)
 	else:
 		counters[key] = value
+	counter_changed.emit(self, key)
 
+## Convenience for "N turns/triggers remaining" countdowns: decrements
+## and clamps at 0, so a stray extra tick can't go negative and quietly
+## change the meaning of a `get_counter(key) <= 0` check.
 func tick_counter(key: StringName, amount: int = 1) -> int:
-	var value := get_counter(key) + amount
+	var value := maxi(get_counter(key) - amount, 0)
 	set_counter(key, value)
 	return value
+
+# --- Flags ------------------------------------------
+func get_flag(key: StringName) -> bool:
+	return flags.get(key, false)
+
+func has_flag(key: StringName) -> bool:
+	return flags.has(key)
+	
+func set_flag(key: StringName, value: bool) -> void:
+	flags[key] = value
+	flag_changed.emit(self, key)
 
 ## --- Cleanup ----------------------------------------------------------------
  

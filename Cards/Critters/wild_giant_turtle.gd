@@ -5,6 +5,6 @@ func _init() -> void:
 	card_name = "Wild Giant Turtle"
 	card_text = ""
 	attack = 2
-	gate = CardGate.BasicGate(19)
+	gate = CardGate.BasicGate(29)
 	endurance = 3
 	sets = [&"critters"]

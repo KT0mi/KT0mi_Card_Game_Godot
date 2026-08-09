@@ -35,3 +35,9 @@ func all_cards() -> Array[CardInstance]:
 
 func can_add_to_arena() -> bool:
 	return arena.size() < ARENA_MAX_SIZE
+	
+func get_player_card() -> CardInstance:
+	var card : CardInstance = player_zone[0]
+	if card == null:
+		return null
+	return card

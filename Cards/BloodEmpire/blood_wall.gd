@@ -6,4 +6,5 @@ func _init() -> void:
 	card_text = ""
 	attack = 0
 	endurance = 3
+	gate = CardGate.None()
 	sets = [&"blood_empire"]

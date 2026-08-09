@@ -4,13 +4,21 @@
 [ext_resource type="PackedScene" uid="uid://iixj5wm8e782" path="res://Scenes/CardHolder.tscn" id="2_8k7wh"]
 [ext_resource type="Resource" uid="uid://boajlc1qxckn8" path="res://Decks/CritterDeck.tres" id="2_qsjrb"]
 [ext_resource type="PackedScene" uid="uid://dlbv0s30abxbh" path="res://Scenes/ArenaHolder.tscn" id="3_8k7wh"]
-[ext_resource type="Resource" uid="uid://dbtyt0exy2emn" path="res://Decks/EnemyDeck.tres" id="3_qsjrb"]
+[ext_resource type="Resource" uid="uid://h3sf7ng87nja" path="res://Decks/BloodEmpireDeck.tres" id="3_qsjrb"]
 [ext_resource type="PackedScene" uid="uid://qr031myx78re" path="res://Scenes/SpellbookHolder.tscn" id="5_0f5h7"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_0f5h7"]
+font_size = 200
+font_color = Color(1, 0, 0, 1)
+outline_size = 50
+outline_color = Color(0, 0, 0, 1)
+shadow_color = Color(0, 0, 0, 1)
+shadow_offset = Vector2(25.345, 17.525)
 
 [node name="TestScene" type="Node2D" unique_id=1688716480]
 script = ExtResource("1_5lt6y")
-player_one_deck = ExtResource("2_qsjrb")
-player_two_deck = ExtResource("3_qsjrb")
+player_one_deck = ExtResource("3_qsjrb")
+player_two_deck = ExtResource("2_qsjrb")
 
 [node name="P1Deck" parent="." unique_id=2121250337 instance=ExtResource("2_8k7wh")]
 position = Vector2(1728, 912)
@@ -79,3 +87,12 @@ zone_type = 3
 [node name="P2SpellBook2" parent="." unique_id=406898785 instance=ExtResource("5_0f5h7")]
 position = Vector2(1536, 400)
 owner_is_player_one = false
+
+[node name="GameEndLabel" type="Label" parent="." unique_id=1616103137]
+visible = false
+offset_right = 1918.0
+offset_bottom = 1082.0
+text = "Game End Label"
+label_settings = SubResource("LabelSettings_0f5h7")
+horizontal_alignment = 1
+vertical_alignment = 1

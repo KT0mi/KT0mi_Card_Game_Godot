@@ -4,8 +4,9 @@ func _init() -> void:
 	id = &"ambush_tactic"
 	card_name = "Ambush Tactic"
 	card_text = "Choose any 1 damageable card, then choose 1 creature from your arena that can attack to attack it."
-	gate = CardGate.BasicGate(15)
+	gate = CardGate.BasicGate(20)
 	cast_type = CastType.INSTANT
+	sets = [&"critters"]
 	
 func resolve_effect(card: CardInstance, event: PlayCardEvent) -> void:
 	var tA : Array = await ChoiceManager.request(

@@ -6,6 +6,7 @@ func _init() -> void:
 	card_text = "When this card dies, choose 1 target and damage it for 1."
 	attack = 1
 	endurance = 2
+	gate = CardGate.None()
 	sets = [&"blood_empire"]
 
 func _build_abilities() -> Array[Ability]:

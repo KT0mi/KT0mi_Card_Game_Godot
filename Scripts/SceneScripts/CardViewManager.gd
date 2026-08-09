@@ -21,6 +21,9 @@ func register_holder(holder: CardHolder) -> void:
 func register_card_node(instance: CardInstance, node: Card) -> void:
 	_card_nodes[instance] = node
 	node._setup_visuals()
+	#Connection point for each card to update their visuals when their counters or flags are changed
+	instance.counter_changed.connect(func(_card, _counter): node._refresh_visuals())
+	instance.flag_changed.connect(func(_card, _flag): node._refresh_visuals())
 
 func _on_zone_changed(card: CardInstance, from_zone: Zone.Type, to_zone: Zone.Type) -> void:
 	var node: Card = _card_nodes.get(card)

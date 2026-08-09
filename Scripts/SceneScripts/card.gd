@@ -29,6 +29,7 @@ const HOVER_Z_INDEX := 100
 @onready var card_text_label: RichTextLabel = $Labels/CardText/CardTextLabel
 @onready var card_back: ColorRect = $CardBack
 @onready var hidden_overlay: ColorRect = $HiddenOverlay
+@onready var card_fx: Control = $CardFX
 
 var hovered: bool = false
 var selected: bool = false
@@ -69,6 +70,8 @@ func _refresh_visuals() -> void:
 	name_label.text = def.card_name
 	card_text_label.text = card_instance.get_display_text()
 	gate_label.text = CardViewManager.refresh_gate_label(card_instance)
+	_gated_feedback(card_instance)
+	card_fx.get_active_fx(card_instance)
 	if def is CreatureCardDefinition:
 		endurance_label.text = "%d" % card_instance.get_endurance()
 		attack_label.text = "%d" % card_instance.get_attack()
@@ -79,6 +82,15 @@ func _refresh_visuals() -> void:
 		endurance_label.text = ""
 		attack_label.text = ""
 	_update_hidden_state()
+
+func _gated_feedback(card : CardInstance) -> void:
+	if card.current_zone == Zone.Type.HAND:
+		if card.is_playable(card.owner.get_player_card().get_endurance()):
+			gate_label.add_theme_color_override("font_color", Color(0.0, 0.823, 0.0, 1.0))
+		else:
+			gate_label.add_theme_color_override("font_color", Color(0.82, 0.0, 0.0, 1.0))
+	else:
+		gate_label.remove_theme_color_override("font_color")
 
 func _apply_modified_feedback(label: Label, current: int, base: int) -> void:
 	if current > base:

@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="DeckData" format=3 uid="uid://h3sf7ng87nja"]
+
+[ext_resource type="Script" uid="uid://byj4jqh3sw4qv" path="res://Scripts/CardDataScripts/DeckData.gd" id="1_d8xty"]
+
+[resource]
+script = ExtResource("1_d8xty")
+deck_name = "Blood Empire Deck"
+card_ids = Array[StringName]([&"blood_wall", &"blood_wall", &"blood_wall", &"blood_wall", &"coagulate_spear", &"coagulate_spear", &"coagulate_spear", &"coagulate_spear", &"coagulate_sword", &"coagulate_sword", &"coagulate_sword", &"coagulate_sword", &"librarian", &"librarian", &"librarian", &"librarian", &"lucta", &"lucta", &"lucta", &"lucta", &"minor_blood_deacon", &"minor_blood_deacon", &"minor_blood_deacon", &"minor_blood_deacon", &"sacrifice_ritual", &"sacrifice_ritual", &"sacrifice_ritual", &"sacrifice_ritual", &"true_believer", &"true_believer", &"true_believer", &"true_believer", &"vicar_of_blood"])
+metadata/_custom_type_script = "uid://byj4jqh3sw4qv"

@@ -2,8 +2,9 @@ extends SpellCardDefinition
 
 func _init() -> void:
 	id = &"coagulate_sword"
-	card_name = "Coagulate Sword"
+	card_name = "Coagulate: Sword"
 	card_text = "Sacrifice 1 Blood Wall from your Arena: Deal 4 damage to any card of your opponent's arena."
+	gate = CardGate.BasicGate(15)
 	cast_type = SpellCardDefinition.CastType.INSTANT
 	sets = [&"blood_empire"]
 

@@ -75,10 +75,8 @@ func _resolve_battle_phase() -> void:
 	
 	var candidates : Array[CardInstance]
 	for c in current_player.arena.duplicate():
-		var flags : Dictionary = c.flags
-		if flags.has("dazed"):
-			if not flags.get("dazed"):
-				candidates.append(c)
+		if not c.get_flag(CardStatus.DAZED):
+			candidates.append(c)
 	
 	#Prompt choice for player to choose atackers
 	var attackers: Array = await ChoiceManager.request(

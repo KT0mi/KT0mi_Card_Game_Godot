@@ -13,6 +13,12 @@ func apply_damage(target: CardInstance, amount: int, source: CardInstance) -> vo
 	if event.cancelled:
 		return
 	
+	##DEBUG: This is to inform ui objects that player card health has changed
+	if target.current_zone == Zone.Type.PLAYER:
+		for c in target.owner.hand:
+			change_card_endurance.emit(c)
+	
+	
 	target.current_endurance -= event.amount
 	change_card_endurance.emit(target)
 	await TriggerSystem.emit(Events.DAMAGE_RESOLVED, event)

@@ -5,8 +5,9 @@ func _init() -> void:
 	card_name = "Superior, Dignified, High Vicar of Blood"
 	card_text = "Whenever a card deals damage, double it."
 	is_special = true
-	attack = 2
-	endurance = 5
+	attack = 1
+	endurance = 1
+	gate = CardGate.BasicGate(15)
 	sets = [&"blood_empire"]
 
 func _build_abilities() -> Array[Ability]:

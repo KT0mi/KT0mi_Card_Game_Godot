@@ -6,6 +6,7 @@ func _init() -> void:
 	card_text = "Before this card attacks draw 1 card."
 	attack = 1
 	endurance = 1
+	gate = CardGate.None()
 	sets = [&"blood_empire"]
 
 func _build_abilities() -> Array[Ability]:

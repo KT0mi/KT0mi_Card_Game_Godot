@@ -3,7 +3,7 @@ extends CreatureCardDefinition
 func _init() -> void:
 	id = &"mouth_of_jormungandr"
 	card_name = "Mouth of Jörmungandr"
-	card_text = ""
+	card_text = "This card can only attack if you have both 'Eye of Jörmungandr' and 'Body of Jörmungandr' in your arena."
 	gate = CardGate.BasicGate(15)
 	attack = 10
 	endurance = 10

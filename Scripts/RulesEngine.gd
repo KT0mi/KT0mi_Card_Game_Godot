@@ -15,7 +15,7 @@ func check_state_based_actions() -> void:
 		for c in player.arena.duplicate(): 
 		#Creatures lose dazed
 			var card : CardInstance = c
-			card.flags.set("dazed", false)
+			card.set_flag(CardStatus.DAZED, false)
 			
 			if card.get_endurance() <= 0:
 				#Card Death - Specific event when a card ends the turn with no endurance - cancellable

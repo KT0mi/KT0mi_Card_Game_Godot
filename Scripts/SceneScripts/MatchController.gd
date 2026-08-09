@@ -25,6 +25,9 @@ var _zones_label : Label
 var _choice_panel: VBoxContainer
 var _choice_checkboxes: Dictionary = {}  # option -> CheckBox
 
+#Game End Label
+@onready var game_end_label : Label = $GameEndLabel
+
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	_build_debug_ui()
@@ -32,6 +35,9 @@ func _ready() -> void:
 	TurnController.phase_changed.connect(func(_phase, _player) -> void: _refresh_ui())
 	await _setup_players()
 	await TurnController.start_match()
+	
+	RulesEngine.player_defeated.connect(_game_end)
+	
 	_refresh_ui()
 
 func _setup_players() -> void:
@@ -189,3 +195,13 @@ func _describe_option(option) -> String:
 	if option is CardInstance:
 		return option.definition.card_name
 	return str(option)
+
+func _game_end(losing_player : Player) -> void:
+	if losing_player != GameState.local_player:
+		game_end_label.text = "You Win!"
+		game_end_label.label_settings.font_color = Color.GREEN
+	else:
+		game_end_label.text = "You Lose!"
+		game_end_label.label_settings.font_color = Color.RED
+	
+	game_end_label.visible = true

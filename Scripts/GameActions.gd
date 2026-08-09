@@ -22,7 +22,7 @@ func try_play_card(player: Player, card: CardInstance) -> bool:
 		print("GameActions: Failed try_play_card action: Reason: Not active player")
 		return false
 	
-	if !card.is_playable(player.player_zone[0].get_endurance()):
+	if !card.is_playable(player.get_player_card().get_endurance()):
 		print("GameActions: Failed try_play_card action: Reason: Card gated")
 		return false
 	
@@ -38,7 +38,7 @@ func try_play_card(player: Player, card: CardInstance) -> bool:
 	
 	if card.is_creature():
 		await ZoneManager.move_to(card, Zone.Type.ARENA, ZoneChangeEvent.Reason.PLAY)
-		if card.definition.is_dazed: card.flags.set("dazed", true)
+		if card.definition.is_dazed: card.set_flag(CardStatus.DAZED, true)
 	else:
 		if card.is_spell():
 			print("GameActions: try_play_card: Resolving instant spell effect of %s." % card.definition.id)
@@ -50,7 +50,7 @@ func try_play_card(player: Player, card: CardInstance) -> bool:
 				await ZoneManager.move_to(card, Zone.Type.SPELLBOOK, ZoneChangeEvent.Reason.PLAY)
 	
 	print("GameActions: Resolved try_play_card action sucessfully")
-	await TriggerSystem.emit(Events.CARD_PLAYED, event)
+	await TriggerSystem.emit(Events.PLAY_CARD_RESOLVED, event)
 	return true
 	
 func try_kill_card(card : CardInstance) -> bool:

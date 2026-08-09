@@ -5,23 +5,69 @@
 [ext_resource type="Texture2D" uid="uid://rfm4n84le83w" path="res://Assets/Images/Cards/Sprites/fireball.png" id="2_kphy1"]
 [ext_resource type="Texture2D" uid="uid://cngvbysyumswh" path="res://Assets/Images/Test/border_element_9slice.png" id="3_h8wm0"]
 [ext_resource type="Texture2D" uid="uid://k3hv0wjq3xgp" path="res://Assets/Images/Test/border_element.png" id="4_3m7nw"]
+[ext_resource type="Theme" uid="uid://bxjx78kc5nbmv" path="res://Theme/card_label_theme.tres" id="5_wejov"]
+[ext_resource type="Script" uid="uid://cy6tqi2ktdrh2" path="res://Scripts/SceneScripts/CardFX.gd" id="7_1geux"]
+[ext_resource type="Texture2D" uid="uid://dle8j24yssunu" path="res://Assets/Images/FX/dazedfx.png" id="7_c6tr3"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_h8wm0"]
 size = Vector2(128, 228)
 
-[sub_resource type="LabelSettings" id="LabelSettings_3p273"]
-line_spacing = 0.5
-font_size = 14
-outline_size = 2
-outline_color = Color(0, 0, 0, 1)
-shadow_size = 2
-shadow_color = Color(0, 0, 0, 1)
+[sub_resource type="AtlasTexture" id="AtlasTexture_1geux"]
+atlas = ExtResource("7_c6tr3")
+region = Rect2(0, 0, 64, 64)
 
-[sub_resource type="LabelSettings" id="LabelSettings_h8wm0"]
-outline_size = 2
-outline_color = Color(0, 0, 0, 1)
-shadow_size = 2
-shadow_color = Color(0, 0, 0, 1)
+[sub_resource type="AtlasTexture" id="AtlasTexture_13sua"]
+atlas = ExtResource("7_c6tr3")
+region = Rect2(64, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_pbuqb"]
+atlas = ExtResource("7_c6tr3")
+region = Rect2(128, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_f3ywt"]
+atlas = ExtResource("7_c6tr3")
+region = Rect2(192, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6elyo"]
+atlas = ExtResource("7_c6tr3")
+region = Rect2(256, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_gnfes"]
+atlas = ExtResource("7_c6tr3")
+region = Rect2(320, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_swj2d"]
+atlas = ExtResource("7_c6tr3")
+region = Rect2(384, 0, 64, 64)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_co2vc"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1geux")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_13sua")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_pbuqb")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_f3ywt")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6elyo")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_gnfes")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_swj2d")
+}],
+"loop": true,
+"name": &"default",
+"speed": 10.0
+}]
 
 [node name="Card" type="Area2D" unique_id=528451555]
 script = ExtResource("1_pnb5n")
@@ -67,8 +113,7 @@ offset_top = 2.0
 offset_right = 56.0
 offset_bottom = 87.0
 mouse_filter = 2
-theme_override_font_sizes/normal_font_size = 10
-theme_override_font_sizes/bold_font_size = 10
+theme = ExtResource("5_wejov")
 bbcode_enabled = true
 text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam nec quam erat. Integer aliquam, ex nec lacinia dictum, dui risus tincidunt lacus, at dapibus magna diam sed enim. Donec sodales ligula at molestie vulputate. Donec dapibus lobortis orci, et dapibus erat semper sit amet. Duis sed maximus sem. Fusce in pharetra felis. Morbi congue maximus diam a dapibus. Sed at diam libero. Phasellus eu cursus justo. Sed vulputate lacus non fermentum bibendum. Sed nec lobortis enim. Sed consectetur at tellus ut viverra. Etiam consequat massa sit amet odio accumsan sagittis. Maecenas iaculis at lacus at vulputate"
 scroll_active = false
@@ -96,11 +141,11 @@ patch_margin_bottom = 20
 [node name="NameLabel" type="Label" parent="Labels/Name" unique_id=1762791428]
 layout_mode = 0
 offset_left = -57.0
-offset_top = -108.0
+offset_top = -110.0
 offset_right = 56.0
-offset_bottom = -88.0
+offset_bottom = -85.0
+theme = ExtResource("5_wejov")
 text = "Card Name"
-label_settings = SubResource("LabelSettings_3p273")
 horizontal_alignment = 1
 vertical_alignment = 1
 autowrap_mode = 3
@@ -127,8 +172,8 @@ offset_left = -2.0
 offset_top = -3.0
 offset_right = 22.0
 offset_bottom = 21.0
+theme = ExtResource("5_wejov")
 text = "0"
-label_settings = SubResource("LabelSettings_h8wm0")
 horizontal_alignment = 1
 vertical_alignment = 1
 
@@ -154,8 +199,8 @@ offset_left = -2.0
 offset_top = -3.0
 offset_right = 22.0
 offset_bottom = 21.0
+theme = ExtResource("5_wejov")
 text = "0"
-label_settings = SubResource("LabelSettings_h8wm0")
 horizontal_alignment = 1
 vertical_alignment = 1
 
@@ -186,8 +231,8 @@ offset_left = -26.0
 offset_top = -11.0
 offset_right = 26.0
 offset_bottom = 12.0
+theme = ExtResource("5_wejov")
 text = "0"
-label_settings = SubResource("LabelSettings_h8wm0")
 horizontal_alignment = 1
 vertical_alignment = 1
 
@@ -223,3 +268,16 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 color = Color(0, 0, 0, 0.29411766)
+
+[node name="CardFX" type="Control" parent="." unique_id=1782149620]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("7_1geux")
+
+[node name="DazedFX" type="AnimatedSprite2D" parent="CardFX" unique_id=357338642]
+visible = false
+position = Vector2(83, -134)
+sprite_frames = SubResource("SpriteFrames_co2vc")
+frame_progress = 0.00013755013
