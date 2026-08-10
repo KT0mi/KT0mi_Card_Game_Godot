@@ -55,7 +55,7 @@ func _enter_phase(phase: Phase) -> void:
 			await TriggerSystem.emit(Events.BATTLE_PHASE_END, event)
 			current_phase = phase
 			await TriggerSystem.emit(Events.END_PHASE_START, event)
-			await RulesEngine.check_state_based_actions()
+			await RulesEngine.check_end_phase_state()
 			
 	phase_changed.emit(current_phase, current_player)
 

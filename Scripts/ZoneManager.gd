@@ -6,7 +6,7 @@ extends Node
 #Also makes sure all cards are followed when changing zones
 
 #signal to sync visuals - seperate from game logic
-signal card_zone_changed(card: CardInstance, from_zone: Zone.Type, to_zone: Zone.Type)
+signal card_zone_changed(card: CardInstance, from_zone: Zone.Type, to_zone: Zone.Type, from_lane: int, to_lane: int)
 
 func move_to(
 	card: CardInstance, 
@@ -15,6 +15,7 @@ func move_to(
 	lane: int = -1) -> void:
 	
 	var from_zone := card.current_zone
+	var from_lane := card.lane
 	var player := card.owner
 	
 	if from_zone == Zone.Type.ARENA:
@@ -30,6 +31,6 @@ func move_to(
 		player.zone_array(to_zone).append(card)
 	
 	card.current_zone = to_zone
-	card_zone_changed.emit(card, from_zone, to_zone)
+	card_zone_changed.emit(card, from_zone, to_zone, from_lane, lane)
 	await TriggerSystem.emit(Events.ZONE_CHANGE, 
 		ZoneChangeEvent.new(card, from_zone, to_zone, reason))

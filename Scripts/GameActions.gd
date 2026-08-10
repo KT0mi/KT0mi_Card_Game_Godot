@@ -80,7 +80,6 @@ func try_attack(attacker: CardInstance, target: CardInstance) -> bool:
 	
 	if event.target != target:
 		print("GameActions: Attack target redirected.")
-		return false
 	
 	await DamagePipeline.apply_damage(event.target, attacker.get_attack(), attacker)
 	await DamagePipeline.apply_damage(event.attacker, target.get_attack(), target)

@@ -21,4 +21,5 @@ func apply_damage(target: CardInstance, amount: int, source: CardInstance) -> vo
 	
 	target.current_endurance -= event.amount
 	change_card_endurance.emit(target)
+	RulesEngine.check_state_based_actions()
 	await TriggerSystem.emit(Events.DAMAGE_RESOLVED, event)

@@ -26,9 +26,8 @@ static func TAUNT_ABILITY() -> Ability:
 	)
 
 static func _taunt_con(card : CardInstance, event: AttackEvent) -> bool:
-	if event.attacker.owner != card.owner:
+	if event.attacker.owner == card.owner:
 		return false
-		
 	if event.redirected:
 		return false
 	return true

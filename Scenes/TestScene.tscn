@@ -2,7 +2,6 @@
 
 [ext_resource type="Script" uid="uid://dm7cn05jd22ab" path="res://Scripts/SceneScripts/MatchController.gd" id="1_5lt6y"]
 [ext_resource type="PackedScene" uid="uid://iixj5wm8e782" path="res://Scenes/CardHolder.tscn" id="2_8k7wh"]
-[ext_resource type="Resource" uid="uid://by3atcghcqf52" path="res://Decks/TestDeck.tres" id="2_c264a"]
 [ext_resource type="Resource" uid="uid://boajlc1qxckn8" path="res://Decks/CritterDeck.tres" id="2_qsjrb"]
 [ext_resource type="PackedScene" uid="uid://dlbv0s30abxbh" path="res://Scenes/ArenaHolder.tscn" id="3_8k7wh"]
 [ext_resource type="PackedScene" uid="uid://qr031myx78re" path="res://Scenes/SpellbookHolder.tscn" id="5_0f5h7"]
@@ -17,7 +16,7 @@ shadow_offset = Vector2(25.345, 17.525)
 
 [node name="TestScene" type="Node2D" unique_id=1688716480]
 script = ExtResource("1_5lt6y")
-player_one_deck = ExtResource("2_c264a")
+player_one_deck = ExtResource("2_qsjrb")
 player_two_deck = ExtResource("2_qsjrb")
 
 [node name="P1Deck" parent="." unique_id=2121250337 instance=ExtResource("2_8k7wh")]

@@ -25,16 +25,16 @@ func register_card_node(instance: CardInstance, node: Card) -> void:
 	instance.counter_changed.connect(func(_card, _counter): node._refresh_visuals())
 	instance.flag_changed.connect(func(_card, _flag): node._refresh_visuals())
 
-func _on_zone_changed(card: CardInstance, from_zone: Zone.Type, to_zone: Zone.Type) -> void:
+func _on_zone_changed(card: CardInstance, from_zone: Zone.Type, to_zone: Zone.Type, from_lane: int = -1, to_lane: int = -1) -> void:
 	var node: Card = _card_nodes.get(card)
 	if node == null:
 		return  # card has no visual representation yet/anymore -- fine, e.g. still in deck
 	
-	var old_holder : CardHolder = _holder_nodes.get(_key(card.owner, from_zone))
+	var old_holder : CardHolder = _holder_nodes.get(_key(card.owner, from_zone, from_lane))
 	if old_holder:
 		old_holder.remove_card(node)
 	
-	var holder: CardHolder = _holder_nodes.get(_key(card.owner, to_zone))
+	var holder: CardHolder = _holder_nodes.get(_key(card.owner, to_zone, to_lane))
 	if holder:
 		holder.add_card(node)
 		
@@ -46,7 +46,7 @@ func _key(player: Player, zone: Zone.Type, lane : int = -1) -> String:
 func holder_for(card_instance: CardInstance) -> CardHolder:
 	if card_instance == null:
 		return null
-	return _holder_nodes.get(_key(card_instance.owner, card_instance.current_zone))
+	return _holder_nodes.get(_key(card_instance.owner, card_instance.current_zone, card_instance.lane))
 	
 func card_node_for(instance: CardInstance) -> Card:
 	return _card_nodes.get(instance)

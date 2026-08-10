@@ -12,5 +12,6 @@ func _init(a: CardInstance, t: CardInstance) -> void:
 func redirect_target(new_target: CardInstance, source: CardInstance) -> bool:
 	if not locked:
 		target = new_target
+		redirected = true
 		return true
 	return false
