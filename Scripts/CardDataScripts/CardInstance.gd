@@ -4,6 +4,7 @@ var definition: CardDefinition
 var owner: Player
 
 var current_zone: Zone.Type = Zone.Type.DECK
+var lane: int = -1
 var current_endurance: int = 0
 var current_attack : int = 0
 

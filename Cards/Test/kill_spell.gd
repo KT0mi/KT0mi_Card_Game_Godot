@@ -8,6 +8,6 @@ func _init() -> void:
 	sets = [&"test_set"]
 
 func resolve_effect(card: CardInstance, event: PlayCardEvent) -> void:
-	var targets : Array[CardInstance] = GameState.opponent_of(card.owner).arena.duplicate()
+	var targets : Array[CardInstance] = GameState.opponent_of(card.owner).arena().duplicate()
 	for c in targets:
 		await GameActions.try_kill_card(c)

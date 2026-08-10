@@ -19,7 +19,7 @@ func _build_abilities() -> Array[Ability]:
 
 func _homeoconstruct_ability(card: CardInstance, event: PlayCardEvent) -> void:
 	
-	for c in card.owner.arena:
+	for c in card.owner.arena():
 		if c.get_id() == &"blood_wall":
 			return
 	

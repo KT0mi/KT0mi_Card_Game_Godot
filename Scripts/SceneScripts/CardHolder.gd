@@ -6,6 +6,7 @@ class_name CardHolder
 @export var capacity: int = -1
 @export var owner_is_player_one: bool = true
 @export var zone_type: Zone.Type = Zone.Type.ARENA
+@export var lane_index : int = -1
 
 @export_category("Visual Variable")
 @export var snap_duration: float = 0.15

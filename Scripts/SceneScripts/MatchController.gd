@@ -116,9 +116,9 @@ func _refresh_ui() -> void:
 		TurnController.Phase.keys()[TurnController.current_phase],
 	]
 	_zones_label.text = "P1  hand:%d  arena:%d  deck:%d  graveyard:%d\nP2  hand:%d  arena:%d  deck:%d  graveyard:%d" % [
-		GameState.player_one.hand.size(), GameState.player_one.arena.size(),
+		GameState.player_one.hand.size(), GameState.player_one.arena().size(),
 		GameState.player_one.deck.size(), GameState.player_one.graveyard.size(),
-		GameState.player_two.hand.size(), GameState.player_two.arena.size(),
+		GameState.player_two.hand.size(), GameState.player_two.arena().size(),
 		GameState.player_two.deck.size(), GameState.player_two.graveyard.size(),
 	]
 

@@ -9,5 +9,5 @@ func _init() -> void:
 	sets = [&"test_set"]
 
 func resolve_effect(card: CardInstance, event: PlayCardEvent) -> void:
-	for c in GameState.opponent_of(card.owner).arena:
+	for c in GameState.opponent_of(card.owner).arena():
 		DamagePipeline.apply_damage(c, 1, card)

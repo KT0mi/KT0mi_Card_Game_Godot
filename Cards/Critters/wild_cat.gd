@@ -7,5 +7,7 @@ func _init() -> void:
 	gate = CardGate.None()
 	attack = 1
 	endurance = 1
-	is_dazed = false
 	sets = [&"critters"]
+
+func _build_abilities() -> Array[Ability]:
+	return [CardKeywords.QUICK_ABILITY()]

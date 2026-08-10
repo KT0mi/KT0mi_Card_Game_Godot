@@ -10,7 +10,7 @@ func _init() -> void:
 
 func resolve_effect(card: CardInstance, event: PlayCardEvent) -> void:
 	var candidates : Array[CardInstance]
-	for c in card.owner.arena.duplicate():
+	for c in card.owner.arena().duplicate():
 		if c.get_id() == &"blood_wall":
 			candidates.append(c)
 	

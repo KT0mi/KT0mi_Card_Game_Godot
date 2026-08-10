@@ -37,9 +37,9 @@ func all_cards_in_play() -> Array[CardInstance]:
 
 func all_cards_in_target_areas() -> Array[CardInstance]:
 	var result: Array[CardInstance] = []
-	result.append_array(player_one.arena)
+	result.append_array(player_one.arena())
 	result.append_array(player_one.player_zone)
-	result.append_array(player_two.arena)
+	result.append_array(player_two.arena())
 	result.append_array(player_two.player_zone)
 	return result
 	

@@ -10,7 +10,7 @@ func _init() -> void:
 
 func resolve_effect(card: CardInstance, event: PlayCardEvent) -> void:
 	var candidates : Array[CardInstance]
-	for c in card.owner.arena.duplicate():
+	for c in card.owner.arena().duplicate():
 		if c.get_id() == &"blood_wall":
 			candidates.append(c)
 	
@@ -37,7 +37,7 @@ func resolve_effect(card: CardInstance, event: PlayCardEvent) -> void:
 	var responseB := await ChoiceManager.request(
 		"Choose 1 card to deal 2 damage to.",
 		Events.EFFECT_TAG,
-		GameState.opponent_of(card.owner).arena,
+		GameState.opponent_of(card.owner).arena().duplicate(),
 		card.owner,
 		1,
 		1

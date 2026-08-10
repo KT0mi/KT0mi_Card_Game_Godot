@@ -70,12 +70,12 @@ func _end_turn_and_pass() -> void:
 
 func _resolve_battle_phase() -> void:
 	#If no cards in arena skip battle phase resolve
-	if current_player.arena.is_empty():
+	if current_player.arena().is_empty():
 		return
 	
 	var candidates : Array[CardInstance]
-	for c in current_player.arena.duplicate():
-		if not c.get_flag(CardStatus.DAZED):
+	for c in current_player.arena().duplicate():
+		if not c.get_flag(CardKeywords.DAZED):
 			candidates.append(c)
 	
 	#Prompt choice for player to choose atackers
@@ -92,6 +92,7 @@ func _resolve_battle_phase() -> void:
 	if attackers.is_empty():
 		return
 		
+	attackers.sort_custom(func(a, b): return a.lane < b.lane)
 	var opponent := GameState.opponent_of(current_player)
 	var face : CardInstance = opponent.player_zone[0]
 	

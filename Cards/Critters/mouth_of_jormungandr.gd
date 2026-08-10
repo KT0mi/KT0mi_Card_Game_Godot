@@ -18,7 +18,7 @@ func _build_abilities() -> Array[Ability]:
 func _jormungandr_effect(card: CardInstance, event: AttackEvent) -> void:
 	var has_eye:bool=false
 	var has_body:bool=false
-	for c in card.owner.arena.duplicate():
+	for c in card.owner.arena().duplicate():
 		if c.get_id() == &"eye_of_jormungandr":
 			has_eye = true
 		elif c.get_id() == &"body_of_jormungandr":

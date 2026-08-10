@@ -13,7 +13,7 @@ func resolve_effect(card: CardInstance, event: PlayCardEvent) -> void:
 	var sA : Array = await ChoiceManager.request(
 		"Choose 1 of your arena cards",
 		Events.EFFECT_TAG,
-		card.owner.arena.duplicate(),
+		card.owner.arena().duplicate(),
 		card.owner,
 	)
 	if sA.is_empty(): return

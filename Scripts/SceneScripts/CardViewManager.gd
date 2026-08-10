@@ -15,7 +15,7 @@ func _ready() -> void:
 #Called by CardHolder._ready()
 func register_holder(holder: CardHolder) -> void:
 	var player := GameState.player_one if holder.owner_is_player_one else GameState.player_two
-	_holder_nodes[_key(player, holder.zone_type)] = holder
+	_holder_nodes[_key(player, holder.zone_type, holder.lane_index)] = holder
 
 #Called by Card._ready()
 func register_card_node(instance: CardInstance, node: Card) -> void:
@@ -40,8 +40,8 @@ func _on_zone_changed(card: CardInstance, from_zone: Zone.Type, to_zone: Zone.Ty
 		
 	node._refresh_visuals()
 
-func _key(player: Player, zone: Zone.Type) -> String:
-	return "%s:%s" % [player.get_instance_id(), zone]
+func _key(player: Player, zone: Zone.Type, lane : int = -1) -> String:
+	return "%s:%s:%s" % [player.get_instance_id(), zone, lane]
 	
 func holder_for(card_instance: CardInstance) -> CardHolder:
 	if card_instance == null:

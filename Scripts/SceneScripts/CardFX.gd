@@ -6,4 +6,4 @@ func _ready() -> void:
 	dazed_fx.play()
 
 func get_active_fx(card : CardInstance) -> void:
-	dazed_fx.visible = card.get_flag(CardStatus.DAZED)
+	dazed_fx.visible = card.get_flag(CardKeywords.DAZED) and card.current_zone == Zone.Type.ARENA

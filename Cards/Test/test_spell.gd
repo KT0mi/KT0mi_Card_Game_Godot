@@ -8,7 +8,7 @@ func _init() -> void:
 	sets = [&"test_set"]
 
 func resolve_effect(card: CardInstance, event: PlayCardEvent) -> void:
-	for c in card.owner.arena:
+	for c in card.owner.arena():
 		GameActions.try_modify_endurance(c, 
 		StatModifer.new(func(endurance) -> int: return endurance + 1,
 		card,

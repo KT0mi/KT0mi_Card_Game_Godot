@@ -29,5 +29,11 @@ func get_abilities() -> Array[Ability]:
 		_abilities_built = true
 	return _abilities_cache
  
+func has_keyword(keyword: StringName) -> bool:
+	for a in get_abilities():
+		if keyword in a.keywords:
+			return true
+	return false
+
 func _build_abilities() -> Array[Ability]:
 	return []

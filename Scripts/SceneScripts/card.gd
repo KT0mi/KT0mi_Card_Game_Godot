@@ -202,7 +202,7 @@ func _end_drag() -> void:
 
 func _attempt_card_action(holder: CardHolder) -> bool:
 	if holder.zone_type == Zone.Type.ARENA:
-		return await GameActions.try_play_card(card_instance.owner, card_instance)
+		return await GameActions.try_play_card(card_instance.owner, card_instance, holder.lane_index)
 	return false
 
 func _snap_back_to_current_holder() -> void:

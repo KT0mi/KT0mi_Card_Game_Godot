@@ -8,7 +8,7 @@ extends Node
 
 signal card_stat_changed(card: CardInstance)
 
-func try_play_card(player: Player, card: CardInstance) -> bool:
+func try_play_card(player: Player, card: CardInstance, lane : int = -1) -> bool:
 	print("GameActions: Requested try_play_card action")
 	if card.current_zone != Zone.Type.HAND:
 		print("GameActions: Failed try_play_card action. Reason: Card is not in hand")
@@ -26,8 +26,8 @@ func try_play_card(player: Player, card: CardInstance) -> bool:
 		print("GameActions: Failed try_play_card action: Reason: Card gated")
 		return false
 	
-	if card.is_creature() and not player.can_add_to_arena():
-		print("GameActions: Failed try_play_card action. Reason: Cannot have more than 3 cards in arena")
+	if card.is_creature() and not player.is_lane_open(lane):
+		print("GameActions: Failed try_play_card action. Reason: Arena lane not open")
 		return false
 		
 	var event := PlayCardEvent.new(player, card)
@@ -37,8 +37,8 @@ func try_play_card(player: Player, card: CardInstance) -> bool:
 		return false
 	
 	if card.is_creature():
-		await ZoneManager.move_to(card, Zone.Type.ARENA, ZoneChangeEvent.Reason.PLAY)
-		if card.definition.is_dazed: card.set_flag(CardStatus.DAZED, true)
+		await ZoneManager.move_to(card, Zone.Type.ARENA, ZoneChangeEvent.Reason.PLAY, lane)
+		if not card.definition.has_keyword(CardKeywords.QUICK): card.set_flag(CardKeywords.DAZED, true)
 	else:
 		if card.is_spell():
 			print("GameActions: try_play_card: Resolving instant spell effect of %s." % card.definition.id)
@@ -78,7 +78,9 @@ func try_attack(attacker: CardInstance, target: CardInstance) -> bool:
 		print("GameActions: Failed try_attack action. Reason: Request intercepted")
 		return false
 	
-	#Hook point for target redirection - not implemented
+	if event.target != target:
+		print("GameActions: Attack target redirected.")
+		return false
 	
 	await DamagePipeline.apply_damage(event.target, attacker.get_attack(), attacker)
 	await DamagePipeline.apply_damage(event.attacker, target.get_attack(), target)

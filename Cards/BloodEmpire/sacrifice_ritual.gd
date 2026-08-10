@@ -10,7 +10,7 @@ func _init() -> void:
 func resolve_effect(card: CardInstance, _event: PlayCardEvent) -> void:
 	#TODO
 	#Placeholder
-	for c in card.owner.arena.duplicate():
+	for c in card.owner.arena().duplicate():
 		if await GameActions.try_kill_card(c):
 			var bd := CardFactory.create_instance(&"blood_wall", card.owner)
 			ZoneManager.move_to(bd, Zone.Type.ARENA, ZoneChangeEvent.Reason.SUMMON)
