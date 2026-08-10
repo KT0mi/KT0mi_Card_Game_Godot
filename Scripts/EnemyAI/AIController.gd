@@ -34,7 +34,12 @@ func _take_play_phase_actions() -> void:
 	var ai := _ai_player()
 	#No strategy at all: try every card currently in hand once, in order,
 	#and just accept whatever GameActions allows or rejects.
-	for card in ai.hand.duplicate():
+	for card:CardInstance in ai.hand.duplicate():
+		if card.is_creature():
+			for i in ai.ARENA_LANES-1:
+				var successful := await GameActions.try_play_card(ai, card, i) 
+				if successful:
+					break
 		await GameActions.try_play_card(ai, card)
 		await _think()
 

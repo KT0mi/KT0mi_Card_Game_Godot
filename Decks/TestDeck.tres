@@ -5,5 +5,5 @@
 [resource]
 script = ExtResource("1_ily4q")
 deck_name = "Test Deck"
-card_ids = Array[StringName]([&"young_wolf", &"fireball", &"test_creature", &"test_spell"])
+card_ids = Array[StringName]([&"wild_cat", &"wild_cat", &"taunt_creature", &"taunt_creature"])
 metadata/_custom_type_script = "uid://byj4jqh3sw4qv"
