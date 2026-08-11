@@ -1,4 +1,3 @@
-# Scripts/DeckStorage.gd
 extends Node
 ##Autoload
 
@@ -48,10 +47,29 @@ func delete_deck(id: String) -> void:
 
 func _generate_id() -> String:
 	return "%d_%04d" % [Time.get_unix_time_from_system(), randi() % 10000]
-	
+
+## Validates card-count rules on load/save, independently of whatever the
+## builder UI enforces -- catches hand-edited or stale saved decks.
 func is_deck_valid(deck: DeckData) -> bool:
+	var counts: Dictionary = {}
+	var special_count := 0
+
 	for id in deck.card_ids:
 		if not CardDatabase.has_definition(id):
 			push_warning("DeckStorage: deck '%s' references unknown card '%s'" % [deck.deck_name, id])
 			return false
+		counts[id] = counts.get(id, 0) + 1
+		if CardDatabase.get_definition(id).is_special:
+			special_count += 1
+
+	for id in counts:
+		var max_copies := 1 if CardDatabase.get_definition(id).is_special else 4
+		if counts[id] > max_copies:
+			push_warning("DeckStorage: deck '%s' has too many copies of '%s'" % [deck.deck_name, id])
+			return false
+
+	if special_count > 1:
+		push_warning("DeckStorage: deck '%s' has more than one special card" % deck.deck_name)
+		return false
+
 	return true

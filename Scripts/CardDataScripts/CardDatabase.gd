@@ -54,6 +54,17 @@ func _load_card_sprite(def: CardDefinition) -> void:
 		return
 	def.art = load(path)
 
+func get_definitions_grouped_by_set() -> Dictionary:
+	var result: Dictionary = {}  # StringName -> Array[CardDefinition]
+	for def in get_all_definitions():
+		var set_id : StringName = def.sets[0] if not def.sets.is_empty() else &"unsorted"
+		if not result.has(set_id):
+			result[set_id] = []
+		result[set_id].append(def)
+	for set_id in result:
+		result[set_id].sort_custom(func(a, b): return a.card_name < b.card_name)
+	return result
+
 func get_all_definitions() -> Array[CardDefinition]:
 	var result: Array[CardDefinition] = []
 	result.append_array(_definitions.values())

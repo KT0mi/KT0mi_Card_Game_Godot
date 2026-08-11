@@ -9,52 +9,115 @@ const MAX_COPIES := 4
 @onready var deck_name_edit : LineEdit = $DeckNameEdit
 @onready var save_button : Button = $SaveButton
 
-var working_deck: Dictionary = {}   # StringName -> int
-var _available_entries: Dictionary = {}  # StringName -> DeckBuilderCardEntry
-var _deck_entries: Dictionary = {}       # StringName -> DeckBuilderCardEntry
+var working_deck: Dictionary = {}        # StringName -> int
+var _available_entries: Dictionary = {}  # StringName -> DeckBuilderCard
+var _deck_entries: Dictionary = {}       # StringName -> DeckBuilderCard
 var _editing_deck_id: String = ""        # "" means new deck
 
-# Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	_populate_available()
 	save_button.pressed.connect(_on_save_pressed)
 
+## --- Populating the Available panel, grouped by set -------------------
+
 func _populate_available() -> void:
-	for def : CardDefinition in CardDatabase.get_all_definitions():
-		var entry := CARD_SCENE.instantiate()
-		available_list.add_child(entry)
-		entry.setup(def)
-		entry.add_requested.connect(_on_add)
-		entry.refresh_count(0, MAX_COPIES)
-		_available_entries[def.id] = entry
+	var grouped := CardDatabase.get_definitions_grouped_by_set()
+	var set_ids := grouped.keys()
+	set_ids.sort()
+
+	for set_id in set_ids:
+		if set_id == &"test_set": continue
+		_add_set_header(available_list, set_id)
+		var flow := _add_flow_row(available_list)
+		for def in grouped[set_id]:
+			var entry := _instantiate_entry(flow, def, DeckBuilderCard.Context.AVAILABLE)
+			entry.add_requested.connect(_on_add)
+			_available_entries[def.id] = entry
+			_refresh_entry(def.id)
+
+func _add_set_header(parent: VBoxContainer, set_id: StringName) -> void:
+	var label := Label.new()
+	label.text = String(set_id).capitalize()
+	label.add_theme_font_size_override("font_size", 22)
+	parent.add_child(label)
+
+func _add_flow_row(parent: VBoxContainer) -> HFlowContainer:
+	var flow := HFlowContainer.new()
+	flow.add_theme_constant_override("h_separation", 10)
+	flow.add_theme_constant_override("v_separation", 10)
+	parent.add_child(flow)
+	return flow
+
+func _instantiate_entry(parent: Node, def: CardDefinition, context: DeckBuilderCard.Context) -> DeckBuilderCard:
+	var entry : DeckBuilderCard = CARD_SCENE.instantiate()
+	parent.add_child(entry)   # add_child BEFORE setup() -- @onready vars need the node in the tree first
+	entry.setup(def)
+	entry.set_context(context)
+	return entry
+
+## --- Add / remove ------------------------------------------------------
+
+func _max_copies_for(def: CardDefinition) -> int:
+	return 1 if def.is_special else MAX_COPIES
+
+func _special_count() -> int:
+	var total := 0
+	for id in working_deck:
+		if CardDatabase.get_definition(id).is_special:
+			total += working_deck[id]
+	return total
+
+func _can_add(def: CardDefinition, count: int, max_copies: int) -> bool:
+	if count >= max_copies:
+		return false
+	if def.is_special and count == 0 and _special_count() >= 1:
+		return false  # a different special card is already in the deck
+	return true
 
 func _on_add(id: StringName) -> void:
-	var current: int = working_deck.get(id, 0)
-	if current >= MAX_COPIES:
+	var def := CardDatabase.get_definition(id)
+	var count: int = working_deck.get(id, 0)
+	if not _can_add(def, count, _max_copies_for(def)):
 		return
-	working_deck[id] = current + 1
+
+	working_deck[id] = count + 1
 	_refresh_entry(id)
+	if def.is_special:
+		_refresh_all_special_entries()  # this add may have just locked out other specials
 
 func _on_remove(id: StringName) -> void:
-	var current: int = working_deck.get(id, 0)
-	if current <= 0:
+	var def := CardDatabase.get_definition(id)
+	var count: int = working_deck.get(id, 0)
+	if count <= 0:
 		return
-	current -= 1
-	if current == 0:
+
+	count -= 1
+	if count == 0:
 		working_deck.erase(id)
 	else:
-		working_deck[id] = current
+		working_deck[id] = count
 	_refresh_entry(id)
+	if def.is_special:
+		_refresh_all_special_entries()  # removing it may have just unlocked other specials
+
+func _refresh_all_special_entries() -> void:
+	for id in _available_entries:
+		if CardDatabase.get_definition(id).is_special:
+			_refresh_entry(id)
+
+## --- Syncing one card's visual state across both panels -----------------
 
 func _refresh_entry(id: StringName) -> void:
+	var def := CardDatabase.get_definition(id)
 	var count: int = working_deck.get(id, 0)
+	var max_copies := _max_copies_for(def)
+	var can_add := _can_add(def, count, max_copies)
+	var can_remove := count > 0
 
-	_available_entries[id].refresh_count(count, MAX_COPIES)
+	_available_entries[id].refresh_state(count, max_copies, can_add, can_remove)
 
 	if count > 0 and not _deck_entries.has(id):
-		var entry := CARD_SCENE.instantiate()
-		deck_list.add_child(entry)
-		entry.setup(CardDatabase.get_definition(id))
+		var entry := _instantiate_entry(deck_list, def, DeckBuilderCard.Context.DECK)
 		entry.remove_requested.connect(_on_remove)
 		_deck_entries[id] = entry
 	elif count == 0 and _deck_entries.has(id):
@@ -62,7 +125,7 @@ func _refresh_entry(id: StringName) -> void:
 		_deck_entries.erase(id)
 
 	if _deck_entries.has(id):
-		_deck_entries[id].refresh_count(count, MAX_COPIES)
+		_deck_entries[id].refresh_state(count, max_copies, can_add, can_remove)
 
 	_update_count_label()
 
@@ -71,6 +134,8 @@ func _update_count_label() -> void:
 	for c in working_deck.values():
 		total += c
 	count_label.text = "%d cards" % total
+
+## --- Save / load ---------------------------------------------------------
 
 func _on_save_pressed() -> void:
 	var deck := DeckData.new()

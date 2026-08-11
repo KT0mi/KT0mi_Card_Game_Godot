@@ -6,4 +6,4 @@ func _init() -> void:
 	card_text = ""
 	attack = 1
 	endurance = 30
-	sets = [&"core"]
+	sets = [&"test_set"]

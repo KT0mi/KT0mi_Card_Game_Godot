@@ -1,22 +1,27 @@
-extends PanelContainer
+class_name DeckBuilderCard extends PanelContainer
+
+enum Context {AVAILABLE, DECK}
 
 signal add_requested(id: StringName)
 signal remove_requested(id: StringName)
 var add_disabled : bool = false
 var remove_disabled : bool = true
+var context : Context = Context.AVAILABLE
 
-#Visual Vars
 @onready var sprite: Sprite2D = $Sprite
 @onready var name_label: Label = $Labels/Name/NameLabel
 @onready var attack_label: Label = $Labels/Attack/AttackLabel
 @onready var endurance_label: Label = $Labels/Endurance/EnduranceLabel
 @onready var gate_label: Label = $Labels/Gate/GateLabel
 @onready var card_text_label: RichTextLabel = $Labels/CardText/CardTextLabel
+@onready var count_node: Control = $Labels/Count
+@onready var count_label: Label = $Labels/Count/CountLabel
+@onready var hidden_overlay: ColorRect = $HiddenOverlay
 
 var definition : CardDefinition
 
 func _ready() -> void:
-	gui_input.connect(_on_input_event)
+	gui_input.connect(_on_gui_input)
 
 func setup(def: CardDefinition) -> void:
 	definition = def
@@ -24,14 +29,17 @@ func setup(def: CardDefinition) -> void:
 	name_label.text = def.card_name
 	card_text_label.text = def.card_text
 	gate_label.text = _setup_gate_label(def)
-	
+
 	if def is CreatureCardDefinition:
 		attack_label.text = str(def.attack)
 		endurance_label.text = str(def.endurance)
 	else:
 		attack_label.visible = false
 		endurance_label.visible = false
-	
+
+func set_context(c: Context) -> void:
+	context = c
+	count_node.visible = context == Context.DECK
 
 func _setup_gate_label(def : CardDefinition) -> String:
 	var gate : CardGate = def.gate
@@ -49,11 +57,17 @@ func _setup_gate_label(def : CardDefinition) -> String:
 		_:
 			return ""
 
-func refresh_count(count: int, max_copies: int) -> void:
-	add_disabled = count >= max_copies
-	remove_disabled = count <= 0
+func refresh_state(count: int, max_copies: int, can_add: bool, can_remove: bool) -> void:
+	add_disabled = not can_add
+	remove_disabled = not can_remove
 
-func _on_input_event(_viewport: Node, event: InputEvent, _shape_idx: int) -> void:
+	if context == Context.DECK:
+		count_label.text = "x%d" % count
+	else:
+		hidden_overlay.visible = not can_add
+
+
+func _on_gui_input(event: InputEvent) -> void:
 	if event is InputEventMouseButton and event.is_pressed():
 		if event.button_index == MOUSE_BUTTON_LEFT and not add_disabled:
 			add_requested.emit(definition.id)
