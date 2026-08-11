@@ -7,14 +7,8 @@
 [ext_resource type="Theme" uid="uid://bxjx78kc5nbmv" path="res://Theme/card_label_theme.tres" id="5_1sly5"]
 [ext_resource type="Texture2D" uid="uid://k3hv0wjq3xgp" path="res://Assets/Images/Test/border_element.png" id="6_k3667"]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_h8wm0"]
-size = Vector2(128, 228)
-
-[node name="DeckBuilderCard" type="Area2D" unique_id=528451555]
+[node name="DeckBuilderCard" type="PanelContainer" unique_id=451747793]
 script = ExtResource("1_6xgvr")
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=806803082]
-shape = SubResource("RectangleShape2D_h8wm0")
 
 [node name="Sprite" type="Sprite2D" parent="." unique_id=1779053753]
 scale = Vector2(0.5925926, 0.5925926)
@@ -179,33 +173,12 @@ vertical_alignment = 1
 
 [node name="CardBack" type="ColorRect" parent="." unique_id=428025629]
 visible = false
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -64.0
-offset_top = -114.0
-offset_right = 64.0
-offset_bottom = 114.0
-grow_horizontal = 2
-grow_vertical = 2
-pivot_offset_ratio = Vector2(0.5, 0.5)
+layout_mode = 2
 mouse_filter = 2
 color = Color(0.13333334, 0.1254902, 0.20392157, 1)
 
 [node name="HiddenOverlay" type="ColorRect" parent="." unique_id=670616284]
 visible = false
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -64.0
-offset_top = -112.0
-offset_right = 64.0
-offset_bottom = 112.0
-grow_horizontal = 2
-grow_vertical = 2
+layout_mode = 2
 mouse_filter = 2
 color = Color(0, 0, 0, 0.29411766)

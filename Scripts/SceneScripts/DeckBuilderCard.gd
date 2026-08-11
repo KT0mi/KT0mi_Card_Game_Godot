@@ -1,4 +1,4 @@
-extends Area2D
+extends PanelContainer
 
 signal add_requested(id: StringName)
 signal remove_requested(id: StringName)
@@ -15,6 +15,9 @@ var remove_disabled : bool = true
 
 var definition : CardDefinition
 
+func _ready() -> void:
+	gui_input.connect(_on_input_event)
+
 func setup(def: CardDefinition) -> void:
 	definition = def
 	sprite.texture = def.art
@@ -28,8 +31,7 @@ func setup(def: CardDefinition) -> void:
 	else:
 		attack_label.visible = false
 		endurance_label.visible = false
-		
-	input_event.connect(_on_input_event)
+	
 
 func _setup_gate_label(def : CardDefinition) -> String:
 	var gate : CardGate = def.gate
@@ -52,9 +54,11 @@ func refresh_count(count: int, max_copies: int) -> void:
 	remove_disabled = count <= 0
 
 func _on_input_event(_viewport: Node, event: InputEvent, _shape_idx: int) -> void:
-	if event is InputEventMouseButton:
+	if event is InputEventMouseButton and event.is_pressed():
 		if event.button_index == MOUSE_BUTTON_LEFT and not add_disabled:
 			add_requested.emit(definition.id)
+			get_viewport().set_input_as_handled()
 		elif event.button_index == MOUSE_BUTTON_RIGHT and not remove_disabled:
 			remove_requested.emit(definition.id)
+			get_viewport().set_input_as_handled()
 	
