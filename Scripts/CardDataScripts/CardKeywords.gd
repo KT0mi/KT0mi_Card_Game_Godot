@@ -10,6 +10,7 @@ const DAZED := &"dazed"
 ## ------ Keywords ------
 const TAUNT := &"taunt"
 const QUICK := &"quick"
+const BLOCK := &"block"
 
 ## ------ Abilities -----
 
@@ -31,3 +32,14 @@ static func _taunt_con(card : CardInstance, event: AttackEvent) -> bool:
 	if event.redirected:
 		return false
 	return true
+
+static func BLOCK_ABILITY() -> Ability:
+	return Ability.new(
+		Events.DAMAGE_REQUEST,
+		func(c, e : DamageEvent): e.redirect_target(c, c),
+		_block_con,
+		[BLOCK]
+	)
+
+static func _block_con(card: CardInstance, event: DamageEvent) -> bool:
+	return event.source.owner != card.owner and event.source.lane == card.lane

@@ -54,6 +54,11 @@ func _load_card_sprite(def: CardDefinition) -> void:
 		return
 	def.art = load(path)
 
+func get_all_definitions() -> Array[CardDefinition]:
+	var result: Array[CardDefinition] = []
+	result.append_array(_definitions.values())
+	return result
+
 func get_definition(id: StringName) -> CardDefinition:
 	if not _definitions.has(id):
 		push_error("CardDatabase: unknown card id '%s'" % id)

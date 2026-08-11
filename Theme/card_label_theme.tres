@@ -13,3 +13,5 @@ RichTextLabel/colors/font_outline_color = Color(0, 0, 0, 1)
 RichTextLabel/constants/outline_size = 2
 RichTextLabel/font_sizes/bold_font_size = 10
 RichTextLabel/font_sizes/normal_font_size = 10
+TextEdit/constants/outline_size = 5
+TextEdit/font_sizes/font_size = 28

@@ -1,0 +1,58 @@
+[gd_scene format=3 uid="uid://b46iywo1a4gvp"]
+
+[ext_resource type="Theme" uid="uid://bxjx78kc5nbmv" path="res://Theme/card_label_theme.tres" id="1_3sf4w"]
+[ext_resource type="Script" uid="uid://diqby4l42ot5k" path="res://Scripts/SceneScripts/DeckBuilderController.gd" id="1_7t3uy"]
+
+[node name="DeckBuilder" type="Control" unique_id=1295360195]
+layout_mode = 3
+anchors_preset = 0
+script = ExtResource("1_7t3uy")
+
+[node name="AvailablePanel" type="ScrollContainer" parent="." unique_id=754057566]
+layout_mode = 0
+offset_left = 96.0
+offset_top = 96.0
+offset_right = 512.0
+offset_bottom = 544.0
+
+[node name="AvailableList" type="VBoxContainer" parent="AvailablePanel" unique_id=1160090048]
+layout_mode = 2
+alignment = 1
+
+[node name="DeckPanel" type="ScrollContainer" parent="." unique_id=774455539]
+layout_mode = 0
+offset_left = 1280.0
+offset_top = 160.0
+offset_right = 1728.0
+offset_bottom = 960.0
+
+[node name="DeckList" type="VBoxContainer" parent="DeckPanel" unique_id=1017062453]
+layout_mode = 2
+
+[node name="DeckNameEdit" type="LineEdit" parent="." unique_id=598020999]
+layout_mode = 0
+offset_left = 1312.0
+offset_top = 64.0
+offset_right = 1728.0
+offset_bottom = 128.0
+theme = ExtResource("1_3sf4w")
+placeholder_text = "Deck Name"
+
+[node name="SaveButton" type="Button" parent="." unique_id=1211344844]
+layout_mode = 0
+offset_left = 1216.0
+offset_top = 64.0
+offset_right = 1280.0
+offset_bottom = 128.0
+theme_override_font_sizes/font_size = 19
+text = "Save"
+
+[node name="CountLabel" type="Label" parent="." unique_id=445470909]
+layout_mode = 0
+offset_left = 1760.0
+offset_top = 64.0
+offset_right = 1888.0
+offset_bottom = 128.0
+theme = ExtResource("1_3sf4w")
+theme_override_font_sizes/font_size = 43
+text = "0/60"

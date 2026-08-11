@@ -9,13 +9,7 @@ func _init() -> void:
 	endurance = 10
 	sets = [&"critters"]
 
-func _build_abilities() -> Array[Ability]:
-	return [Ability.new(Events.ATTACK_REQUEST, 
-	_jormungandr_effect,
-	func(card, event) -> bool: return event.attacker == card,	
-	)]
-
-func _jormungandr_effect(card: CardInstance, event: AttackEvent) -> void:
+func is_battle_ready(card: CardInstance):
 	var has_eye:bool=false
 	var has_body:bool=false
 	for c in card.owner.arena().duplicate():
@@ -24,5 +18,4 @@ func _jormungandr_effect(card: CardInstance, event: AttackEvent) -> void:
 		elif c.get_id() == &"body_of_jormungandr":
 			has_body = true
 	
-	if not has_body or not has_eye:
-		event.cancelled = true
+	return has_eye and has_body
