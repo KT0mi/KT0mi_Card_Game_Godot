@@ -24,11 +24,20 @@ func _think() -> void:
 func _on_phase_changed(phase: TurnController.Phase, player: Player) -> void:
 	if player != _ai_player():
 		return
+	if phase == TurnController.Phase.START_TURN:
+		await _take_start_turn_phase_actions()
 	if phase == TurnController.Phase.PLAY:
 		await _take_play_phase_actions()
 		
 	await get_tree().create_timer(phase_delay).timeout
 	await TurnController.advance_phase()
+
+func _take_start_turn_phase_actions() -> void:
+	for card : CardInstance in _ai_player().hand:
+		if card.is_playable(_ai_player().get_player_card().get_endurance()):
+			return
+	
+	TurnController.forget_turn()
 
 func _take_play_phase_actions() -> void:
 	var ai := _ai_player()

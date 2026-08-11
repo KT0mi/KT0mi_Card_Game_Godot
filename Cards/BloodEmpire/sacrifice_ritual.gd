@@ -6,6 +6,7 @@ func _init() -> void:
 	card_text = "For each creature card in your arena: Sacrifice it and play 1 'Blood Wall' in it's place."
 	gate = CardGate.BasicGate(25)
 	cast_type = CastType.INSTANT
+	sets = [&"blood_empire"]
 
 func resolve_effect(card: CardInstance, _event: PlayCardEvent) -> void:
 	#TODO

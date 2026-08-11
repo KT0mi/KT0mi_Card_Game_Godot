@@ -15,6 +15,7 @@ func save_deck(deck: DeckData) -> bool:
 	if err != OK:
 		push_warning("DeckStorage: failed to save deck '%s' (error %d)" % [deck.deck_name, err])
 		return false
+	print("Deck Saved to path: %s" % path)
 	return true
 
 func load_deck(id: String) -> DeckData:

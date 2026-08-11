@@ -7,3 +7,4 @@ func _init() -> void:
 	gate = CardGate.None()
 	attack = 0
 	endurance = 0
+	sets = ["test_set"]

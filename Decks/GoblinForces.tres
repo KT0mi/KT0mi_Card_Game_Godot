@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="DeckData" format=3 uid="uid://ejiy4nypswjk"]
+
+[ext_resource type="Script" uid="uid://byj4jqh3sw4qv" path="res://Scripts/CardDataScripts/DeckData.gd" id="1_fp6jt"]
+
+[resource]
+script = ExtResource("1_fp6jt")
+id = "goblin_forces_deck"
+deck_name = "Goblin Forces"
+card_ids = Array[StringName]([&"goblins_unite", &"goblins_unite", &"goblins_unite", &"goblins_unite", &"goblin_bomber", &"goblin_bomber", &"goblin_bomber", &"goblin_bomber", &"goblin_captain", &"goblin_captain", &"goblin_captain", &"goblin_captain", &"goblin_drummer", &"goblin_drummer", &"goblin_drummer", &"goblin_drummer", &"goblin_guard", &"goblin_guard", &"goblin_guard", &"goblin_guard", &"goblin_infantry", &"goblin_infantry", &"goblin_infantry", &"goblin_infantry", &"goblin_mechanic", &"goblin_mechanic", &"goblin_mechanic", &"goblin_mechanic", &"goblin_ornithopter", &"goblin_ornithopter", &"goblin_ornithopter", &"goblin_ornithopter", &"goblin_rogue", &"goblin_rogue", &"goblin_rogue", &"goblin_rogue", &"goblin_trebuchet", &"goblin_trebuchet", &"goblin_trebuchet", &"goblin_trebuchet"])
+metadata/_custom_type_script = "uid://byj4jqh3sw4qv"

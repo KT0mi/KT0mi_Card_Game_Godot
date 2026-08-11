@@ -27,6 +27,8 @@ func resolve_effect(card: CardInstance, event: PlayCardEvent) -> void:
 		card.owner
 	)
 	
+	if aA.is_empty() or aA == null: return
+	
 	var attacker : CardInstance = aA[0]
 	if attacker == null:
 		return

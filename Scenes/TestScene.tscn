@@ -2,10 +2,11 @@
 
 [ext_resource type="Script" uid="uid://dm7cn05jd22ab" path="res://Scripts/SceneScripts/MatchController.gd" id="1_5lt6y"]
 [ext_resource type="PackedScene" uid="uid://iixj5wm8e782" path="res://Scenes/CardHolder.tscn" id="2_8k7wh"]
-[ext_resource type="Resource" uid="uid://by3atcghcqf52" path="res://Decks/TestDeck.tres" id="2_c264a"]
+[ext_resource type="Resource" uid="uid://ejiy4nypswjk" path="res://Decks/GoblinForces.tres" id="2_c264a"]
 [ext_resource type="Resource" uid="uid://boajlc1qxckn8" path="res://Decks/CritterDeck.tres" id="2_qsjrb"]
 [ext_resource type="PackedScene" uid="uid://dlbv0s30abxbh" path="res://Scenes/ArenaHolder.tscn" id="3_8k7wh"]
 [ext_resource type="PackedScene" uid="uid://qr031myx78re" path="res://Scenes/SpellbookHolder.tscn" id="5_0f5h7"]
+[ext_resource type="Theme" uid="uid://bxjx78kc5nbmv" path="res://Theme/card_label_theme.tres" id="7_c264a"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_0f5h7"]
 font_size = 200
@@ -112,11 +113,36 @@ zone_type = 3
 position = Vector2(1536, 400)
 owner_is_player_one = false
 
-[node name="GameEndLabel" type="Label" parent="." unique_id=1616103137]
+[node name="UI" type="Control" parent="." unique_id=392019201]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="GameEndLabel" type="Label" parent="UI" unique_id=1616103137]
 visible = false
+layout_mode = 0
 offset_right = 1918.0
 offset_bottom = 1082.0
 text = "Game End Label"
 label_settings = SubResource("LabelSettings_0f5h7")
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[node name="EndPhaseButton" type="Button" parent="UI" unique_id=1081657256]
+layout_mode = 0
+offset_left = 64.0
+offset_top = 352.0
+offset_right = 310.0
+offset_bottom = 452.0
+theme = ExtResource("7_c264a")
+text = "End Phase"
+
+[node name="ForgetTurnButton" type="Button" parent="UI" unique_id=1910225129]
+layout_mode = 0
+offset_left = 64.0
+offset_top = 576.0
+offset_right = 310.0
+offset_bottom = 676.0
+theme = ExtResource("7_c264a")
+text = "Forget Turn"

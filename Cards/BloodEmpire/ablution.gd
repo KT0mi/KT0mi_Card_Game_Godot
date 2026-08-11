@@ -4,6 +4,7 @@ func _init() -> void:
 	id = &"ablution"
 	card_name = "Ablution"
 	card_text = "Choose 1 creature from your board: +1 Attack, -1 Endurance"
+	gate = CardGate.None()
 	cast_type = SpellCardDefinition.CastType.INSTANT
 	sets = [&"blood_empire"]
 

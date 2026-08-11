@@ -133,7 +133,7 @@ func _update_count_label() -> void:
 	var total := 0
 	for c in working_deck.values():
 		total += c
-	count_label.text = "%d cards" % total
+	count_label.text = "%d/60" % total
 
 ## --- Save / load ---------------------------------------------------------
 
@@ -144,6 +144,7 @@ func _on_save_pressed() -> void:
 	deck.card_ids = _flatten(working_deck)
 
 	if not DeckStorage.is_deck_valid(deck):
+		push_warning("Deck Not Valid")
 		return  # or show an error label
 
 	if DeckStorage.save_deck(deck):

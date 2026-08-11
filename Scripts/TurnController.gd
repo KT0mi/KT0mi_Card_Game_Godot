@@ -20,7 +20,7 @@ func start_match() -> void:
 	current_player = GameState.player_one
 	turn_counter = 1
 	await _enter_phase(Phase.START_TURN)
-	
+
 func advance_phase() -> void:
 	match current_phase:
 		Phase.START_TURN:	await _enter_phase(Phase.DRAW)
@@ -28,6 +28,18 @@ func advance_phase() -> void:
 		Phase.PLAY:			await _enter_phase(Phase.BATTLE)
 		Phase.BATTLE:		await _enter_phase(Phase.END_TURN)
 		Phase.END_TURN:		await _end_turn_and_pass()
+
+func forget_turn() -> void:
+	if current_phase != Phase.START_TURN:
+		print("TurnController: Cannot forget turn. Reason: Not at turn start.")
+		return
+	
+	if turn_counter < 3:
+		print("TurnController: Cannot forget turn. Reason: Cannot forget before player's 2nd turn.")
+		return
+	
+	DamagePipeline.apply_damage(current_player.get_player_card(), 2, current_player.get_player_card())
+	_end_turn_and_pass()
 
 func _enter_phase(phase: Phase) -> void:
 	var event := PhaseEvent.new(current_player)
@@ -42,6 +54,8 @@ func _enter_phase(phase: Phase) -> void:
 			await TriggerSystem.emit(Events.DRAW_PHASE_START, event)
 			if turn_counter > 1:
 				await GameActions.draw_cards(current_player, 1)
+			else:
+				advance_phase()
 		Phase.PLAY:
 			await TriggerSystem.emit(Events.DRAW_PHASE_END, event)
 			current_phase = phase
@@ -66,7 +80,6 @@ func _end_turn_and_pass() -> void:
 	current_player = GameState.opponent_of(current_player)
 	turn_counter += 1
 	await _enter_phase(Phase.START_TURN)
-	
 
 func _resolve_battle_phase() -> void:
 	#If no cards in arena skip battle phase resolve

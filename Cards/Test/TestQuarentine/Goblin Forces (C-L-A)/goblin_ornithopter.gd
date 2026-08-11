@@ -7,3 +7,4 @@ func _init() -> void:
 	gate = CardGate.BasicGate(20)
 	attack = 2
 	endurance = 5
+	sets = ["goblin_forces"]

@@ -3,9 +3,10 @@ extends SpellCardDefinition
 func _init() -> void:
 	id = &"goblins_unite"
 	card_name = "Goblins! Unite!"
-	card_text = "If there are 3 creature cards on the arena, join them together and create a 'Goblin Mecha' with their stats combined."
+	card_text = "If there are 3 creature cards on the arena, join them together and add a 'Goblin Mecha' to your hand with their stats combined."
 	gate = CardGate.BasicGate(15)
 	cast_type = CastType.INSTANT
+	sets = ["goblin_forces"]
 
 func resolve_effect(card: CardInstance, _event: PlayCardEvent) -> void:
 	if card.owner.arena().size() < 3:
@@ -18,7 +19,9 @@ func resolve_effect(card: CardInstance, _event: PlayCardEvent) -> void:
 	for c : CardInstance in card.owner.arena().duplicate():
 		attack_pool += c.get_attack()
 		endurance_pool += c.get_endurance()
-		GameActions.try_kill_card(c)
+		await GameActions.try_kill_card(c)
 		
 	var gm := CardFactory.create_instance(&"goblin_mecha", card.owner)
-	ZoneManager.move_to(gm, Zone.Type.ARENA, ZoneChangeEvent.Reason.SUMMON, 1)
+	gm.current_attack = attack_pool
+	gm.current_endurance = endurance_pool
+	await ZoneManager.move_to(gm, Zone.Type.HAND, ZoneChangeEvent.Reason.SUMMON)

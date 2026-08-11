@@ -38,4 +38,4 @@ func _quill_armor_ability(card : CardInstance, event : DamageEvent) -> void:
 	
 	if card.tick_counter(ARMOR_KEY) <= 0:
 		#Have to think about this should I do kill card when resolving persistent spells or simply moving them to the graveyard?
-		GameActions.try_kill_card(card)
+		ZoneManager.move_to(card, Zone.Type.GRAVEYARD, ZoneChangeEvent.Reason.RESOLVE)

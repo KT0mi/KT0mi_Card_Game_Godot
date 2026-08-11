@@ -11,6 +11,9 @@ extends Node2D
 
 const CARD_SCENE := preload("res://Scenes/Card.tscn")
 
+@onready var end_phase_button : Button = $UI/EndPhaseButton
+@onready var forget_turn_button : Button = $UI/ForgetTurnButton
+
 @export var player_one_deck: DeckData
 @export var player_two_deck: DeckData
 
@@ -33,6 +36,11 @@ func _ready() -> void:
 	_build_debug_ui()
 	ChoiceManager.choice_requested.connect(_on_choice_requested)
 	TurnController.phase_changed.connect(func(_phase, _player) -> void: _refresh_ui())
+	
+	#Connect UI Elements
+	end_phase_button.pressed.connect(_on_advance_pressed)
+	forget_turn_button.pressed.connect(_on_forget_pressed)
+	
 	await _setup_players()
 	await TurnController.start_match()
 	
@@ -88,11 +96,6 @@ func _build_debug_ui() -> void:
  
 	_zones_label = Label.new()
 	vbox.add_child(_zones_label)
- 
-	var advance_button := Button.new()
-	advance_button.text = "Advance phase"
-	advance_button.pressed.connect(_on_advance_pressed)
-	vbox.add_child(advance_button)
 	
 	var reveal_checkbox := CheckBox.new()
 	reveal_checkbox.text = "Reveal hidden cards (debug)"
@@ -109,6 +112,10 @@ func _on_advance_pressed() -> void:
 	await TurnController.advance_phase()
 	_refresh_ui()
  
+func _on_forget_pressed() -> void:
+	await TurnController.forget_turn()
+	_refresh_ui()
+
 func _refresh_ui() -> void:
 	_phase_label.text = "Turn %d -- %s's %s phase" % [
 		TurnController.turn_counter,

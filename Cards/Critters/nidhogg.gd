@@ -5,7 +5,7 @@ func _init() -> void:
 	card_name = "Nidhogg: Dragon of the World Tree Roots"
 	card_text = ""
 	gate = CardGate.BasicGate(10)
-	attack = 8
-	endurance = 8
+	attack = 7
+	endurance = 7
 	is_special = true
 	sets = [&"critters"]

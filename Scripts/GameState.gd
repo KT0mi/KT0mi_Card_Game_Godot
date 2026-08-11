@@ -29,7 +29,7 @@ func turn_order() -> Array[Player]:
 		return [player_one, player_two]
 	return [active, opponent_of(active)]
 
-func all_cards_in_play() -> Array[CardInstance]:
+func all_player_cards() -> Array[CardInstance]:
 	var result: Array[CardInstance] = []
 	result.append_array(player_one.all_cards())
 	result.append_array(player_two.all_cards())
@@ -42,7 +42,13 @@ func all_cards_in_target_areas() -> Array[CardInstance]:
 	result.append_array(player_two.arena())
 	result.append_array(player_two.player_zone)
 	return result
-	
+
+func all_cards_in_arena() -> Array[CardInstance]:
+	var result: Array[CardInstance] = []
+	result.append_array(player_one.arena())
+	result.append_array(player_two.arena())
+	return result
+
 func is_ability_active(card: CardInstance, ability: Ability) -> bool:
 	if card.current_zone == Zone.Type.GRAVEYARD:
 		return ability.active_in_graveyard
