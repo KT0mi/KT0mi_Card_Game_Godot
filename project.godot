@@ -23,6 +23,7 @@ RulesEngine="*uid://cef852jxfyk50"
 ZoneManager="*uid://bojcj5h4snwtf"
 TurnController="*uid://cdxsaqei70kaf"
 GameActions="*uid://bhpd2krdpwpm8"
+StateData="*uid://demxl17y58utd"
 CardDatabase="*uid://cqn88c4ncghs3"
 DeckStorage="*uid://0gxe7vc2bn3d"
 CardViewManager="*uid://drhoovfrn2on7"
@@ -35,7 +36,6 @@ AiController="*uid://d2ebkkl6d4aw2"
 
 window/size/viewport_width=1920
 window/size/viewport_height=1080
-window/size/mode=3
 
 [physics]
 

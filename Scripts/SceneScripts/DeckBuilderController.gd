@@ -8,15 +8,31 @@ const MAX_COPIES := 4
 @onready var count_label : Label = $CountLabel
 @onready var deck_name_edit : LineEdit = $DeckNameEdit
 @onready var save_button : Button = $SaveButton
+@onready var back_button : Button = $BackButton
 
 var working_deck: Dictionary = {}        # StringName -> int
 var _available_entries: Dictionary = {}  # StringName -> DeckBuilderCard
 var _deck_entries: Dictionary = {}       # StringName -> DeckBuilderCard
 var _editing_deck_id: String = ""        # "" means new deck
 
+const MAIN_SCENE = "res://Scenes/Main.tscn"
+
 func _ready() -> void:
 	_populate_available()
 	save_button.pressed.connect(_on_save_pressed)
+	back_button.pressed.connect(_on_back_pressed)
+	
+	await get_tree().process_frame
+	print("AvailablePanel size: ", $AvailablePanel.size)
+	print("AvailableList size: ", available_list.size)
+	for child in available_list.get_children():
+		if child is HFlowContainer:
+			print("  Flow row size: ", child.size, "  min: ", child.get_combined_minimum_size())
+			for c in child.get_children():
+				print("    Card size: ", c.size, "  min: ", c.get_combined_minimum_size())
+
+func _on_back_pressed() -> void:
+	get_tree().change_scene_to_file(MAIN_SCENE)
 
 ## --- Populating the Available panel, grouped by set -------------------
 
@@ -34,6 +50,11 @@ func _populate_available() -> void:
 			entry.add_requested.connect(_on_add)
 			_available_entries[def.id] = entry
 			_refresh_entry(def.id)
+			
+	await get_tree().process_frame
+	for child in available_list.get_children():
+		if child is HFlowContainer:
+			child.queue_sort()
 
 func _add_set_header(parent: VBoxContainer, set_id: StringName) -> void:
 	var label := Label.new()
