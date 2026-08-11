@@ -7,6 +7,7 @@ func _init() -> void:
 	attack = 1
 	endurance = 3
 	gate = CardGate.None()
+	sets = [&"test_set"]
 	
 func _build_abilities() -> Array[Ability]:
 	return [CardKeywords.TAUNT_ABILITY()]

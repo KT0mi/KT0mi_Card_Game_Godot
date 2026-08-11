@@ -43,6 +43,7 @@ func _add_set_header(parent: VBoxContainer, set_id: StringName) -> void:
 
 func _add_flow_row(parent: VBoxContainer) -> HFlowContainer:
 	var flow := HFlowContainer.new()
+	flow.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	flow.add_theme_constant_override("h_separation", 10)
 	flow.add_theme_constant_override("v_separation", 10)
 	parent.add_child(flow)
