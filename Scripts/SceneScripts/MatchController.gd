@@ -14,7 +14,7 @@ const CARD_SCENE := preload("res://Scenes/Card.tscn")
 @onready var end_phase_button : Button = $UI/EndPhaseButton
 @onready var forget_turn_button : Button = $UI/ForgetTurnButton
 
-@export var player_one_deck: DeckData
+@export var player_one_deck : DeckData
 @export var player_two_deck: DeckData
 
 const FALLBACK_DECK_IDS: Array[StringName] = [
@@ -41,6 +41,7 @@ func _ready() -> void:
 	end_phase_button.pressed.connect(_on_advance_pressed)
 	forget_turn_button.pressed.connect(_on_forget_pressed)
 	
+	await _setup_decks()
 	await _setup_players()
 	await TurnController.start_match()
 	
@@ -48,6 +49,12 @@ func _ready() -> void:
 	
 	_refresh_ui()
 
+func _setup_decks() -> void:
+	var deck : DeckData
+	deck = DeckStorage.load_deck(StateData.chosen_deck)
+	if deck != null:
+		player_one_deck = deck
+	
 func _setup_players() -> void:
 	GameState.local_player = GameState.player_one #Default value for testing
 	

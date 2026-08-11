@@ -18,20 +18,15 @@ var _editing_deck_id: String = ""        # "" means new deck
 const MAIN_SCENE = "res://Scenes/Main.tscn"
 
 func _ready() -> void:
+	if StateData.editing_deck != "":
+		_editing_deck_id = StateData.editing_deck
 	_populate_available()
 	save_button.pressed.connect(_on_save_pressed)
 	back_button.pressed.connect(_on_back_pressed)
 	
-	await get_tree().process_frame
-	print("AvailablePanel size: ", $AvailablePanel.size)
-	print("AvailableList size: ", available_list.size)
-	for child in available_list.get_children():
-		if child is HFlowContainer:
-			print("  Flow row size: ", child.size, "  min: ", child.get_combined_minimum_size())
-			for c in child.get_children():
-				print("    Card size: ", c.size, "  min: ", c.get_combined_minimum_size())
 
 func _on_back_pressed() -> void:
+	StateData.editing_deck = ""
 	get_tree().change_scene_to_file(MAIN_SCENE)
 
 ## --- Populating the Available panel, grouped by set -------------------
