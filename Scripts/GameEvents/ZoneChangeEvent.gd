@@ -9,9 +9,11 @@ var target: CardInstance
 var from_zone: Zone.Type
 var to_zone: Zone.Type
 var reason: Reason
+var lane: int
  
-func _init(c: CardInstance, f: Zone.Type, t: Zone.Type, r: Reason) -> void:
+func _init(c: CardInstance, f: Zone.Type, t: Zone.Type, r: Reason, l : int = -1) -> void:
 	target = c
 	from_zone = f
 	to_zone = t
 	reason = r
+	lane = l

@@ -18,23 +18,21 @@ func resolve_effect(card: CardInstance, _event: PlayCardEvent) -> void:
 func _build_abilities() -> Array[Ability]:
 	return [
 		Ability.new(
-			Events.DAMAGE_RESOLVED,
+			Events.ATTACK_RESOLVED,
 			_quill_armor_ability,
 			_quill_armor_con
 		)
 	]
 
-func _quill_armor_con(card : CardInstance, event : DamageEvent) -> bool:
+func _quill_armor_con(card : CardInstance, event : AttackEvent) -> bool:
 	print("quill_armor: Checking effect condition")
 	if event.target == card.owner.get_player_card():
-		if event.source.is_creature():
-			print("quill_armor: Confirmed damage was dealt to the card owner from a creature source")
-			return true
+		print("quill_armor: Confirmed damage was dealt to the card owner from a creature source")
+		return true
 	return false
 
-func _quill_armor_ability(card : CardInstance, event : DamageEvent) -> void:
-	print("quill_armor: Resolving Effect")
-	DamagePipeline.apply_damage(event.source, 1, card)
+func _quill_armor_ability(card : CardInstance, event : AttackEvent) -> void:
+	DamagePipeline.apply_damage(event.attacker, 1, card)
 	
 	if card.tick_counter(ARMOR_KEY) <= 0:
 		#Have to think about this should I do kill card when resolving persistent spells or simply moving them to the graveyard?

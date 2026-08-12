@@ -33,4 +33,4 @@ func move_to(
 	card.current_zone = to_zone
 	card_zone_changed.emit(card, from_zone, to_zone, from_lane, lane)
 	await TriggerSystem.emit(Events.ZONE_CHANGE, 
-		ZoneChangeEvent.new(card, from_zone, to_zone, reason))
+		ZoneChangeEvent.new(card, from_zone, to_zone, reason, lane))

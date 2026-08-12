@@ -4,7 +4,7 @@ func _init() -> void:
 	id = &"goblin_bomber"
 	card_name = "Goblin Bomber"
 	card_text = "Quick. When this card attacks, it deals 1 damage to your player card and dies."
-	gate = CardGate.BasicGate(29)
+	gate = CardGate.BasicGate(30)
 	attack = 4
 	endurance = 1
 	sets = ["goblin_forces"]
@@ -19,5 +19,7 @@ func _build_abilities() -> Array[Ability]:
 				GameActions.try_kill_card(c),
 			func(c:CardInstance, e:AttackEvent) -> bool:
 				return e.attacker == c,
+				[],
+				true
 		)
 	]

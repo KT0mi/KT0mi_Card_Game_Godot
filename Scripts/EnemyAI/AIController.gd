@@ -33,10 +33,26 @@ func _on_phase_changed(phase: TurnController.Phase, player: Player) -> void:
 	await TurnController.advance_phase()
 
 func _take_start_turn_phase_actions() -> void:
+	#Heuristics for choosing to "Forget Turn" or not
+	
+	#If you can play any cards in your hand
 	for card : CardInstance in _ai_player().hand:
 		if card.is_playable(_ai_player().get_player_card().get_endurance()):
 			return
 	
+	#If you have 3 or fewer cards in hand
+	if _ai_player().hand.size() < 4:
+		return
+	
+	#If any cards in your arena can attack
+	for card : CardInstance in _ai_player().arena():
+		if not card.has_counter(CardKeywords.DAZED):
+			if card.is_creature():
+				var def : CreatureCardDefinition = card.definition
+				if def.is_battle_ready(card): 
+					return
+	
+	#Then forget
 	TurnController.forget_turn()
 
 func _take_play_phase_actions() -> void:
@@ -66,6 +82,14 @@ func _choose(request: ChoiceRequest) -> Array:
 		Events.BATTLE_TAG:
 			#take as many options as allowed
 			var selected: Array = request.options.slice(0, request.max_count)
+			return selected
+		Events.MULLIGAN_TAG:
+			#Mulligan any card that you cannot play on the first turn
+			var selected : Array
+			for c : CardInstance in request.options:
+				if c.is_playable(_ai_player().get_player_card().get_endurance()):
+					continue
+				selected.append(c)
 			return selected
 		_:
 			#take as many options as allowed

@@ -16,7 +16,8 @@ func _build_abilities() -> Array[Ability]:
 				var candidates : Array[CardInstance] = GameState.all_cards_in_arena().duplicate()
 				candidates.erase(c)
 				var target : CardInstance = candidates.pick_random()
-				e.redirect_target(target, c),
+				if target != null:
+					e.redirect_target(target, c),
 			func(c:CardInstance,e:AttackEvent) -> bool:
 				return TurnController.current_phase == TurnController.Phase.BATTLE \
 				and e.attacker == c and not e.redirected,

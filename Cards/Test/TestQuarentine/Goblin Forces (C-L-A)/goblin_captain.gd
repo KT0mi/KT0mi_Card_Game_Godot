@@ -10,13 +10,13 @@ func _init() -> void:
 	sets = ["goblin_forces"]
 
 func _build_abilities() -> Array[Ability]:
+	#TODO
 	return [
 		Ability.new(
-			Events.PLAY_CARD_RESOLVED,
+			Events.ZONE_CHANGE,
 			func(c, e): 
-				if c.lane == 0:
-					GameActions.try_modify_attack(c, StatModifer.delta(1,c))
-					GameActions.try_modify_endurance(c, StatModifer.delta(1,c)),
-			func(c, e : PlayCardEvent): e.card == c
+				GameActions.try_modify_attack(c, StatModifer.delta(1,c))
+				GameActions.try_modify_endurance(c, StatModifer.delta(1,c)),
+			func(c, e : ZoneChangeEvent): e.target == c and e.lane == 0
 		)
 	]

@@ -4,7 +4,7 @@ func _init() -> void:
 	id = &"goblin_mechanic"
 	card_name = "Goblin Mechanic"
 	card_text = "While this is in the arena, the card in the lane to the right of this gets +1 Attack"
-	gate = CardGate.BasicGate(29)
+	gate = CardGate.None()
 	attack = 1
 	endurance = 1
 	sets = ["goblin_forces"]

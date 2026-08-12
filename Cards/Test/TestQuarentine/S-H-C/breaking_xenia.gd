@@ -16,7 +16,7 @@ func resolve_effect(card: CardInstance, _event: PlayCardEvent) -> void:
 func _build_abilities() -> Array[Ability]:
 	return [
 		Ability.new(
-			Events.END_PHASE_END,
+			Events.START_PHASE_START,
 			func(c,_e): 
 			DamagePipeline.apply_damage(
 				GameState.opponent_of(c.owner).get_player_card(),
@@ -24,6 +24,6 @@ func _build_abilities() -> Array[Ability]:
 				c
 			)
 			ZoneManager.move_to(c, Zone.Type.GRAVEYARD, ZoneChangeEvent.Reason.RESOLVE),
-			func(c,e) -> bool: return e.player == GameState.opponent_of(c.owner).get_player_card(),
+			func(c,e) -> bool: return e.player == c.owner,
 		)
 	]

@@ -61,7 +61,11 @@ func try_kill_card(card : CardInstance) -> bool:
 	if event.cancelled:
 		print("GameActions: Failed try_kill_card action. Reason: Request intercepted")
 		return false
-		
+	
+	if card.current_zone == Zone.Type.GRAVEYARD:
+		print("GameActions: Failed try_kill_card action. Reason: Card already in graveyard")
+		return false
+	
 	#Hook point to change death mechanic
 	await ZoneManager.move_to(card, Zone.Type.GRAVEYARD, ZoneChangeEvent.Reason.DEATH)
 	
@@ -137,3 +141,19 @@ func try_modify_gate(target: CardInstance, mod : GateModifier) -> bool:
 	print("GameActions: Resolved try_modify_gate action sucessfully.")
 	await TriggerSystem.emit(Events.MODIFY_GATE_RESOLVE, event)
 	return true
+
+func try_summon_card(owner : Player, id : StringName, to_zone: Zone.Type, lane : int = -1) -> CardInstance:
+	print("GameActions: Requested try_summon_card action")
+	var event := SummonEvent.new(owner, id)
+	await TriggerSystem.emit(Events.SUMMON_REQUEST, event)
+	if event.cancelled:
+		print("GameActions: Failed try_summon_card action. Reason: Request intercepted")
+		return null
+	
+	var card_instance := await CardFactory.create_instance(id, owner)
+	CardViewManager.create_card_node(card_instance)
+	ZoneManager.move_to(card_instance, to_zone, ZoneChangeEvent.Reason.SUMMON, lane)
+	
+	print("GameActions: Resolved try_summon_card action sucessfully.")
+	await TriggerSystem.emit(Events.SUMMON_RESOLVED, event)
+	return card_instance

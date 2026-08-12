@@ -3,6 +3,8 @@ extends Node
 
 # Main script to sync visuals and card game logic
 
+const CARD_SCENE := preload("res://Scenes/Card.tscn")
+
 var _card_nodes: Dictionary = {} #CardInstance -> Card (Scene)
 var _holder_nodes: Dictionary = {} #"player id: zone type" : CardHolder (Scene)
 
@@ -11,7 +13,13 @@ func _ready() -> void:
 	ZoneManager.card_zone_changed.connect(_on_zone_changed)
 	GameActions.card_stat_changed.connect(_refresh_card_visuals)
 	DamagePipeline.change_card_endurance.connect(_refresh_card_visuals)
-	
+
+func create_card_node(card_instance : CardInstance) -> Card:
+	var node: Card = CARD_SCENE.instantiate()
+	add_child(node)
+	node.bind(card_instance)
+	return node
+
 #Called by CardHolder._ready()
 func register_holder(holder: CardHolder) -> void:
 	var player := GameState.player_one if holder.owner_is_player_one else GameState.player_two

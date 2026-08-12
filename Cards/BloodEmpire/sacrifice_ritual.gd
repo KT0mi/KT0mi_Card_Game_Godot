@@ -9,9 +9,8 @@ func _init() -> void:
 	sets = [&"blood_empire"]
 
 func resolve_effect(card: CardInstance, _event: PlayCardEvent) -> void:
-	#TODO
 	#Placeholder
-	for c in card.owner.arena().duplicate():
+	for c : CardInstance in card.owner.arena().duplicate():
+		var l := c.lane
 		if await GameActions.try_kill_card(c):
-			var bd := CardFactory.create_instance(&"blood_wall", card.owner)
-			ZoneManager.move_to(bd, Zone.Type.ARENA, ZoneChangeEvent.Reason.SUMMON)
+			await GameActions.try_summon_card(card.owner, &"blood_wall", Zone.Type.ARENA, l)

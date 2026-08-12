@@ -9,10 +9,10 @@ extends Node2D
 #This sets up a match by building decks, spawning cards, cardholders
 #sets up a minimal debug ui
 
-const CARD_SCENE := preload("res://Scenes/Card.tscn")
-
 @onready var end_phase_button : Button = $UI/EndPhaseButton
 @onready var forget_turn_button : Button = $UI/ForgetTurnButton
+#Game End Label
+@onready var game_end_label : Label = $UI/GameEndLabel
 
 @export var player_one_deck : DeckData
 @export var player_two_deck: DeckData
@@ -28,8 +28,7 @@ var _zones_label : Label
 var _choice_panel: VBoxContainer
 var _choice_checkboxes: Dictionary = {}  # option -> CheckBox
 
-#Game End Label
-@onready var game_end_label : Label = $GameEndLabel
+
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -67,7 +66,7 @@ func _setup_players() -> void:
 		
 		var instances: Array[CardInstance] = build_deck(player, deck)
 		for instance in instances:
-			_spawn_card_node(instance)
+			CardViewManager.create_card_node(instance)
 			await ZoneManager.move_to(instance, Zone.Type.DECK, ZoneChangeEvent.Reason.MANUAL)
  
 		# Give the player their face card. This arguably belongs in
@@ -76,19 +75,13 @@ func _setup_players() -> void:
 		# stays self-contained and doesn't presume that decision for you.
 		var face := CardFactory.create_instance(&"test_player_card", player)
 		face.definition.card_name = "You" if player == GameState.local_player else "Opponent"
-		_spawn_card_node(face)
+		CardViewManager.create_card_node(face)
 		await ZoneManager.move_to(face, Zone.Type.PLAYER, ZoneChangeEvent.Reason.MANUAL)
 
 func build_deck(player: Player, deck: DeckData) -> Array[CardInstance]:
 	if deck:
 		return CardFactory.build_deck(deck, player)
 	return CardFactory.build_deck_from_ids(FALLBACK_DECK_IDS, player)
- 
-func _spawn_card_node(instance: CardInstance) -> Card:
-	var node: Card = CARD_SCENE.instantiate()
-	add_child(node)
-	node.bind(instance)
-	return node
  
 func _build_debug_ui() -> void:
 	_canvas = CanvasLayer.new()
@@ -113,7 +106,6 @@ func _build_debug_ui() -> void:
 	show_all_choices_checkbox.text = "Show all choices, incl. AI's (debug)"
 	show_all_choices_checkbox.toggled.connect(func(pressed: bool): DebugSettings.show_all_choices_in_debug_ui = pressed)
 	vbox.add_child(show_all_choices_checkbox)
-
 
 func _on_advance_pressed() -> void:
 	await TurnController.advance_phase()

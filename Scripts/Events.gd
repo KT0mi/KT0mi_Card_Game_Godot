@@ -26,6 +26,9 @@ const ATTACK_RESOLVED = &"on_attack_resolved"
 #Triggered when a kill card request is made
 const KILL_REQUEST = &"on_kill_request"
 const KILL_RESOLVED = &"on_kill_resolved"
+#Triggered when a summon card request is made
+const SUMMON_REQUEST = &"on_summon_request"
+const SUMMON_RESOLVED = &"on_summon_resolved"
 #Modifier Game Action Events
 const MODIFY_ATTACK_REQUEST = &"on_try_modify_attack"
 const MODIFY_ATTACK_RESOLVE = &"on_modify_attack"
@@ -44,3 +47,4 @@ const DAMAGE_RESOLVED = &"on_damage_resolved"
 ##Choice TAGS
 const BATTLE_TAG = &"battle_choice"
 const EFFECT_TAG = &"effect_choice"
+const MULLIGAN_TAG = &"mulligan_choice"

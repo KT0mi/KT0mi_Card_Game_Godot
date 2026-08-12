@@ -13,7 +13,7 @@ func check_state_based_actions() -> void:
 		#Cards in Arena
 		for c in player.arena().duplicate(): 
 			var card : CardInstance = c
-			if card.get_endurance() <= 0:
+			if card.get_endurance() <= 0 and card.current_zone != Zone.Type.GRAVEYARD:
 				#Card Death - Specific event when a card ends the turn with no endurance - cancellable
 				GameActions.try_kill_card(card)
 		#Check for player death
@@ -44,10 +44,40 @@ func setup_match() -> void:
 		if special_card:
 			player.deck.erase(special_card)
 			player.hand.append(special_card)
-			ZoneManager.move_to(special_card, Zone.Type.HAND, ZoneChangeEvent.Reason.DRAW)
-			GameActions.draw_cards(player, 4)
+			await ZoneManager.move_to(special_card, Zone.Type.HAND, ZoneChangeEvent.Reason.DRAW)
+			await GameActions.draw_cards(player, 4)
 		else:
-			GameActions.draw_cards(player, 7)
+			await GameActions.draw_cards(player, 7)
+	
+	do_mulligan()
 	
 	#var face_card := CardInstance.new(CardDatabase.get_definition(&"player_face"), player)
 	#await ZoneManager.move_to(face_card, Zone.Type.PLAYER, ZoneChangeEvent.Reason.MANUAL)
+
+func do_mulligan() -> void:
+	for player in GameState.players():
+		var candidates : Array[CardInstance]
+		for c : CardInstance in player.hand.duplicate():
+			if c.definition.is_special:
+				continue
+			candidates.append(c)
+		
+		var m_cards : Array = await ChoiceManager.request(
+			"Choose any cards in your hand to mulligan",
+			Events.MULLIGAN_TAG,
+			candidates,
+			player,
+			0,
+			candidates.size()
+		)
+		
+		if m_cards.is_empty() or m_cards == null: 
+			print("RulesEngine: No valid cards in selected")
+			return
+		
+		for c : CardInstance in m_cards:
+			ZoneManager.move_to(c, Zone.Type.DECK, ZoneChangeEvent.Reason.MANUAL)
+		
+		player.deck.shuffle()
+		
+		await GameActions.draw_cards(player, m_cards.size())

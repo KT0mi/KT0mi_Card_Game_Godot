@@ -18,12 +18,15 @@ var _editing_deck_id: String = ""        # "" means new deck
 const MAIN_SCENE = "res://Scenes/Main.tscn"
 
 func _ready() -> void:
-	if StateData.editing_deck != "":
-		_editing_deck_id = StateData.editing_deck
 	_populate_available()
 	save_button.pressed.connect(_on_save_pressed)
 	back_button.pressed.connect(_on_back_pressed)
 	
+	if StateData.editing_deck != "":
+		var deck := DeckStorage.load_deck(StateData.editing_deck)
+		StateData.editing_deck = ""  # consume it -- see note below
+		if deck:
+			load_for_editing(deck)
 
 func _on_back_pressed() -> void:
 	StateData.editing_deck = ""
