@@ -84,12 +84,12 @@ func _on_choice_requested(request: ChoiceRequest) -> void:
 	ChoiceManager.submit(selected)
 
 func _choose(request: ChoiceRequest) -> Array:
-	match request.tag:
-		Events.BATTLE_TAG:
+	match request.context.intent:
+		ChoiceContext.Intent.BATTLE:
 			#take as many options as allowed
 			var selected: Array = request.options.slice(0, request.max_count)
 			return selected
-		Events.MULLIGAN_TAG:
+		ChoiceContext.Intent.MULLIGAN:
 			#Mulligan any card that you cannot play on the first turn
 			var selected : Array
 			for c : CardInstance in request.options:

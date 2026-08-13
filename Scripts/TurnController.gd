@@ -110,11 +110,11 @@ func _resolve_battle_phase() -> void:
 	#Prompt choice for player to choose atackers
 	var attackers: Array = await ChoiceManager.request(
 		"Choose attackers from arena cards",
-		Events.BATTLE_TAG,
 		candidates,
 		current_player,
 		0,
 		candidates.size(),
+		ChoiceContext.BATTLE(current_player)
 	)
 	
 	#If no attackers after choice, return

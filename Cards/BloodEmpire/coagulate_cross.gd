@@ -20,7 +20,7 @@ func resolve_effect(card: CardInstance, event: PlayCardEvent) -> void:
 	
 	var response := await ChoiceManager.request(
 		"Choose 2 Blood Wall from your Arena to sacrifice.",
-		Events.EFFECT_TAG,
+		
 		candidates,
 		card.owner,
 		2,

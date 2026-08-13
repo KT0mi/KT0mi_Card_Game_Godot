@@ -20,7 +20,7 @@ func resolve_effect(card: CardInstance, _event: PlayCardEvent) -> void:
 	
 	var tA := await ChoiceManager.request(
 		"Choose 1 damaged card from the arena:",
-		Events.EFFECT_TAG,
+		
 		candidates,
 		card.owner
 	)

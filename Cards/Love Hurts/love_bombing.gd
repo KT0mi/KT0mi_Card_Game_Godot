@@ -20,7 +20,7 @@ func resolve_effect(card: CardInstance, _event: PlayCardEvent) -> void:
 		
 	var sacrifices : Array = await ChoiceManager.request(
 		"Choose 'Bleeding Hearts' cards:",
-		Events.EFFECT_TAG,
+		
 		candidates,
 		card.owner,
 		0,5

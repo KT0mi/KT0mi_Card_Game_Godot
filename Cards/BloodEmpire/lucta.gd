@@ -12,7 +12,7 @@ func resolve_effect(card: CardInstance, event: PlayCardEvent) -> void:
 	#TODO
 	var sA : Array = await ChoiceManager.request(
 		"Choose 1 of your arena cards",
-		Events.EFFECT_TAG,
+		
 		card.owner.arena().duplicate(),
 		card.owner,
 	)

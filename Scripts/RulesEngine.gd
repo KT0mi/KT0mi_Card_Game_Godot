@@ -64,11 +64,11 @@ func do_mulligan() -> void:
 		
 		var m_cards : Array = await ChoiceManager.request(
 			"Choose any cards in your hand to mulligan",
-			Events.MULLIGAN_TAG,
 			candidates,
 			player,
 			0,
-			candidates.size()
+			candidates.size(),
+			ChoiceContext.MULLIGAN(player)
 		)
 		
 		if m_cards.is_empty() or m_cards == null: 
