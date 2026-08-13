@@ -41,6 +41,11 @@ func is_playable(against : int) -> bool:
 		return true
 	return gate.is_playable(against)
 
+func reset_stats() -> void:
+	if definition is CreatureCardDefinition:
+		current_endurance = definition.endurance
+		current_attack = definition.attack
+
 ## Attribute Parsers - methods for parsing the current stats of the card given any modifiers
 
 func get_display_text() -> String:
@@ -106,6 +111,11 @@ func set_flag(key: StringName, value: bool) -> void:
 func remove_modifier(array: Array, modifier: Modifier) -> void:
 	array.erase(modifier)
  
+func clear_all_modifiers() -> void:
+	attack_modifiers.clear()
+	endurance_modifiers.clear()
+	gate_modifiers.clear()
+
 ## Strips every modifier granted by `src`, across all three arrays. Hook
 ## this into whatever event handler notices a card leaving play, to clean
 ## up any "while this card is in play" buffs it granted elsewhere.

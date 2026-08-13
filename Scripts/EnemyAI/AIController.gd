@@ -24,11 +24,17 @@ func _think() -> void:
 func _on_phase_changed(phase: TurnController.Phase, player: Player) -> void:
 	if player != _ai_player():
 		return
+	if TurnController.forgetting:
+		return
 	if phase == TurnController.Phase.START_TURN:
 		await _take_start_turn_phase_actions()
 	if phase == TurnController.Phase.PLAY:
 		await _take_play_phase_actions()
-		
+	
+	#Check if current player again
+	if TurnController.current_player != _ai_player():
+		print("AIController: Current Player is no longer AI")
+		return
 	await get_tree().create_timer(phase_delay).timeout
 	await TurnController.advance_phase()
 

@@ -10,7 +10,7 @@ func _init() -> void:
 func get_display_text(instance: CardInstance) -> String:
 	return "For the next %s attacks to your player card: If the attacker is a creature card, deal 1 damage to it." % CardText.dynamic(instance.counters.get(ARMOR_KEY, 3))
 
-const ARMOR_KEY := "armor"
+const ARMOR_KEY := &"qa_armor"
 
 func resolve_effect(card: CardInstance, _event: PlayCardEvent) -> void:
 	card.set_counter(ARMOR_KEY, 3)

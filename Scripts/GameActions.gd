@@ -67,7 +67,13 @@ func try_kill_card(card : CardInstance) -> bool:
 		return false
 	
 	#Hook point to change death mechanic
+	
 	await ZoneManager.move_to(card, Zone.Type.GRAVEYARD, ZoneChangeEvent.Reason.DEATH)
+	
+	#Clear Card Stats and Modifiers After Death
+	card.clear_all_modifiers()
+	card.reset_stats()
+	card_stat_changed.emit(card)
 	
 	print("GameActions: Resolved try_kill_card action sucessfully")
 	await TriggerSystem.emit(Events.KILL_RESOLVED, event)
@@ -92,13 +98,19 @@ func try_attack(attacker: CardInstance, target: CardInstance) -> bool:
 	await TriggerSystem.emit(Events.ATTACK_RESOLVED, event)
 	return true
 
-func draw_cards(player: Player, amount: int) -> void:
+func draw_cards(player: Player, amount: int, reason : DrawCardEvent.Reason) -> void:
 	print("GameActions: Requested draw_cards action for player %s of %d cards" % ["1" if player == GameState.player_one else "2", amount])
+	var event := DrawCardEvent.new(player, amount, reason)
 	for i in amount:
 		if player.deck.is_empty():
+			print("GameActions: Failed draw_cards action. Reason: Deck Out")
 			return #Deck out
+		if reason == DrawCardEvent.Reason.TURN and TurnController.forgetting:
+			print("GameActions: Failed draw_cards action. Reason: Forgetting Turn")
+			return
 		var card: CardInstance = player.deck.pop_back()
 		await ZoneManager.move_to(card, Zone.Type.HAND, ZoneChangeEvent.Reason.DRAW)
+	await TriggerSystem.emit(Events.DRAW_CARD_RESOLVED, event)
 
 func try_modify_attack(target: CardInstance, mod : StatModifer) -> bool:
 	print("GameActions: Requested try_modify_attack action")
@@ -144,6 +156,12 @@ func try_modify_gate(target: CardInstance, mod : GateModifier) -> bool:
 
 func try_summon_card(owner : Player, id : StringName, to_zone: Zone.Type, lane : int = -1) -> CardInstance:
 	print("GameActions: Requested try_summon_card action")
+	
+	if to_zone == Zone.Type.ARENA:
+		if owner.arena_lanes[lane] != null:
+			print("GameActions: Failed try_summon_card action. Reason: Trying to summon a card on a filled lane")
+			return
+	
 	var event := SummonEvent.new(owner, id)
 	await TriggerSystem.emit(Events.SUMMON_REQUEST, event)
 	if event.cancelled:
@@ -152,7 +170,17 @@ func try_summon_card(owner : Player, id : StringName, to_zone: Zone.Type, lane :
 	
 	var card_instance := await CardFactory.create_instance(id, owner)
 	CardViewManager.create_card_node(card_instance)
-	ZoneManager.move_to(card_instance, to_zone, ZoneChangeEvent.Reason.SUMMON, lane)
+	
+	#If the summoned card was a spell and it was added to the spellbook, resolve it's play effect
+	if card_instance.is_spell() and to_zone == Zone.Type.SPELLBOOK:
+		var e := PlayCardEvent.new(owner, card_instance)
+		var def : SpellCardDefinition = card_instance.definition
+		await def.resolve_effect(card_instance, e)
+		await ZoneManager.move_to(card_instance, to_zone, ZoneChangeEvent.Reason.SUMMON, lane)
+		if def.cast_type == SpellCardDefinition.CastType.INSTANT:
+			await ZoneManager.move_to(card_instance, Zone.Type.GRAVEYARD, ZoneChangeEvent.Reason.RESOLVE, lane)
+	else:
+		ZoneManager.move_to(card_instance, to_zone, ZoneChangeEvent.Reason.SUMMON, lane)
 	
 	print("GameActions: Resolved try_summon_card action sucessfully.")
 	await TriggerSystem.emit(Events.SUMMON_RESOLVED, event)

@@ -10,9 +10,9 @@ func _init() -> void:
 	
 func resolve_effect(card: CardInstance, event: PlayCardEvent) -> void:
 	var tA : Array = await ChoiceManager.request(
-		"Choose any 1 damageable card:",
+		"Choose any 1 creature card in the arena:",
 		Events.EFFECT_TAG,
-		GameState.all_cards_in_target_areas(),
+		GameState.all_cards_in_arena().duplicate(),
 		card.owner
 	)
 	

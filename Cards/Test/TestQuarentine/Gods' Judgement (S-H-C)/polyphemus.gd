@@ -7,6 +7,7 @@ func _init() -> void:
 	gate = CardGate.BasicGate(10)
 	attack = 8
 	endurance = 5
+	sets = ["gods_judgement"]
 
 func _build_abilities() -> Array[Ability]:
 	return [

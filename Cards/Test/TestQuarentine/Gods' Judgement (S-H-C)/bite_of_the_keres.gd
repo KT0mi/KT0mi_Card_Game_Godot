@@ -6,11 +6,12 @@ func _init() -> void:
 	card_text = "Choose 1 damaged card from the arena: Kill it."
 	gate = CardGate.BasicGate(15)
 	cast_type = CastType.INSTANT
-
+	sets = ["gods_judgement"]
+	
 func resolve_effect(card: CardInstance, _event: PlayCardEvent) -> void:
 	var candidates : Array[CardInstance]
 	for c in GameState.all_cards_in_arena():
-		if c.get_endurance() < c.current_attack:
+		if c.get_endurance() < c.definition.endurance:
 			candidates.append(c)
 	
 	if candidates.is_empty():

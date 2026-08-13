@@ -8,10 +8,11 @@ signal phase_changed(phase: Phase, player: Player)
 
 enum Phase {START_TURN, DRAW, PLAY, BATTLE, END_TURN}
 
+var forgetting : bool = false
+
 var turn_counter: int = 0
 var current_phase: Phase = Phase.START_TURN
 var current_player: Player
-
 func round_counter() -> int:
 	return ceili(turn_counter/2.0)
 
@@ -38,8 +39,16 @@ func forget_turn() -> void:
 		print("TurnController: Cannot forget turn. Reason: Cannot forget before player's 2nd turn.")
 		return
 	
-	DamagePipeline.apply_damage(current_player.get_player_card(), 2, current_player.get_player_card())
-	_end_turn_and_pass()
+	var forgetting_player := current_player
+	forgetting = true
+	DamagePipeline.apply_damage(forgetting_player.get_player_card(), 2, current_player.get_player_card())
+	for i in range(4):
+		if forgetting_player == current_player:
+			await advance_phase()
+		else: 
+			print("TurnController: Ending 'Forget Turn', current player is no longer the same.")
+			break
+	forgetting = false
 
 func _enter_phase(phase: Phase) -> void:
 	var event := PhaseEvent.new(current_player)
@@ -53,7 +62,7 @@ func _enter_phase(phase: Phase) -> void:
 			current_phase = phase
 			await TriggerSystem.emit(Events.DRAW_PHASE_START, event)
 			if turn_counter > 1:
-				await GameActions.draw_cards(current_player, 1)
+				await GameActions.draw_cards(current_player, 1, DrawCardEvent.Reason.TURN)
 			else:
 				advance_phase()
 		Phase.PLAY:
@@ -82,6 +91,10 @@ func _end_turn_and_pass() -> void:
 	await _enter_phase(Phase.START_TURN)
 
 func _resolve_battle_phase() -> void:
+	#If forgetting turn, return
+	if forgetting:
+		return
+	
 	#If no cards in arena skip battle phase resolve
 	if current_player.arena().is_empty():
 		return

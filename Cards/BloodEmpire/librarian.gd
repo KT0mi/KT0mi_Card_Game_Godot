@@ -12,7 +12,7 @@ func _init() -> void:
 func _build_abilities() -> Array[Ability]:
 	return [Ability.new(Events.ATTACK_REQUEST,
 	func(card, event) -> void:
-		GameActions.draw_cards(card.owner, 1)
+		GameActions.draw_cards(card.owner, 1, DrawCardEvent.Reason.EFFECT)
 	,
 	func(card, event) -> bool: return event.attacker == card
 	)]

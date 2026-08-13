@@ -13,10 +13,11 @@ func _build_abilities() -> Array[Ability]:
 	#TODO
 	return [
 		Ability.new(
-			Events.ZONE_CHANGE,
+			Events.PLAY_CARD_RESOLVED,
 			func(c, e): 
+				print("goblin_captain: Effect Resolved")
 				GameActions.try_modify_attack(c, StatModifer.delta(1,c))
 				GameActions.try_modify_endurance(c, StatModifer.delta(1,c)),
-			func(c, e : ZoneChangeEvent): e.target == c and e.lane == 0
+			func(c : CardInstance, e : PlayCardEvent) -> bool: return e.card == c and c.lane == 0
 		)
 	]

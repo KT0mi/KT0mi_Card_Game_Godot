@@ -33,6 +33,12 @@ func all_cards() -> Array[CardInstance]:
 	result.append_array(spellbook)
 	return result
 
+func all_cards_in_target_areas() -> Array[CardInstance]:
+	var result: Array[CardInstance] = []
+	result.append_array(player_zone)
+	result.append_array(arena())
+	return result
+
 func arena() -> Array[CardInstance]:
 	var result: Array[CardInstance] = []
 	for c in arena_lanes:

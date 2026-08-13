@@ -12,6 +12,9 @@ const TAUNT := &"taunt"
 const QUICK := &"quick"
 const BLOCK := &"block"
 
+## -------- Misc. -----
+const BLEEDING_HEART := &"bleeding_heart"
+
 ## ------ Abilities -----
 
 static func QUICK_ABILITY() -> Ability:

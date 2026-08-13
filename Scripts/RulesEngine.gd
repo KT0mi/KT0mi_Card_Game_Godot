@@ -45,9 +45,9 @@ func setup_match() -> void:
 			player.deck.erase(special_card)
 			player.hand.append(special_card)
 			await ZoneManager.move_to(special_card, Zone.Type.HAND, ZoneChangeEvent.Reason.DRAW)
-			await GameActions.draw_cards(player, 4)
+			await GameActions.draw_cards(player, 4, DrawCardEvent.Reason.TURN)
 		else:
-			await GameActions.draw_cards(player, 7)
+			await GameActions.draw_cards(player, 7, DrawCardEvent.Reason.TURN)
 	
 	do_mulligan()
 	
@@ -80,4 +80,4 @@ func do_mulligan() -> void:
 		
 		player.deck.shuffle()
 		
-		await GameActions.draw_cards(player, m_cards.size())
+		await GameActions.draw_cards(player, m_cards.size(), DrawCardEvent.Reason.TURN)

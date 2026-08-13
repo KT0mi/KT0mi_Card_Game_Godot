@@ -2,7 +2,7 @@ extends CreatureCardDefinition
 
 func _init() -> void:
 	id = &"goblin_trebuchet"
-	card_name = &"Goblin Trebuchet"
+	card_name = "Goblin Trebuchet"
 	card_text = "This can only enter battle if it is in lane 2, and both other lanes are filled"
 	gate = CardGate.BasicGate(25)
 	attack = 5
