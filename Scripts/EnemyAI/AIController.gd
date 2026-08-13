@@ -84,6 +84,12 @@ func _on_choice_requested(request: ChoiceRequest) -> void:
 	ChoiceManager.submit(selected)
 
 func _choose(request: ChoiceRequest) -> Array:
+	if request is CardChoiceRequest:
+		return _choose_cards(request as CardChoiceRequest)
+	else:
+		return _brute_choice(request)
+
+func _choose_cards(request : CardChoiceRequest) -> Array:
 	match request.context.intent:
 		ChoiceContext.Intent.BATTLE:
 			#take as many options as allowed
@@ -98,6 +104,9 @@ func _choose(request: ChoiceRequest) -> Array:
 				selected.append(c)
 			return selected
 		_:
-			#take as many options as allowed
-			var selected: Array = request.options.slice(0, request.max_count)
-			return selected
+			return _brute_choice(request)
+
+#take as many options as allowed
+func _brute_choice(request: ChoiceRequest) -> Array:
+	var selected: Array = request.options.slice(0, request.max_count)
+	return selected

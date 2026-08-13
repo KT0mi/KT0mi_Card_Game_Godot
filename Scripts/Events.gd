@@ -46,8 +46,3 @@ const MODIFY_GATE_RESOLVE = &"on_modify_gate"
 #Modification
 const DAMAGE_REQUEST = &"on_damage_request"
 const DAMAGE_RESOLVED = &"on_damage_resolved"
-
-##Choice TAGS
-const BATTLE_TAG = &"battle_choice"
-const EFFECT_TAG = &"effect_choice"
-const MULLIGAN_TAG = &"mulligan_choice"

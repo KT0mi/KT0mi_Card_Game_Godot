@@ -11,7 +11,7 @@ func _init(
 	choice_context: ChoiceContext = null,
 ) -> void:
 	
-	assert(min_c < 0, "CardChoiceRequest min_count cannot be negative.")
+	assert(min_c >= 0, "CardChoiceRequest min_count cannot be negative.")
 	assert(max_c >= min_c, "CardChoiceRequest max_count cannot be smaller than min_count.")
 	
 	card_options.append_array(cards)
