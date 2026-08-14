@@ -18,12 +18,17 @@ func resolve_effect(card: CardInstance, _event: PlayCardEvent) -> void:
 		print("love_bombing: Effect failed. Reason: No valid candidates")
 		return
 		
-	var sacrifices : Array = await ChoiceManager.request(
+	var sacrifices := await ChoiceManager.request_cards(
 		"Choose 'Bleeding Hearts' cards:",
-		
 		candidates,
 		card.owner,
-		0,5
+		0,5,
+		ChoiceContext.new(
+			ChoiceContext.Origin.CARD_EFFECT,
+			ChoiceContext.Intent.SACRIFICE,
+			card,
+			card.owner
+		)
 	)
 	
 	if sacrifices.is_empty():
@@ -31,8 +36,7 @@ func resolve_effect(card: CardInstance, _event: PlayCardEvent) -> void:
 		return
 	
 	for c in sacrifices:
-		if c is CardInstance:
-			await ZoneManager.move_to(c, Zone.Type.GRAVEYARD, ZoneChangeEvent.Reason.RETURN)
-			
-			var target : CardInstance = GameState.opponent_of(card.owner).all_cards_in_target_areas().pick_random()
-			await DamagePipeline.apply_damage(target, 1, card)
+		await ZoneManager.move_to(c, Zone.Type.GRAVEYARD, ZoneChangeEvent.Reason.MANUAL)
+		
+		var target : CardInstance = GameState.opponent_of(card.owner).all_cards_in_target_areas().pick_random()
+		await DamagePipeline.apply_damage(target, 1, card)

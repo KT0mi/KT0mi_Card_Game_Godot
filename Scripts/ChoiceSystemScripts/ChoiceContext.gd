@@ -12,7 +12,7 @@ enum Intent{
 	NONE,
 	
 	#Targetting
-	DAMAGE, KILL, BUFF, DEBUFF, SACRIFICE, DISCARD, RETURN_TO_HAND, ATTACK_TARGET,
+	DAMAGE, KILL, BUFF, DEBUFF, SACRIFICE, DISCARD, RETURN_TO_HAND, ATTACK_ATTACKER, ATTACK_TARGET,
 	
 	#Game State Choices
 	BATTLE, MULLIGAN
@@ -65,6 +65,39 @@ func _init(
 	amount = p_amount
 
 # --- Common-Case Uses (Constructors) ----------
+
+static func DAMAGE_EFFECT(src_card : CardInstance, a : int) -> ChoiceContext:
+	var context:= ChoiceContext.new()
+	
+	context.origin = Origin.CARD_EFFECT
+	context.intent = Intent.DAMAGE
+	context.source_card = src_card
+	context.source_player = src_card.owner
+	context.amount = a
+	
+	return context
+
+static func DISCARD_EFFECT(src_card: CardInstance, a : int = 1) -> ChoiceContext:
+	var context := ChoiceContext.new()
+	
+	context.origin = Origin.CARD_EFFECT
+	context.intent = Intent.DISCARD
+	context.source_card = src_card
+	context.source_player = src_card.owner
+	context.amount = a
+	
+	return context
+
+static func KILL_EFFECT(src_card, a : int = 1) -> ChoiceContext:
+	var context := ChoiceContext.new()
+	
+	context.origin = Origin.CARD_EFFECT
+	context.intent = Intent.KILL
+	context.source_card = src_card
+	context.source_player = src_card.owner
+	context.amount = a
+	
+	return context
 
 static func BATTLE(player: Player) -> ChoiceContext:
 	var context := ChoiceContext.new()

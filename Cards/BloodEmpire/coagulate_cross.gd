@@ -8,7 +8,7 @@ func _init() -> void:
 	cast_type = SpellCardDefinition.CastType.INSTANT
 	sets = [&"blood_empire"]
 
-func resolve_effect(card: CardInstance, event: PlayCardEvent) -> void:
+func resolve_effect(card: CardInstance, _event: PlayCardEvent) -> void:
 	var candidates : Array[CardInstance]
 	for c in card.owner.arena().duplicate():
 		if c.get_id() == &"blood_wall":
@@ -18,20 +18,21 @@ func resolve_effect(card: CardInstance, event: PlayCardEvent) -> void:
 		print("coagulate_spear: resolve_effect: Skipped effect due to no valid candidates")
 		return
 	
-	var response := await ChoiceManager.request(
+	var response := await ChoiceManager.request_cards(
 		"Choose 2 Blood Wall from your Arena to sacrifice.",
-		
 		candidates,
 		card.owner,
 		2,
-		2
+		2,
+		ChoiceContext.new(
+			ChoiceContext.Origin.CARD_EFFECT,
+			ChoiceContext.Intent.SACRIFICE,
+			card,
+			card.owner
+			)
 		)
 	
 	for s in response:
-		if s == null:
-			push_warning("coagulate_spear: resolve_effect: Wrong type for 'sacrifice' variable")
-			return
 		await GameActions.try_kill_card(s)
-	
 	
 	await DamagePipeline.apply_damage(GameState.opponent_of(card.owner).get_player_card(), 5, card)

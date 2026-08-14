@@ -16,15 +16,14 @@ func resolve_effect(card: CardInstance, _event: PlayCardEvent) -> void:
 		print("one_last_kiss: Effect Failed. Reason: No cards in hand")
 		return
 	
-	var discard : Array = await ChoiceManager.request(
+	var discard := await ChoiceManager.request_card(
 		"Choose 1 card to discard:",
-		
 		candidates,
-		card.owner
+		card.owner,
+		ChoiceContext.DISCARD_EFFECT(card, 1)
 	)
 	
-	if discard.is_empty(): return
-	ZoneManager.move_to(discard[0], Zone.Type.GRAVEYARD, ZoneChangeEvent.Reason.DISCARD)
+	ZoneManager.move_to(discard, Zone.Type.GRAVEYARD, ZoneChangeEvent.Reason.DISCARD)
 	
 	var i := 0
 	for c in card.owner.graveyard:

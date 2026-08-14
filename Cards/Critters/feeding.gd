@@ -9,15 +9,19 @@ func _init() -> void:
 	sets = [&"critters"]
 	
 func resolve_effect(card: CardInstance, event: PlayCardEvent) -> void:
-	var tA : Array = await ChoiceManager.request(
-		"Choose any 1 creature card in the arena:",
-		
-		GameState.all_cards_in_arena().duplicate(),
-		card.owner
-	)
+	var candidates := GameState.all_cards_in_arena().duplicate()
+	if candidates.is_empty(): return
 	
-	var target : CardInstance = tA[0]
-	if target == null:
-		return
+	var target := await ChoiceManager.request_card(
+		"Choose any 1 creature card in the arena:",
+		candidates,
+		card.owner,
+		ChoiceContext.new(
+			ChoiceContext.Origin.CARD_EFFECT,
+			ChoiceContext.Intent.BUFF,
+			card,
+			card.owner
+		)
+	)
 	
 	GameActions.try_modify_endurance(target, StatModifer.delta(1, card))

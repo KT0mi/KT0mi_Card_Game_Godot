@@ -235,6 +235,8 @@ func _end_drag() -> void:
 		_snap_back_to_current_holder()
 
 func _attempt_card_action(holder: CardHolder) -> bool:
+	if card_instance.is_spell() and holder.zone_type == Zone.Type.SPELLBOOK:
+		return await GameActions.try_play_card(card_instance.owner, card_instance)
 	if holder.zone_type == Zone.Type.ARENA:
 		return await GameActions.try_play_card(card_instance.owner, card_instance, holder.lane_index)
 	return false

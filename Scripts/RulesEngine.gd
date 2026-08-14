@@ -22,6 +22,7 @@ func check_state_based_actions() -> void:
 				player_defeated.emit(player)
 
 func check_end_phase_state() -> void:
+	check_state_based_actions()
 	#Creatures lose their dazed status at the end of the turn if they have them
 	for player in GameState.players():
 		#Cards in Arena

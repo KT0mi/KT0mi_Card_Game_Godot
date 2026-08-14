@@ -15,17 +15,17 @@ func resolve_effect(card: CardInstance, _event: PlayCardEvent) -> void:
 		push_warning("ostracize: Effect not resolved. Reason: No valid candidates")
 		return
 	
-	var tA := await ChoiceManager.request(
+	var target := await ChoiceManager.request_card(
 		"Choose 1 card from the arena:",
-		
 		candidates,
-		card.owner
+		card.owner,
+		ChoiceContext.new(
+			ChoiceContext.Origin.CARD_EFFECT,
+			ChoiceContext.Intent.RETURN_TO_HAND,
+			card,
+			card.owner
+		)
 	)
-	
-	var target :CardInstance= tA[0]
-	if target == null:
-		push_warning("ostracize: Effect not resolved. Reason: No valid target")
-		return
 	
 	target.clear_all_modifiers()
 	target.reset_stats()

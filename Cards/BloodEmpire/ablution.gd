@@ -8,16 +8,21 @@ func _init() -> void:
 	cast_type = SpellCardDefinition.CastType.INSTANT
 	sets = [&"blood_empire"]
 
-func resolve_effect(card: CardInstance, event: PlayCardEvent) -> void:
-	var targetA : Array = await ChoiceManager.request(
+func resolve_effect(card: CardInstance, _event: PlayCardEvent) -> void:
+	var candidates := card.owner.arena().duplicate()
+	if candidates.is_empty(): return
+	
+	var t := await ChoiceManager.request_card(
 		"Choose 1 creature from your board",
-		
-		card.owner.arena().duplicate(),
+		candidates,
 		card.owner,
-		1,
-		1
+		ChoiceContext.new(
+			ChoiceContext.Origin.CARD_EFFECT,
+			ChoiceContext.Intent.BUFF,
+			card,
+			card.owner
+			)
 		)
-	var t : CardInstance = targetA[0]
 	
 	await GameActions.try_modify_attack(t,
 	StatModifer.new(

@@ -18,16 +18,11 @@ func resolve_effect(card: CardInstance, _event: PlayCardEvent) -> void:
 		push_warning("bite_of_the_keres: Effect not resolved. Reason: No valid candidates")
 		return
 	
-	var tA := await ChoiceManager.request(
+	var target := await ChoiceManager.request_card(
 		"Choose 1 damaged card from the arena:",
-		
 		candidates,
-		card.owner
+		card.owner,
+		ChoiceContext.KILL_EFFECT(card)
 	)
-	
-	var target :CardInstance= tA[0]
-	if target == null:
-		push_warning("bite_of_the_keres: Effect not resolved. Reason: No valid target")
-		return
 	
 	GameActions.try_kill_card(target)

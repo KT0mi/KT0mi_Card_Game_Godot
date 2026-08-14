@@ -141,6 +141,10 @@ func try_modify_endurance(target: CardInstance, mod : StatModifer) -> bool:
 	target.endurance_modifiers.append(mod)
 	card_stat_changed.emit(target)
 	print("GameActions: Resolved try_modify_endurance action sucessfully.")
+	
+	#Check if card died, after modifying endurance
+	RulesEngine.check_state_based_actions()
+	
 	await TriggerSystem.emit(Events.MODIFY_ENDURANCE_REQUEST, event)
 	return true
 

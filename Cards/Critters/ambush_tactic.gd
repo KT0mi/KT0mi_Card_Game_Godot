@@ -8,29 +8,32 @@ func _init() -> void:
 	cast_type = CastType.INSTANT
 	sets = [&"critters"]
 	
-func resolve_effect(card: CardInstance, event: PlayCardEvent) -> void:
-	var tA : Array = await ChoiceManager.request(
+func resolve_effect(card: CardInstance, _event: PlayCardEvent) -> void:
+	var target := await ChoiceManager.request_card(
 		"Choose any 1 damageable card:",
-		
 		GameState.all_cards_in_target_areas(),
-		card.owner
+		card.owner,
+		ChoiceContext.new(
+			ChoiceContext.Origin.CARD_EFFECT,
+			ChoiceContext.Intent.ATTACK_TARGET,
+			card,
+			card.owner
+		)
 	)
 	
-	var target : CardInstance = tA[0]
-	if target == null:
-		return
-		
-	var aA : Array = await ChoiceManager.request(
+	var candidates := card.owner.arena().duplicate()
+	if candidates.is_empty(): return
+	
+	var attacker := await ChoiceManager.request_card(
 		"Choose any 1 card from your arena:",
-		
-		card.owner.arena().duplicate(),
-		card.owner
+		candidates,
+		card.owner,
+		ChoiceContext.new(
+			ChoiceContext.Origin.CARD_EFFECT,
+			ChoiceContext.Intent.ATTACK_ATTACKER,
+			card,
+			card.owner
+		)
 	)
-	
-	if aA.is_empty() or aA == null: return
-	
-	var attacker : CardInstance = aA[0]
-	if attacker == null:
-		return
 	
 	GameActions.try_attack(attacker, target)
