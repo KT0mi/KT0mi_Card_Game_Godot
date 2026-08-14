@@ -1,4 +1,4 @@
-class_name CardChoicePresenter extends Control
+class_name ChoicePresenter extends Control
 
 
 @onready var prompt_label: Label = $ChoiceLabelContainer/PromptLabel
