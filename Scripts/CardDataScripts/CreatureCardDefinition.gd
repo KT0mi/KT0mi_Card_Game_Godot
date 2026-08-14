@@ -4,5 +4,5 @@ class_name CreatureCardDefinition extends CardDefinition
 @export var endurance: int = 1
 
 #Method that is asked when gathering candidates for battle
-func is_battle_ready(_card: CardInstance):
+func is_battle_ready(_card: CardInstance) -> bool:
 	return true

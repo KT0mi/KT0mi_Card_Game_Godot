@@ -41,6 +41,15 @@ func is_playable(against : int) -> bool:
 		return true
 	return gate.is_playable(against)
 
+func is_battle_ready() -> bool:
+	#If the card is dazed
+	if get_flag(CardKeywords.DAZED): return false
+	
+	if definition is CreatureCardDefinition:
+		return definition.is_battle_ready(self)
+	return true
+
+
 func reset_stats() -> void:
 	if definition is CreatureCardDefinition:
 		current_endurance = definition.endurance

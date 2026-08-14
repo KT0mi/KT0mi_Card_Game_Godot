@@ -9,7 +9,7 @@ func _init() -> void:
 	endurance = 10
 	sets = [&"critters"]
 
-func is_battle_ready(card: CardInstance):
+func is_battle_ready(card: CardInstance) -> bool:
 	var has_eye:bool=false
 	var has_body:bool=false
 	for c in card.owner.arena().duplicate():

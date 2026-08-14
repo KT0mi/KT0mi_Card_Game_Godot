@@ -9,5 +9,5 @@ func _init() -> void:
 	endurance = 2
 	sets = ["goblin_forces"]
 	
-func is_battle_ready(card: CardInstance):
+func is_battle_ready(card: CardInstance) -> bool:
 	return card.lane == 1 and card.owner.arena_lanes[0] != null and card.owner.arena_lanes[2] != null 

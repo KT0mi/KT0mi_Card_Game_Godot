@@ -12,13 +12,16 @@ func _init() -> void:
 func _build_abilities() -> Array[Ability]:
 	return [Ability.new(Events.KILL_REQUEST,
 	func(card, event) -> void:
-		var result := await ChoiceManager.request(
+		var target := await ChoiceManager.request_card(
 			"Choose a target and damage it for 1.",
-			
 			GameState.all_cards_in_target_areas(),
 			card.owner,
-			1,
-			1
+			ChoiceContext.new(
+				ChoiceContext.Origin.CARD_EFFECT,
+				ChoiceContext.Intent.DAMAGE,
+				card,
+				card.owner,
+				1)
 		)
 		var target := result[0] as CardInstance
 		if target == null:

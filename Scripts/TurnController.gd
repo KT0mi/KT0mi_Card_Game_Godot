@@ -101,14 +101,13 @@ func _resolve_battle_phase() -> void:
 	
 	var candidates : Array[CardInstance]
 	for c : CardInstance in current_player.arena().duplicate():
-		if not c.get_flag(CardKeywords.DAZED):
-			if c.is_creature():
-				var def : CreatureCardDefinition = c.definition
-				if def.is_battle_ready(c): candidates.append(c)
-			else: candidates.append(c)
+		if c.is_battle_ready(): candidates.append(c)
+	
+	#Skip battle phase if there are no candidates for battle
+	if candidates.is_empty(): return
 	
 	#Prompt choice for player to choose atackers
-	var attackers: Array = await ChoiceManager.request(
+	var attackers: Array[CardInstance] = await ChoiceManager.request_cards(
 		"Choose attackers from arena cards",
 		candidates,
 		current_player,
@@ -120,7 +119,7 @@ func _resolve_battle_phase() -> void:
 	#If no attackers after choice, return
 	if attackers.is_empty():
 		return
-		
+	
 	attackers.sort_custom(func(a, b): return a.lane < b.lane)
 	var opponent := GameState.opponent_of(current_player)
 	var face : CardInstance = opponent.player_zone[0]
