@@ -108,12 +108,16 @@ func _build_debug_ui() -> void:
 	vbox.add_child(show_all_choices_checkbox)
 
 func _on_advance_pressed() -> void:
+	if TurnController.current_player != GameState.local_player:
+		return
 	if ChoiceManager.has_pending_request():
 		return
 	await TurnController.advance_phase()
 	_refresh_ui()
  
 func _on_forget_pressed() -> void:
+	if TurnController.current_player != GameState.local_player:
+		return
 	if ChoiceManager.has_pending_request():
 		return
 	await TurnController.forget_turn()
@@ -131,80 +135,6 @@ func _refresh_ui() -> void:
 		GameState.player_two.hand.size(), GameState.player_two.arena().size(),
 		GameState.player_two.deck.size(), GameState.player_two.graveyard.size(),
 	]
-
-#func _on_choice_requested(req: ChoiceRequest) -> void:
-	#if req == null:
-		#push_warning("MatchController: _on_choice_requested received a null request -- ignoring")
-		#return
-	#
-	#if req.requesting_player != GameState.local_player and \
-	#not DebugSettings.show_all_choices_in_debug_ui:
-		#return
-	#
-	#if _choice_panel:
-		#_choice_panel.queue_free()
-	#_choice_checkboxes.clear()
-	#
-	#_choice_panel = VBoxContainer.new()
-	#_choice_panel.position = Vector2(20, 220)
-	#_canvas.add_child(_choice_panel)
-	#
-	#var label := Label.new()
-	#label.text = "Player %s: %s (Pick %d-%d)" % [
-		#"1" if req.requesting_player == GameState.player_one else "2",
-		#req.prompt,
-		#req.min_count,
-		#req.max_count]
-	#_choice_panel.add_child(label)
-	#
-	#for option in req.options:
-		#var cb := CheckBox.new()
-		#cb.text = _describe_option(option)
-		#cb.toggled.connect(func(pressed: bool): _on_option_toggled(option, pressed))
-		#_choice_panel.add_child(cb)
-		#_choice_checkboxes[option] = cb
-	#
-	#var confirm := Button.new()
-	#confirm.text = "Confirm choice"
-	#confirm.pressed.connect(_on_choice_confirmed)
-	#_choice_panel.add_child(confirm)
-#
-#func _on_option_toggled(option, pressed: bool) -> void:
-	#if option is CardInstance:
-		#var node := CardViewManager.card_node_for(option)
-		#if node:
-			#node.set_selected(pressed)
-#
-#func _on_choice_confirmed() -> void:
-	#var selected: Array = []
-	#for option in _choice_checkboxes:
-		#if _choice_checkboxes[option].button_pressed:
-			#selected.append(option)
-		#if option is CardInstance:
-			#var node := CardViewManager.card_node_for(option)
-			#if node:
-				#node.set_selected(false)
-	#
-	##Save reference to current choice panel
-	#var panel_to_close := _choice_panel
-	#
-	#var submited : bool = ChoiceManager.submit(selected)
-	#
-	#if submited:
-		#if panel_to_close:
-			#panel_to_close.queue_free()
-		#
-		##Only clear the shared reference if nothing newer has already
-		##taken its place -- otherwise this would null out the reference
-		##to the new panel that's now legitimately showing.
-		#if _choice_panel == panel_to_close:
-			#_choice_panel = null
-		#_refresh_ui()
-#
-#func _describe_option(option) -> String:
-	#if option is CardInstance:
-		#return option.definition.card_name
-	#return str(option)
 
 func _game_end(losing_player : Player) -> void:
 	if losing_player != GameState.local_player:
