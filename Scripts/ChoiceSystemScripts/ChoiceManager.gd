@@ -159,3 +159,8 @@ func submit(selected: Array) -> bool:
 		_activate_next()
 	
 	return true
+
+
+# --- Helpers -----------
+func has_pending_request() -> bool:
+	return _pending != null

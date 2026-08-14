@@ -29,6 +29,9 @@ func begin(request: ChoiceRequest) -> void:
 	_request = request
 	_selected.clear()
 	
+	if request.requesting_player != GameState.local_player:
+		return #TODO
+	
 	prompt_label.text = request.prompt
 	
 	#Branch into specific ChoiceRequest
@@ -46,7 +49,7 @@ func _finish(request : ChoiceRequest) -> void:
 	
 	if request != null:
 		if request is CardChoiceRequest:
-			_clear_card_selection()
+			_card_request_cleanup(request)
 	
 	_selected.clear()
 	_request = null
@@ -96,9 +99,10 @@ func _card_request_cleanup(request : CardChoiceRequest) -> void:
 		if node.selection_pressed.is_connected(_on_card_selection_pressed):
 			node.selection_pressed.disconnect(_on_card_selection_pressed)
 			
-	for node in CardViewManager.get_all_card_nodes():
+	for node : Card in CardViewManager.get_all_card_nodes():
 		if node:
 			node.set_interaction_mode(Card.InteractionMode.NORMAL)
+			node._refresh_visuals()
 
 func _set_cards_for_choice(request: CardChoiceRequest) -> void:
 	#Block Normal card interaction by disabling card
