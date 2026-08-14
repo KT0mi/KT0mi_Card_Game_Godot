@@ -3,6 +3,17 @@ class_name Card
 
 signal picked_up(card: Card)
 signal dropped(card: Card)
+signal selection_pressed(card: Card)
+
+##Player Interaction Variables
+enum InteractionMode {NORMAL, SELECTABLE, DISABLED}
+var interaction_mode : InteractionMode = InteractionMode.NORMAL
+func set_interaction_mode(mode : InteractionMode) -> void:
+	interaction_mode = mode
+
+var hovered: bool = false
+var selected: bool = false
+var _drop_target: CardHolder = null
 
 #Movement vars
 @export var spring_stiffness: float = 0.2
@@ -31,9 +42,6 @@ const HOVER_Z_INDEX := 100
 @onready var hidden_overlay: ColorRect = $HiddenOverlay
 @onready var card_fx: Control = $CardFX
 
-var hovered: bool = false
-var selected: bool = false
-var _drop_target: CardHolder = null
 
 var card_instance: CardInstance = null
 
@@ -122,10 +130,19 @@ func _on_mouse_exited() -> void:
 func _draw() -> void:
 	#Selection wins over hover when both are true, so you can tell a
 	#chosen card apart from one you're merely mousing over while choosing.
-	if selected:
-		_draw_outline(Color(0.3, 0.6, 1.0, 0.95), 5.0)
-	elif hovered:
-		_draw_outline(Color(1, 1, 1, 0.6), 5)
+	match interaction_mode:
+		InteractionMode.NORMAL:
+			#if selected:
+				#_draw_outline(Color(0.3, 0.6, 1.0, 0.95), 5.0)
+			if hovered:
+				_draw_outline(Color(1, 1, 1, 0.6), 5)
+		InteractionMode.SELECTABLE:
+			if selected:
+				_draw_outline(Color(0.168, 0.722, 0.0, 0.95), 5.0)
+			elif hovered:
+				_draw_outline(Color(1, 1, 1, 0.6), 5)
+			else:
+				_draw_outline(Color(0.774, 0.557, 0.0, 0.95), 5)
  
 func _draw_outline(color: Color, width: float) -> void:
 	var shape_node := get_node_or_null("CollisionShape2D") as CollisionShape2D
@@ -136,9 +153,25 @@ func _draw_outline(color: Color, width: float) -> void:
 	draw_rect(rect, color, false, width)
 
 func _on_input_event(_viewport: Node, event: InputEvent, _shape_idx: int) -> void:
-	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT:
-		if event.is_pressed() and not dragging:
-			_start_drag()
+	if not event is InputEventMouseButton:
+		return
+	
+	if event.button_index != MOUSE_BUTTON_LEFT:
+		return
+	
+	if not event.is_pressed():
+		return
+	
+	match interaction_mode:
+		InteractionMode.NORMAL:
+			if not dragging:
+				_start_drag()
+		
+		InteractionMode.SELECTABLE:
+			selection_pressed.emit(self)
+			
+		InteractionMode.DISABLED:
+			pass
 
 func _unhandled_input(event: InputEvent) -> void:
 	if dragging and event is InputEventMouseButton:

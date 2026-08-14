@@ -93,3 +93,8 @@ func refresh_gate_label(card_instance: CardInstance) -> String:
 			return "%d-%d" % [gate.lower_bound, gate.upper_bound]
 		_:
 			return ""
+
+# --- HELPER FUNCTIONS -------
+
+func get_all_card_nodes() -> Array[Card]:
+	return _card_nodes.values()
