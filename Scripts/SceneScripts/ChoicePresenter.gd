@@ -90,6 +90,7 @@ func _on_confirm_pressed() -> void:
 func _waiting_state() -> void:
 	visible = true
 	prompt_label.text = "Waiting for opponent choice..."
+	confirm_button.visible = false
 	
 func _on_choice_resolved(request : ChoiceRequest) -> void:
 	match _state:
@@ -98,6 +99,14 @@ func _on_choice_resolved(request : ChoiceRequest) -> void:
 		State.LOCAL_CHOICE:
 			_finish(request)
 		State.WAITING_FOR_OTHER_PLAYER:
+			_selected.clear()
+			_request = null
+			
+			prompt_label.text = ""
+			selection_label.text = ""
+			confirm_button.visible = true
+			confirm_button.disabled = true
+			
 			visible = false
 
 #endregion
