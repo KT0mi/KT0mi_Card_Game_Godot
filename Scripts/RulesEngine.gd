@@ -49,7 +49,7 @@ func setup_match() -> void:
 		else:
 			await GameActions.draw_cards(player, 7, DrawCardEvent.Reason.TURN)
 	
-	do_mulligan()
+	await do_mulligan()
 	
 	#var face_card := CardInstance.new(CardDatabase.get_definition(&"player_face"), player)
 	#await ZoneManager.move_to(face_card, Zone.Type.PLAYER, ZoneChangeEvent.Reason.MANUAL)
@@ -71,13 +71,14 @@ func do_mulligan() -> void:
 			ChoiceContext.MULLIGAN(player)
 		)
 		
-		if m_cards.is_empty() or m_cards == null: 
-			print("RulesEngine: No valid cards in selected")
-			return
-		
 		for c : CardInstance in m_cards:
-			ZoneManager.move_to(c, Zone.Type.DECK, ZoneChangeEvent.Reason.MANUAL)
+			await ZoneManager.move_to(c, Zone.Type.DECK, ZoneChangeEvent.Reason.MANUAL)
 		
-		player.deck.shuffle()
-		
-		await GameActions.draw_cards(player, m_cards.size(), DrawCardEvent.Reason.TURN)
+		if not m_cards.is_empty():
+			player.deck.shuffle()
+			
+			await GameActions.draw_cards(
+				player,
+				m_cards.size(),
+				DrawCardEvent.Reason.TURN
+			)

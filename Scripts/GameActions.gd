@@ -22,6 +22,10 @@ func try_play_card(player: Player, card: CardInstance, lane : int = -1) -> bool:
 		print("GameActions: Failed try_play_card action: Reason: Not active player")
 		return false
 	
+	if ChoiceManager.has_pending_request():
+		print("GameActions: Cannot play card while a choice is pending")
+		return false
+	
 	if !card.is_playable(player.get_player_card().get_endurance()):
 		print("GameActions: Failed try_play_card action: Reason: Card gated")
 		return false

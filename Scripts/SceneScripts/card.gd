@@ -10,6 +10,7 @@ enum InteractionMode {NORMAL, SELECTABLE, DISABLED}
 var interaction_mode : InteractionMode = InteractionMode.NORMAL
 func set_interaction_mode(mode : InteractionMode) -> void:
 	interaction_mode = mode
+	queue_redraw()
 
 var hovered: bool = false
 var selected: bool = false

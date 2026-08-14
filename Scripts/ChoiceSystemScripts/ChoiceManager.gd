@@ -139,7 +139,14 @@ func _activate_next() -> void:
 	_pending = _queue.pop_front()
 	#Having a deferred call guarantees that "await req.resolved" is already listening
 	#Before the request is resolved so that I can avoid race-conditions
-	choice_requested.emit(_pending)
+	var request := _pending
+	_emit_request.call_deferred(request)
+
+func _emit_request(request : ChoiceRequest) -> void:
+	if request != _pending:
+		return
+		
+	choice_requested.emit(request)
 
 func submit(selected: Array) -> bool:
 	if _pending == null:
@@ -150,6 +157,9 @@ func submit(selected: Array) -> bool:
 		return false
 	var resolved_req := _pending
 	_pending = null
+	
+	choice_resolved.emit(resolved_req)
+	
 	resolved_req.resolved.emit(selected)
 	
 	#Only advance the queue

@@ -5,6 +5,9 @@ class_name CardChoicePresenter extends Control
 @onready var selection_label: Label = $ChoiceLabelContainer/SelectionLabel
 @onready var confirm_button: Button = $ChoiceLabelContainer/ConfirmButton
 
+enum State {IDLE, LOCAL_CHOICE, WAITING_FOR_OTHER_PLAYER}
+var _state: State = State.IDLE
+
 var _request: ChoiceRequest = null
 var _selected: Array = []
 
@@ -12,6 +15,7 @@ func _ready() -> void:
 	visible = false
 	confirm_button.pressed.connect(_on_confirm_pressed)
 	ChoiceManager.choice_requested.connect(begin)
+	ChoiceManager.choice_resolved.connect(_on_choice_resolved)
 
 func _refresh() -> void:
 	if _request == null:
@@ -30,8 +34,11 @@ func begin(request: ChoiceRequest) -> void:
 	_selected.clear()
 	
 	if request.requesting_player != GameState.local_player:
-		return #TODO
+		_state = State.WAITING_FOR_OTHER_PLAYER
+		_waiting_state()
+		return
 	
+	_state = State.LOCAL_CHOICE
 	prompt_label.text = request.prompt
 	
 	#Branch into specific ChoiceRequest
@@ -72,7 +79,6 @@ func _on_confirm_pressed() -> void:
 	var response: Array = []
 	response.append_array(_selected)
 	
-	_finish(finishing_request)
 	
 	var submitted := await ChoiceManager.submit(response)
 	
@@ -80,6 +86,19 @@ func _on_confirm_pressed() -> void:
 		push_error(
 			"CardChoicePresenter: valid active request was rejected."
 		)
+		
+func _waiting_state() -> void:
+	visible = true
+	prompt_label.text = "Waiting for opponent choice..."
+	
+func _on_choice_resolved(request : ChoiceRequest) -> void:
+	match _state:
+		State.IDLE:
+			return
+		State.LOCAL_CHOICE:
+			_finish(request)
+		State.WAITING_FOR_OTHER_PLAYER:
+			visible = false
 
 #endregion
 

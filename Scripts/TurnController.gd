@@ -17,7 +17,7 @@ func round_counter() -> int:
 	return ceili(turn_counter/2.0)
 
 func start_match() -> void:
-	RulesEngine.setup_match()
+	await RulesEngine.setup_match()
 	current_player = GameState.player_one
 	turn_counter = 1
 	await _enter_phase(Phase.START_TURN)
