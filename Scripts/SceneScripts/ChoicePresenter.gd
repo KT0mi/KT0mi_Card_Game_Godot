@@ -121,6 +121,8 @@ func setup_card_choice(request: CardChoiceRequest) -> void:
 	_set_cards_for_choice(request)
 
 func _card_request_cleanup(request : CardChoiceRequest) -> void:
+	_clear_card_selection()
+	
 	for card in request.card_options:
 		var node := CardViewManager.card_node_for(card)
 		

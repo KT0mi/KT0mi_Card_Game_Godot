@@ -63,8 +63,11 @@ func _take_start_turn_phase_actions() -> void:
 
 func _take_play_phase_actions() -> void:
 	var ai := _ai_player()
-	#No strategy at all: try every card currently in hand once, in order,
-	#and just accept whatever GameActions allows or rejects.
+	#Play Heuristic: Play creatures first, then spells
+	#Play Strongest Creatures first in the first possible lane
+	
+	var p_creatures : Array[CardInstance]
+	
 	for card:CardInstance in ai.hand.duplicate():
 		if card.is_creature():
 			for i in ai.ARENA_LANES-1:

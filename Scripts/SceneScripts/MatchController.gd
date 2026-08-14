@@ -54,6 +54,11 @@ func _setup_decks() -> void:
 	if deck != null:
 		player_one_deck = deck
 	
+	var enemy_deck : DeckData
+	enemy_deck = DeckStorage.load_deck(StateData.enemy_chosen_deck)
+	if enemy_deck != null:
+		player_two_deck = enemy_deck
+	
 func _setup_players() -> void:
 	GameState.local_player = GameState.player_one #Default value for testing
 	

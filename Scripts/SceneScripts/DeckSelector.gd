@@ -2,9 +2,11 @@ extends ScrollContainer
 
 @onready var delete_button_icon := preload("res://Assets/Images/Test/trash_icon.png")
 @onready var edit_button_icon := preload("res://Assets/Images/Test/edit_icon.png")
+@onready var enemy_button_icon := preload("res://Assets/Images/Test/enemy_icon.png")
 @onready var deck_list : BoxContainer = $DeckList
 
 signal choose_deck(id : String)
+signal choose_enemy_deck(id : String)
 
 const DECK_BUILDER_SCENE = "res://Scenes/DeckBuilder.tscn"
 
@@ -35,12 +37,18 @@ func _populate_deck_list() -> void:
 		edit_button.icon = edit_button_icon
 		edit_button.pressed.connect(_edit_button.bind(deck.id))
 		
+		var enemy_button : Button = Button.new()
+		enemy_button.icon = enemy_button_icon
+		enemy_button.pressed.connect(func(): choose_enemy_deck.emit(deck.id))
+		
 		deck_box.add_child(deck_button)
 		deck_box.add_spacer(true)
+		deck_box.add_child(enemy_button)
 		deck_box.add_child(edit_button)
 		deck_box.add_child(delete_button)
 		
 		deck_list.add_child(deck_box)
+
 
 func _edit_button(id: String) -> void:
 	StateData.editing_deck = id

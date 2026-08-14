@@ -12,6 +12,7 @@ func _ready() -> void:
 	duel_button.pressed.connect(_on_duel_pressed)
 	deck_builder_button.pressed.connect(_on_deck_builder_pressed)
 	deck_selector.choose_deck.connect(func(id): StateData.chosen_deck = id)
+	deck_selector.choose_enemy_deck.connect(func(id): StateData.enemy_chosen_deck = id)
 
 func _on_duel_pressed() -> void:
 	get_tree().change_scene_to_file(DUEL_SCENE)
