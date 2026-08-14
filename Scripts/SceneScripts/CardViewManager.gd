@@ -96,5 +96,5 @@ func refresh_gate_label(card_instance: CardInstance) -> String:
 
 # --- HELPER FUNCTIONS -------
 
-func get_all_card_nodes() -> Array[Card]:
+func get_all_card_nodes() -> Array:
 	return _card_nodes.values()

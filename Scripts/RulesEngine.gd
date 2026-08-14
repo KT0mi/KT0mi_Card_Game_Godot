@@ -62,7 +62,7 @@ func do_mulligan() -> void:
 				continue
 			candidates.append(c)
 		
-		var m_cards : Array = await ChoiceManager.request(
+		var m_cards : Array[CardInstance] = await ChoiceManager.request_cards(
 			"Choose any cards in your hand to mulligan",
 			candidates,
 			player,
