@@ -7,6 +7,7 @@ extends Node
 # bail if cancelled -> perform the state change -> emit the "resolved" notification.
 
 signal card_stat_changed(card: CardInstance)
+signal attack_performed(attacker: CardInstance, target: CardInstance)
 
 func try_play_card(player: Player, card: CardInstance, lane : int = -1) -> bool:
 	print("GameActions: Requested try_play_card action")
@@ -94,12 +95,15 @@ func try_attack(attacker: CardInstance, target: CardInstance) -> bool:
 	if event.cancelled:
 		print("GameActions: Failed try_attack action. Reason: Request intercepted")
 		return false
+		
+	var actual_target := event.target
+	if actual_target != target:
+		print("GameActions: Attack target redirected")
 	
-	if event.target != target:
-		print("GameActions: Attack target redirected.")
+	attack_performed.emit(attacker, actual_target)
 	
-	await DamagePipeline.apply_damage(event.target, attacker.get_attack(), attacker)
-	await DamagePipeline.apply_damage(event.attacker, target.get_attack(), target)
+	await DamagePipeline.apply_damage(actual_target, attacker.get_attack(), attacker)
+	await DamagePipeline.apply_damage(event.attacker, actual_target.get_attack(), actual_target)
 	
 	print("GameActions: Resolved try_attack action sucessfully")
 	await TriggerSystem.emit(Events.ATTACK_RESOLVED, event)

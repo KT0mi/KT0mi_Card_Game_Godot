@@ -13,6 +13,43 @@ func _ready() -> void:
 	ZoneManager.card_zone_changed.connect(_on_zone_changed)
 	GameActions.card_stat_changed.connect(_refresh_card_visuals)
 	DamagePipeline.change_card_endurance.connect(_refresh_card_visuals)
+	
+	#AnimationQueue Points
+	GameActions.attack_performed.connect(_on_attack_performed)
+
+#region Animation Methods
+func _on_attack_performed(attacker: CardInstance, target:CardInstance) -> void:
+	AnimationQueue.enqueue(func()->void:
+		var attacker_node:=card_node_for(attacker)
+		var target_node:=card_node_for(target)
+		if attacker_node == null or target_node == null: return
+		var prev_mode := attacker_node.interaction_mode
+		attacker_node.set_interaction_mode(Card.InteractionMode.DISABLED)
+		await attacker_node.play_attack_lunge(target_node.global_position)
+		attacker_node.set_interaction_mode(prev_mode)
+	)
+
+
+func _on_zone_changed(card: CardInstance, from_zone: Zone.Type, to_zone: Zone.Type, from_lane: int = -1, to_lane: int = -1) -> void:
+	var node: Card = _card_nodes.get(card)
+	if node == null:
+		return  # card has no visual representation yet/anymore -- fine, e.g. still in deck
+		
+	AnimationQueue.enqueue(func() -> void:
+		var old_holder : CardHolder = _holder_nodes.get(_key(card.owner, from_zone, from_lane))
+		if old_holder:
+			await old_holder.remove_card(node)
+	
+		var holder: CardHolder = _holder_nodes.get(_key(card.owner, to_zone, to_lane))
+		if holder:
+			#var prev_mode := node.interaction_mode
+			#node.set_interaction_mode(Card.InteractionMode.DISABLED)
+			await holder.add_card(node)
+			#node.set_interaction_mode(prev_mode)
+		
+		refresh_cards(GameState.all_visible_cards())
+		)
+#endregion
 
 func create_card_node(card_instance : CardInstance) -> Card:
 	var node: Card = CARD_SCENE.instantiate()
@@ -33,22 +70,7 @@ func register_card_node(instance: CardInstance, node: Card) -> void:
 	instance.counter_changed.connect(func(_card, _counter): node._refresh_visuals())
 	instance.flag_changed.connect(func(_card, _flag): node._refresh_visuals())
 
-func _on_zone_changed(card: CardInstance, from_zone: Zone.Type, to_zone: Zone.Type, from_lane: int = -1, to_lane: int = -1) -> void:
-	var node: Card = _card_nodes.get(card)
-	if node == null:
-		return  # card has no visual representation yet/anymore -- fine, e.g. still in deck
-		
-	
-	
-	var old_holder : CardHolder = _holder_nodes.get(_key(card.owner, from_zone, from_lane))
-	if old_holder:
-		old_holder.remove_card(node)
-	
-	var holder: CardHolder = _holder_nodes.get(_key(card.owner, to_zone, to_lane))
-	if holder:
-		holder.add_card(node)
-		
-	refresh_cards(GameState.all_visible_cards())
+
 
 func _key(player: Player, zone: Zone.Type, lane : int = -1) -> String:
 	return "%s:%s:%s" % [player.get_instance_id(), zone, lane]

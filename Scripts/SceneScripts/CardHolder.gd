@@ -70,13 +70,12 @@ func _draw() -> void:
 		HORIZONTAL_ALIGNMENT_LEFT, -1, 13)
 		
 
-
 func can_accept(_card: Card) -> bool:
 	return capacity < 0 or held_cards.size() < capacity
 	
 func add_card(card: Card) -> void:
 	if card in held_cards:
-		_arrange_cards()
+		await _arrange_cards()
 		return
 		
 	held_cards.append(card)
@@ -88,10 +87,11 @@ func add_card(card: Card) -> void:
 	
 func remove_card(card: Card) -> void:
 	held_cards.erase(card)
-	_arrange_cards()
+	await _arrange_cards()
 	
 func _arrange_cards() -> void:
 	var count := held_cards.size()
+	var last_tween: Tween = null
 	for i in count:
 		var card := held_cards[i]
 		var target_pos := _target_position(i, count)
@@ -102,8 +102,10 @@ func _arrange_cards() -> void:
 		var tween := create_tween()
 		tween.tween_property(card, "position", target_pos, snap_duration) \
 			.set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
+		last_tween = tween
 			
 	queue_redraw()
+	if last_tween: await last_tween.finished
 
 func _target_position(i : int, count : int) -> Vector2:
 	match arrangement:
