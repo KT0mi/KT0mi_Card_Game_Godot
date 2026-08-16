@@ -1,5 +1,4 @@
-extends Area2D
-class_name Card
+class_name Card extends Area2D
 
 signal picked_up(card: Card)
 signal dropped(card: Card)
@@ -123,20 +122,27 @@ func set_selected(value: bool) -> void:
 func _on_mouse_entered() -> void:
 	hovered = true
 	queue_redraw()
- 
+	if interaction_mode != InteractionMode.DISABLED:
+		HoverHandler.focus(self, _collision_local_rect())
+
 func _on_mouse_exited() -> void:
 	hovered = false
 	queue_redraw()
+	HoverHandler.unfocus(self)
+
+func _collision_local_rect() -> Rect2:
+	var shape_node := get_node_or_null("CollisionShape2D") as CollisionShape2D
+	if shape_node == null or not (shape_node.shape is RectangleShape2D):
+		return Rect2()
+	var size: Vector2 = shape_node.shape.size
+	return Rect2(shape_node.position - size / 2, size)
  
 func _draw() -> void:
 	#Selection wins over hover when both are true, so you can tell a
 	#chosen card apart from one you're merely mousing over while choosing.
 	match interaction_mode:
 		InteractionMode.NORMAL:
-			#if selected:
-				#_draw_outline(Color(0.3, 0.6, 1.0, 0.95), 5.0)
-			if hovered:
-				_draw_outline(Color(1, 1, 1, 0.6), 5)
+			return
 		InteractionMode.SELECTABLE:
 			if selected:
 				_draw_outline(Color(0.168, 0.722, 0.0, 0.95), 5.0)
@@ -188,6 +194,9 @@ func _physics_process(_delta: float) -> void:
 		
 		rotation_degrees = clamp(velocity.x * tilt_strength, -max_tilt_degrees, max_tilt_degrees)
 		_update_drop_target(target)
+		
+		if interaction_mode != InteractionMode.DISABLED:
+			HoverHandler.focus(self, _collision_local_rect(), true)
 	else:
 		rotation_degrees = move_toward(rotation_degrees, rest_rotation_degrees, tilt_recover_speed)
 		
@@ -230,6 +239,8 @@ func _end_drag() -> void:
 	var moved := false
 	if holder and card_instance:
 		moved = await _attempt_card_action(holder)
+	
+	HoverHandler.unfocus(self)
 	
 	if not moved:
 		_snap_back_to_current_holder()

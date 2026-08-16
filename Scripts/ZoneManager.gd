@@ -31,6 +31,8 @@ func move_to(
 		player.zone_array(to_zone).append(card)
 	
 	card.current_zone = to_zone
+	if GameState.is_continuous_source_active(card):
+		card.continuous_since = GameState.next_timestamp()
 	card_zone_changed.emit(card, from_zone, to_zone, from_lane, lane)
 	await TriggerSystem.emit(Events.ZONE_CHANGE, 
 		ZoneChangeEvent.new(card, from_zone, to_zone, reason, lane))

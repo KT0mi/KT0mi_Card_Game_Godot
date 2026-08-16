@@ -1,5 +1,8 @@
 class_name Events extends RefCounted
 
+#Empty Event for debugging and null purposes
+const EMPTY = &"empty_event"
+
 #Phase and Turn Events
 const START_PHASE_START = &"on_start_phase_start"
 const START_PHASE_END = &"on_start_phase_end"

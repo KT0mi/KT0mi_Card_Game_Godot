@@ -12,13 +12,13 @@ const TAUNT := &"taunt"
 const QUICK := &"quick"
 const BLOCK := &"block"
 
-## -------- Misc. -----
+## -------- IDs -----
 const BLEEDING_HEART := &"bleeding_heart"
 
 ## ------ Abilities -----
 
 static func QUICK_ABILITY() -> Ability:
-	return Ability.new(Events.END_PHASE_END, func(c,e): return, func(c,e): return false, [QUICK])
+	return Ability.new(Events.EMPTY, func(c,e): return, func(c,e): return false, [QUICK])
 
 static func TAUNT_ABILITY() -> Ability:
 	return Ability.new(

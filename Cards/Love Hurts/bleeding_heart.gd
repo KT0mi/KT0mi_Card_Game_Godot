@@ -21,7 +21,7 @@ func _build_abilities() -> Array[Ability]:
 	return [
 		Ability.new(
 			Events.PLAY_PHASE_START,
-			func(c:CardInstance, e:PhaseEvent):
+			func(c:CardInstance, _e:PhaseEvent):
 				if c.tick_counter(TIMER_KEY) <= 0:
 					await DamagePipeline.apply_damage(c.owner.get_player_card(), 2, c)
 					await ZoneManager.move_to(c, Zone.Type.GRAVEYARD, ZoneChangeEvent.Reason.RESOLVE),

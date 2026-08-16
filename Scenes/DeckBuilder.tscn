@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://b46iywo1a4gvp"]
 
-[ext_resource type="Theme" uid="uid://bxjx78kc5nbmv" path="res://Theme/card_label_theme.tres" id="1_3sf4w"]
+[ext_resource type="Theme" uid="uid://bxjx78kc5nbmv" path="res://Theme/default_theme.tres" id="1_3sf4w"]
 [ext_resource type="Script" uid="uid://diqby4l42ot5k" path="res://Scripts/SceneScripts/DeckBuilderController.gd" id="1_7t3uy"]
 
 [node name="DeckBuilder" type="Control" unique_id=333503037]

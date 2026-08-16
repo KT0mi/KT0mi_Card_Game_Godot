@@ -6,7 +6,7 @@
 [ext_resource type="Resource" uid="uid://boajlc1qxckn8" path="res://Decks/CritterDeck.tres" id="2_qsjrb"]
 [ext_resource type="PackedScene" uid="uid://dlbv0s30abxbh" path="res://Scenes/ArenaHolder.tscn" id="3_8k7wh"]
 [ext_resource type="PackedScene" uid="uid://qr031myx78re" path="res://Scenes/SpellbookHolder.tscn" id="5_0f5h7"]
-[ext_resource type="Theme" uid="uid://bxjx78kc5nbmv" path="res://Theme/card_label_theme.tres" id="7_c264a"]
+[ext_resource type="Theme" uid="uid://bxjx78kc5nbmv" path="res://Theme/default_theme.tres" id="7_c264a"]
 [ext_resource type="Script" uid="uid://c7ay7pp3cjyya" path="res://Scripts/SceneScripts/ChoicePresenter.gd" id="8_6xh1p"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_0f5h7"]

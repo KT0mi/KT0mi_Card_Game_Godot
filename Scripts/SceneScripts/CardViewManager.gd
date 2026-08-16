@@ -37,6 +37,8 @@ func _on_zone_changed(card: CardInstance, from_zone: Zone.Type, to_zone: Zone.Ty
 	var node: Card = _card_nodes.get(card)
 	if node == null:
 		return  # card has no visual representation yet/anymore -- fine, e.g. still in deck
+		
+	refresh_all_cards()
 	
 	var old_holder : CardHolder = _holder_nodes.get(_key(card.owner, from_zone, from_lane))
 	if old_holder:
@@ -98,3 +100,12 @@ func refresh_gate_label(card_instance: CardInstance) -> String:
 
 func get_all_card_nodes() -> Array:
 	return _card_nodes.values()
+
+func refresh_cards(cards : Array[CardInstance]) -> void:
+	for c in cards:
+		var node := card_node_for(c)
+		node._refresh_visuals()
+
+func refresh_all_cards() -> void:
+	for n: Card in _card_nodes.values():
+		n._refresh_visuals()

@@ -1,11 +1,11 @@
 [gd_scene format=3 uid="uid://07qc2b2jhuei"]
 
-[ext_resource type="Script" uid="uid://dvv3rnube10c7" path="res://Scripts/SceneScripts/Card.gd" id="1_pnb5n"]
+[ext_resource type="Script" uid="uid://b1lctn4g0unl6" path="res://Scripts/SceneScripts/Card.gd" id="1_pnb5n"]
 [ext_resource type="Texture2D" uid="uid://dkn0uibqujipt" path="res://Assets/Images/Test/border_1.png" id="2_3p273"]
 [ext_resource type="Texture2D" uid="uid://rfm4n84le83w" path="res://Assets/Images/Cards/Sprites/fireball.png" id="2_kphy1"]
 [ext_resource type="Texture2D" uid="uid://cngvbysyumswh" path="res://Assets/Images/Test/border_element_9slice.png" id="3_h8wm0"]
 [ext_resource type="Texture2D" uid="uid://k3hv0wjq3xgp" path="res://Assets/Images/Test/border_element.png" id="4_3m7nw"]
-[ext_resource type="Theme" uid="uid://bxjx78kc5nbmv" path="res://Theme/card_label_theme.tres" id="5_wejov"]
+[ext_resource type="Theme" uid="uid://bxjx78kc5nbmv" path="res://Theme/default_theme.tres" id="5_wejov"]
 [ext_resource type="Script" uid="uid://cy6tqi2ktdrh2" path="res://Scripts/SceneScripts/CardFX.gd" id="7_1geux"]
 [ext_resource type="Texture2D" uid="uid://dle8j24yssunu" path="res://Assets/Images/FX/dazedfx.png" id="7_c6tr3"]
 
@@ -143,11 +143,11 @@ layout_mode = 0
 offset_left = -57.0
 offset_top = -110.0
 offset_right = 56.0
-offset_bottom = -85.0
+offset_bottom = -88.0
 theme = ExtResource("5_wejov")
 text = "Card Name"
 horizontal_alignment = 1
-vertical_alignment = 1
+vertical_alignment = 2
 autowrap_mode = 3
 
 [node name="Attack" type="Control" parent="Labels" unique_id=980478003]
@@ -168,14 +168,14 @@ texture = ExtResource("4_3m7nw")
 
 [node name="AttackLabel" type="Label" parent="Labels/Attack" unique_id=588477204]
 layout_mode = 0
-offset_left = -2.0
-offset_top = -3.0
-offset_right = 22.0
-offset_bottom = 21.0
+offset_left = 2.0
+offset_top = 2.0
+offset_right = 19.0
+offset_bottom = 19.0
 theme = ExtResource("5_wejov")
 text = "0"
 horizontal_alignment = 1
-vertical_alignment = 1
+vertical_alignment = 2
 
 [node name="Endurance" type="Control" parent="Labels" unique_id=1150958294]
 layout_mode = 3
@@ -195,14 +195,14 @@ texture = ExtResource("4_3m7nw")
 
 [node name="EnduranceLabel" type="Label" parent="Labels/Endurance" unique_id=794828416]
 layout_mode = 0
-offset_left = -2.0
-offset_top = -3.0
-offset_right = 22.0
-offset_bottom = 21.0
+offset_left = 2.0
+offset_top = 2.0
+offset_right = 20.0
+offset_bottom = 19.0
 theme = ExtResource("5_wejov")
 text = "0"
 horizontal_alignment = 1
-vertical_alignment = 1
+vertical_alignment = 2
 
 [node name="Gate" type="Control" parent="Labels" unique_id=135431206]
 layout_mode = 3
@@ -227,14 +227,14 @@ patch_margin_bottom = 20
 
 [node name="GateLabel" type="Label" parent="Labels/Gate" unique_id=354365593]
 layout_mode = 0
-offset_left = -26.0
-offset_top = -11.0
+offset_left = -25.0
+offset_top = -6.0
 offset_right = 26.0
 offset_bottom = 12.0
 theme = ExtResource("5_wejov")
 text = "0"
 horizontal_alignment = 1
-vertical_alignment = 1
+vertical_alignment = 2
 
 [node name="CardBack" type="ColorRect" parent="." unique_id=428025629]
 visible = false

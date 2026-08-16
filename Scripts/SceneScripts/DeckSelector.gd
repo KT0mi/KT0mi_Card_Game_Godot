@@ -4,6 +4,7 @@ extends ScrollContainer
 @onready var edit_button_icon := preload("res://Assets/Images/Test/edit_icon.png")
 @onready var enemy_button_icon := preload("res://Assets/Images/Test/enemy_icon.png")
 @onready var deck_list : BoxContainer = $DeckList
+@onready var default_theme : Theme = preload("res://Theme/default_theme.tres")
 
 signal choose_deck(id : String)
 signal choose_enemy_deck(id : String)
@@ -21,6 +22,7 @@ func _populate_deck_list() -> void:
 		
 		var i : int = 0
 		var deck_button : Button = Button.new()
+		deck_button.theme = default_theme
 		deck_button.size = Vector2(124, 124)
 		if deck.deck_name != "":
 			deck_button.text = deck.deck_name 
@@ -28,18 +30,25 @@ func _populate_deck_list() -> void:
 			deck_button.text = "Untitled Deck %d" % i
 			i += 1
 		deck_button.pressed.connect(func(): choose_deck.emit(deck.id))
+		HoverHandler.register_hover(deck_button)
 		
 		var delete_button : Button = Button.new()
+		delete_button.theme = default_theme
 		delete_button.icon = delete_button_icon
 		delete_button.pressed.connect(_delete_button.bind(deck.id))
+		HoverHandler.register_hover(delete_button)
 		
 		var edit_button : Button = Button.new()
+		edit_button.theme = default_theme
 		edit_button.icon = edit_button_icon
 		edit_button.pressed.connect(_edit_button.bind(deck.id))
+		HoverHandler.register_hover(edit_button)
 		
 		var enemy_button : Button = Button.new()
+		enemy_button.theme = default_theme
 		enemy_button.icon = enemy_button_icon
 		enemy_button.pressed.connect(func(): choose_enemy_deck.emit(deck.id))
+		HoverHandler.register_hover(enemy_button)
 		
 		deck_box.add_child(deck_button)
 		deck_box.add_spacer(true)

@@ -8,6 +8,12 @@ class_name CardDefinition extends Resource
 @export var sets: Array[StringName] = []
 @export var art: Texture2D
 
+##Tags for matching this card from other card's effects
+##This both means that any card can have more than one tagged damage
+##And that many cards can opt into the same damage tag
+##(E.G. If two cards want to deal "fire damage" or something"
+@export var damage_tags: Array[StringName] = []
+
 #Overrideable on specific card definitions to inject dynamic instance state into
 #the displayed text. Defaults to card_text so that any card that doesn't have.
 #Dynamic text isn't affected and doesn't even have to touch this
@@ -36,4 +42,22 @@ func has_keyword(keyword: StringName) -> bool:
 	return false
 
 func _build_abilities() -> Array[Ability]:
+	return []
+
+
+var _continuous_effects_cache: Array[ContinuousEffect] = []
+var _continuous_effects_built: bool = false
+
+## Same caching rationale as get_abilities(): a ContinuousEffect's
+## Callables close over (source, candidate) / (value) passed in at query
+## time, never over per-instance state at construction time, so building
+## this once per definition is safe. Subclasses override
+## _build_continuous_effects(), not this.
+func get_continuous_effects() -> Array[ContinuousEffect]:
+	if not _continuous_effects_built:
+		_continuous_effects_cache = _build_continuous_effects()
+		_continuous_effects_built = true
+	return _continuous_effects_cache
+ 
+func _build_continuous_effects() -> Array[ContinuousEffect]:
 	return []

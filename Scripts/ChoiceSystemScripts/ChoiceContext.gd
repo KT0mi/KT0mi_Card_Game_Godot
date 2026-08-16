@@ -77,25 +77,33 @@ static func DAMAGE_EFFECT(src_card : CardInstance, a : int) -> ChoiceContext:
 	
 	return context
 
-static func DISCARD_EFFECT(src_card: CardInstance, a : int = 1) -> ChoiceContext:
+static func DISCARD_EFFECT(src_card: CardInstance) -> ChoiceContext:
 	var context := ChoiceContext.new()
 	
 	context.origin = Origin.CARD_EFFECT
 	context.intent = Intent.DISCARD
 	context.source_card = src_card
 	context.source_player = src_card.owner
-	context.amount = a
 	
 	return context
 
-static func KILL_EFFECT(src_card, a : int = 1) -> ChoiceContext:
+static func KILL_EFFECT(src_card) -> ChoiceContext:
 	var context := ChoiceContext.new()
 	
 	context.origin = Origin.CARD_EFFECT
 	context.intent = Intent.KILL
 	context.source_card = src_card
 	context.source_player = src_card.owner
-	context.amount = a
+	
+	return context
+
+static func SACRIFICE_EFFECT(src_card) -> ChoiceContext:
+	var context := ChoiceContext.new()
+	
+	context.origin = Origin.CARD_EFFECT
+	context.intent = Intent.SACRIFICE
+	context.source_card = src_card
+	context.source_player = src_card.owner
 	
 	return context
 

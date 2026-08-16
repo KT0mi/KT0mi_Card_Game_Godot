@@ -4,7 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://rfm4n84le83w" path="res://Assets/Images/Cards/Sprites/fireball.png" id="2_6s5ms"]
 [ext_resource type="Texture2D" uid="uid://dkn0uibqujipt" path="res://Assets/Images/Test/border_1.png" id="3_wjkf1"]
 [ext_resource type="Texture2D" uid="uid://cngvbysyumswh" path="res://Assets/Images/Test/border_element_9slice.png" id="4_rq1h3"]
-[ext_resource type="Theme" uid="uid://bxjx78kc5nbmv" path="res://Theme/card_label_theme.tres" id="5_1sly5"]
+[ext_resource type="Theme" uid="uid://bxjx78kc5nbmv" path="res://Theme/default_theme.tres" id="5_1sly5"]
 [ext_resource type="Texture2D" uid="uid://k3hv0wjq3xgp" path="res://Assets/Images/Test/border_element.png" id="6_k3667"]
 
 [node name="DeckBuilderCard" type="PanelContainer" unique_id=451747793]

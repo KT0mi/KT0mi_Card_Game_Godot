@@ -1,4 +1,6 @@
 class_name Modifier extends RefCounted
+##A Modifier is a permanent (Default: add-only, auto-cleanup) addition to card stats
+##That is stored by cards
 
 var effect : Callable
 var source : CardInstance

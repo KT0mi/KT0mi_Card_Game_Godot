@@ -85,6 +85,9 @@ func try_kill_card(card : CardInstance) -> bool:
 
 func try_attack(attacker: CardInstance, target: CardInstance) -> bool:
 	print("GameActions: Requested try_attack action")
+	if attacker.current_zone == Zone.Type.GRAVEYARD:
+		print("GameActions: Failed try_attack_action. Reason: Card is in graveyard")
+		return false
 	
 	var event := AttackEvent.new(attacker, target)
 	await TriggerSystem.emit(Events.ATTACK_REQUEST, event)

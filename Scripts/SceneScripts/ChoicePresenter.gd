@@ -14,6 +14,7 @@ var _selected: Array = []
 func _ready() -> void:
 	visible = false
 	confirm_button.pressed.connect(_on_confirm_pressed)
+	HoverHandler.register_hover(confirm_button)
 	ChoiceManager.choice_requested.connect(begin)
 	ChoiceManager.choice_resolved.connect(_on_choice_resolved)
 

@@ -20,7 +20,7 @@ func resolve_effect(card: CardInstance, _event: PlayCardEvent) -> void:
 		"Choose 1 card to discard:",
 		candidates,
 		card.owner,
-		ChoiceContext.DISCARD_EFFECT(card, 1)
+		ChoiceContext.DISCARD_EFFECT(card)
 	)
 	
 	ZoneManager.move_to(discard, Zone.Type.GRAVEYARD, ZoneChangeEvent.Reason.DISCARD)

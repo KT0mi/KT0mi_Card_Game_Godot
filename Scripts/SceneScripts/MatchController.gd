@@ -39,6 +39,8 @@ func _ready() -> void:
 	#Connect UI Elements
 	end_phase_button.pressed.connect(_on_advance_pressed)
 	forget_turn_button.pressed.connect(_on_forget_pressed)
+	HoverHandler.register_hover(end_phase_button)
+	HoverHandler.register_hover(forget_turn_button)
 	
 	await _setup_decks()
 	await _setup_players()

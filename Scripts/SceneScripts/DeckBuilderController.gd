@@ -21,6 +21,8 @@ func _ready() -> void:
 	_populate_available()
 	save_button.pressed.connect(_on_save_pressed)
 	back_button.pressed.connect(_on_back_pressed)
+	HoverHandler.register_hover(save_button)
+	HoverHandler.register_hover(back_button)
 	
 	if StateData.editing_deck != "":
 		var deck := DeckStorage.load_deck(StateData.editing_deck)
@@ -48,6 +50,7 @@ func _populate_available() -> void:
 			entry.add_requested.connect(_on_add)
 			_available_entries[def.id] = entry
 			_refresh_entry(def.id)
+			HoverHandler.register_hover(entry)
 			
 	await get_tree().process_frame
 	for child in available_list.get_children():

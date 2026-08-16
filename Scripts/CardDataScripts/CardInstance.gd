@@ -8,6 +8,14 @@ var lane: int = -1
 var current_endurance: int = 0
 var current_attack : int = 0
 
+## Stamped by ZoneManager.move_to whenever this card enters a zone where
+## GameState.is_continuous_source_active would be true. Used only to order
+## SET-layer ContinuousEffects deterministically ("most recently
+## established wins") -- see CheckSystem._resolve. -1 means "never
+## activated," which naturally sorts before anything real.
+var continuous_since: int = -1
+
+
 signal counter_changed(card : CardInstance, key : StringName)
 signal flag_changed(card : CardInstance, flag : StringName)
 
@@ -15,6 +23,8 @@ var counters: Dictionary = {}
 var flags: Dictionary = {}
 
 #Typed modifier arrays for type safety when parsing modifiers
+#These are permanent (Default: Added, auto-cleanup) modifiers.
+#These are not conditional: They are pushed into the card
 var attack_modifiers : Array[StatModifer] = []
 var endurance_modifiers : Array[StatModifer] = []
 var gate_modifiers : Array[GateModifier] = []
@@ -116,7 +126,7 @@ func set_flag(key: StringName, value: bool) -> void:
 
 ## --- Cleanup ----------------------------------------------------------------
  
-## Removes a specific modifier, e.g. when its duration ends.
+## Removes a specific durable modifier, e.g. when its duration ends.
 func remove_modifier(array: Array, modifier: Modifier) -> void:
 	array.erase(modifier)
  
