@@ -9,34 +9,15 @@ func _init() -> void:
 	endurance = 1
 	sets = ["goblin_forces"]
 
-func _build_abilities() -> Array[Ability]:
+func _build_continuous_effects() -> Array[ContinuousEffect]:
 	return [
-		Ability.new(
-			Events.PLAY_CARD_RESOLVED,
-			_goblin_mechanic_effect,
-			func(c,e:PlayCardEvent)->bool: return e.card.owner == c.owner 
-		),
-		Ability.new(
-			Events.KILL_RESOLVED,
-			_goblin_mechanic_cleanup,
-			func(c,e:DeathEvent)->bool: return e.card == c,
+		ContinuousEffect.new(
+			ContinuousEffect.Kind.ATTACK,
+			func(source: CardInstance, candidate: CardInstance) -> bool:
+				if source.lane >= source.owner.ARENA_LANES - 1:
+					return false
+				return candidate == source.owner.arena_lanes[source.lane + 1],
+			func(attack : int) -> int:
+				return attack + 1,
 		)
 	]
-
-func _goblin_mechanic_cleanup(card: CardInstance, event: DeathEvent) -> void:
-	if card.lane >= card.owner.ARENA_LANES-1:
-		return
-	
-	var c : CardInstance = card.owner.arena_lanes[card.lane+1]
-	
-	if c != null:
-		c.clear_modifiers_from(card)
-
-func _goblin_mechanic_effect(card:CardInstance, _event: PlayCardEvent) -> void:
-	if card.lane >= card.owner.ARENA_LANES-1:
-		return
-	
-	var c : CardInstance = card.owner.arena_lanes[card.lane+1]
-	
-	if c != null:
-		GameActions.try_modify_attack(c, StatModifer.delta(1, card))

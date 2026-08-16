@@ -24,14 +24,14 @@ func resolve_effect(card: CardInstance, _event: PlayCardEvent) -> void:
 			)
 		)
 	
-	await GameActions.try_modify_attack(t,
+	await GameActions.try_add_attack_modifier(t,
 	StatModifer.new(
 		func(attack) -> int: return attack + 1,
 		card,
 		"+1 Attack"
 		)
 	)
-	await GameActions.try_modify_endurance(t,
+	await GameActions.try_add_endurance_modifier(t,
 	StatModifer.new(
 		func(endurance) -> int: return endurance - 1,
 		card,

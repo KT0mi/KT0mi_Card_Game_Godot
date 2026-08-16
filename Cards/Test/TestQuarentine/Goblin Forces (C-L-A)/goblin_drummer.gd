@@ -21,5 +21,5 @@ func _build_abilities() -> Array[Ability]:
 func _goblin_drummer_effect(card : CardInstance, event: PlayCardEvent) -> void:
 	for c : CardInstance in card.owner.arena():
 		if c.is_creature():
-			GameActions.try_modify_attack(c, StatModifer.delta(1, card))
-			GameActions.try_modify_endurance(c, StatModifer.delta(1, card))
+			GameActions.try_add_attack_modifier(c, StatModifer.delta(1, card))
+			GameActions.try_add_endurance_modifier(c, StatModifer.delta(1, card))

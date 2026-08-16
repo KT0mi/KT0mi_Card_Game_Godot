@@ -66,29 +66,19 @@ func reset_stats() -> void:
 		current_attack = definition.attack
 
 ## Attribute Parsers - methods for parsing the current stats of the card given any modifiers
+##Mostly delegated to CheckSystem
 
 func get_display_text() -> String:
 	return definition.get_display_text(self)
 
 func get_attack() -> int:
-	var value := current_attack
-	for modifier in attack_modifiers:
-		value = modifier.apply(value)
-	return value
+	return CheckSystem.attack_of(self)
 
 func get_endurance() -> int:
-	var value := current_endurance
-	for modifer in endurance_modifiers:	
-		value = modifer.apply(value)
-	return value
+	return CheckSystem.endurance_of(self)
 	
 func get_gate() -> CardGate:
-	var gate := definition.gate
-	if gate == null:
-		return null
-	for modifier in gate_modifiers:
-		gate = modifier.apply(gate)
-	return gate
+	return CheckSystem.gate_of(self)
 
 ## --- Counters --------------------------------
 func get_counter(key: StringName) -> int:

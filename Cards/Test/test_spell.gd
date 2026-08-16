@@ -9,7 +9,7 @@ func _init() -> void:
 
 func resolve_effect(card: CardInstance, event: PlayCardEvent) -> void:
 	for c in card.owner.arena():
-		GameActions.try_modify_endurance(c, 
+		GameActions.try_add_endurance_modifier(c, 
 		StatModifer.new(func(endurance) -> int: return endurance + 1,
 		card,
 		"+1 Endurance")

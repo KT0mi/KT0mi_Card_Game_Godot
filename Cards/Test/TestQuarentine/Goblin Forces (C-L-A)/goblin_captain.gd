@@ -16,8 +16,8 @@ func _build_abilities() -> Array[Ability]:
 			Events.PLAY_CARD_RESOLVED,
 			func(c, e): 
 				print("goblin_captain: Effect Resolved")
-				GameActions.try_modify_attack(c, StatModifer.delta(1,c))
-				GameActions.try_modify_endurance(c, StatModifer.delta(1,c)),
+				GameActions.try_add_attack_modifier(c, StatModifer.delta(1,c))
+				GameActions.try_add_endurance_modifier(c, StatModifer.delta(1,c)),
 			func(c : CardInstance, e : PlayCardEvent) -> bool: return e.card == c and c.lane == 0
 		)
 	]

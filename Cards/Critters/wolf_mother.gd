@@ -25,4 +25,4 @@ func _wolf_mother_con(card: CardInstance, event:DeathEvent) -> bool:
 	return false
 
 func _wolf_mother_ability(card : CardInstance, _event : DeathEvent) -> void:
-	GameActions.try_modify_attack(card, StatModifer.delta(1))
+	GameActions.try_add_attack_modifier(card, StatModifer.delta(1))

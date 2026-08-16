@@ -24,4 +24,4 @@ func resolve_effect(card: CardInstance, event: PlayCardEvent) -> void:
 		)
 	)
 	
-	GameActions.try_modify_endurance(target, StatModifer.delta(1, card))
+	GameActions.try_add_endurance_modifier(target, StatModifer.delta(1, card))

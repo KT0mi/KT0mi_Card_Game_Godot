@@ -14,7 +14,7 @@ func _build_abilities() -> Array[Ability]:
 		Ability.new(
 			Events.PLAY_CARD_RESOLVED,
 			func(c : CardInstance, e: PlayCardEvent):
-				GameActions.try_modify_attack(c, StatModifer.delta(2, c)),
+				GameActions.try_add_attack_modifier(c, StatModifer.delta(2, c)),
 			func(c : CardInstance, e : PlayCardEvent) -> bool:
 				return e.player == GameState.opponent_of(c.owner) and c.is_creature(),
 		)

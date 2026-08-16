@@ -11,5 +11,5 @@ func _init() -> void:
 func resolve_effect(card: CardInstance, _event: PlayCardEvent) -> void:
 	for c in GameState.all_cards_in_arena():
 		if c.is_creature():
-			GameActions.try_modify_attack(c, StatModifer.delta(-1, card))
-			GameActions.try_modify_endurance(c, StatModifer.delta(-1, card))
+			GameActions.try_add_attack_modifier(c, StatModifer.delta(-1, card))
+			GameActions.try_add_endurance_modifier(c, StatModifer.delta(-1, card))

@@ -114,6 +114,7 @@ offset_right = 56.0
 offset_bottom = 87.0
 mouse_filter = 2
 theme = ExtResource("5_wejov")
+theme_override_constants/outline_size = 0
 bbcode_enabled = true
 text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam nec quam erat. Integer aliquam, ex nec lacinia dictum, dui risus tincidunt lacus, at dapibus magna diam sed enim. Donec sodales ligula at molestie vulputate. Donec dapibus lobortis orci, et dapibus erat semper sit amet. Duis sed maximus sem. Fusce in pharetra felis. Morbi congue maximus diam a dapibus. Sed at diam libero. Phasellus eu cursus justo. Sed vulputate lacus non fermentum bibendum. Sed nec lobortis enim. Sed consectetur at tellus ut viverra. Etiam consequat massa sit amet odio accumsan sagittis. Maecenas iaculis at lacus at vulputate"
 scroll_active = false

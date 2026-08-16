@@ -38,7 +38,7 @@ func _on_zone_changed(card: CardInstance, from_zone: Zone.Type, to_zone: Zone.Ty
 	if node == null:
 		return  # card has no visual representation yet/anymore -- fine, e.g. still in deck
 		
-	refresh_all_cards()
+	
 	
 	var old_holder : CardHolder = _holder_nodes.get(_key(card.owner, from_zone, from_lane))
 	if old_holder:
@@ -48,7 +48,7 @@ func _on_zone_changed(card: CardInstance, from_zone: Zone.Type, to_zone: Zone.Ty
 	if holder:
 		holder.add_card(node)
 		
-	node._refresh_visuals()
+	refresh_cards(GameState.all_visible_cards())
 
 func _key(player: Player, zone: Zone.Type, lane : int = -1) -> String:
 	return "%s:%s:%s" % [player.get_instance_id(), zone, lane]

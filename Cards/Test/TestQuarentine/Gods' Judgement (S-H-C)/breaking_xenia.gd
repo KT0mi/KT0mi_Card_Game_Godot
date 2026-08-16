@@ -9,7 +9,7 @@ func _init() -> void:
 	sets = ["gods_judgement"]
 
 func resolve_effect(card: CardInstance, _event: PlayCardEvent) -> void:
-	GameActions.try_modify_endurance(
+	GameActions.try_add_endurance_modifier(
 		GameState.opponent_of(card.owner).get_player_card(),
 		StatModifer.delta(5, card, "+5 Endurance")
 	)

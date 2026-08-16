@@ -36,11 +36,11 @@ const KILL_RESOLVED = &"on_kill_resolved"
 const SUMMON_REQUEST = &"on_summon_request"
 const SUMMON_RESOLVED = &"on_summon_resolved"
 #Modifier Game Action Events
-const MODIFY_ATTACK_REQUEST = &"on_try_modify_attack"
+const MODIFY_ATTACK_REQUEST = &"on_try_add_attack_modifier"
 const MODIFY_ATTACK_RESOLVE = &"on_modify_attack"
-const MODIFY_ENDURANCE_REQUEST = &"on_try_modify_endurance"
+const MODIFY_ENDURANCE_REQUEST = &"on_try_add_endurance_modifier"
 const MODIFY_ENDURANCE_RESOLVE = &"on_modify_endurance"
-const MODIFY_GATE_REQUEST = &"on_try_modify_gate"
+const MODIFY_GATE_REQUEST = &"on_try_add_gate_modifier"
 const MODIFY_GATE_RESOLVE = &"on_modify_gate"
 
 ##Pipeline Events

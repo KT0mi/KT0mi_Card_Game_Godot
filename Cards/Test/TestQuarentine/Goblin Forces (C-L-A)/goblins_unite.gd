@@ -22,5 +22,5 @@ func resolve_effect(card: CardInstance, _event: PlayCardEvent) -> void:
 		await GameActions.try_kill_card(c)
 		
 	var gm := await GameActions.try_summon_card(card.owner, &"goblin_mecha", Zone.Type.ARENA, 1)
-	GameActions.try_modify_attack(gm, StatModifer.delta(attack_pool, card))
-	GameActions.try_modify_endurance(gm, StatModifer.delta(endurance_pool, card))
+	GameActions.try_add_attack_modifier(gm, StatModifer.delta(attack_pool, card))
+	GameActions.try_add_endurance_modifier(gm, StatModifer.delta(endurance_pool, card))

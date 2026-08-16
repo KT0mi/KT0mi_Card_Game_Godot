@@ -119,49 +119,54 @@ func draw_cards(player: Player, amount: int, reason : DrawCardEvent.Reason) -> v
 		await ZoneManager.move_to(card, Zone.Type.HAND, ZoneChangeEvent.Reason.DRAW)
 	await TriggerSystem.emit(Events.DRAW_CARD_RESOLVED, event)
 
-func try_modify_attack(target: CardInstance, mod : StatModifer) -> bool:
-	print("GameActions: Requested try_modify_attack action")
+## For DURABLE, source-independent modifications only (e.g. a spell that
+## permanently grants +N Attack). For "while [source] is in play" effects,
+## don't call this -- declare a ContinuousEffect on the source's
+## CardDefinition instead; CheckSystem picks it up with no add/remove step.
+## See the comment on CardInstance.attack_modifiers for the full rationale.
+func try_add_attack_modifier(target: CardInstance, mod : StatModifer) -> bool:
+	print("GameActions: Requested try_add_attack_modifier action")
 	var event := ModifierEvent.new(target, mod.source, mod)
 	await TriggerSystem.emit(Events.MODIFY_ATTACK_REQUEST, event)
 	if event.cancelled:
-		print("GameActions: Failed try_modify_attack action. Reason: Request intercepted")
+		print("GameActions: Failed try_add_attack_modifier action. Reason: Request intercepted")
 		return false
 	
 	target.attack_modifiers.append(mod)
 	card_stat_changed.emit(target)
-	print("GameActions: Resolved try_modify_attack action sucessfully.")
+	print("GameActions: Resolved try_add_attack_modifier action sucessfully.")
 	await TriggerSystem.emit(Events.MODIFY_ATTACK_RESOLVE, event)
 	return true
-
-func try_modify_endurance(target: CardInstance, mod : StatModifer) -> bool:
-	print("GameActions: Requested try_modify_endurance action")
+ 
+func try_add_endurance_modifier(target: CardInstance, mod : StatModifer) -> bool:
+	print("GameActions: Requested try_add_endurance_modifier action")
 	var event := ModifierEvent.new(target, mod.source, mod)
 	await TriggerSystem.emit(Events.MODIFY_ENDURANCE_REQUEST, event)
 	if event.cancelled:
-		print("GameActions: Failed try_modify_endurance action. Reason: Request intercepted")
+		print("GameActions: Failed try_add_endurance_modifier action. Reason: Request intercepted")
 		return false
 	
 	target.endurance_modifiers.append(mod)
 	card_stat_changed.emit(target)
-	print("GameActions: Resolved try_modify_endurance action sucessfully.")
+	print("GameActions: Resolved try_add_endurance_modifier action sucessfully.")
 	
 	#Check if card died, after modifying endurance
 	RulesEngine.check_state_based_actions()
 	
 	await TriggerSystem.emit(Events.MODIFY_ENDURANCE_REQUEST, event)
 	return true
-
-func try_modify_gate(target: CardInstance, mod : GateModifier) -> bool:
-	print("GameActions: Requested try_modify_gate action")
+ 
+func try_add_gate_modifier(target: CardInstance, mod : GateModifier) -> bool:
+	print("GameActions: Requested try_add_gate_modifier action")
 	var event := ModifierEvent.new(target, mod.source, mod)
 	await TriggerSystem.emit(Events.MODIFY_GATE_REQUEST, event)
 	if event.cancelled:
-		print("GameActions: Failed try_modify_gate action. Reason: Request intercepted")
+		print("GameActions: Failed try_add_gate_modifier action. Reason: Request intercepted")
 		return false
 	
 	target.gate_modifiers.append(mod)
 	card_stat_changed.emit(target)
-	print("GameActions: Resolved try_modify_gate action sucessfully.")
+	print("GameActions: Resolved try_add_gate_modifier action sucessfully.")
 	await TriggerSystem.emit(Events.MODIFY_GATE_RESOLVE, event)
 	return true
 
