@@ -179,3 +179,12 @@ layout_mode = 2
 size_flags_horizontal = 0
 theme = ExtResource("7_c264a")
 text = "CONFIRM"
+
+[node name="BattleButton" type="Button" parent="UI/ChoicePresenter" unique_id=499134172]
+layout_mode = 0
+offset_left = 1216.0
+offset_top = 576.0
+offset_right = 1408.0
+offset_bottom = 640.0
+theme = ExtResource("7_c264a")
+text = "BATTLE!"

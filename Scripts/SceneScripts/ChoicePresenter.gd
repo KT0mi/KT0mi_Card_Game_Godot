@@ -4,6 +4,7 @@ class_name ChoicePresenter extends Control
 @onready var prompt_label: Label = $ChoiceLabelContainer/PromptLabel
 @onready var selection_label: Label = $ChoiceLabelContainer/SelectionLabel
 @onready var confirm_button: Button = $ChoiceLabelContainer/ConfirmButton
+@onready var battle_button : Button = $BattleButton
 
 enum State {IDLE, LOCAL_CHOICE, WAITING_FOR_OTHER_PLAYER}
 var _state: State = State.IDLE
@@ -14,6 +15,9 @@ var _selected: Array = []
 func _ready() -> void:
 	visible = false
 	confirm_button.pressed.connect(_on_confirm_pressed)
+	battle_button.pressed.connect(_on_confirm_pressed)
+	battle_button.visible = false
+	HoverHandler.register_hover(battle_button)
 	HoverHandler.register_hover(confirm_button)
 	ChoiceManager.choice_requested.connect(begin)
 	ChoiceManager.choice_resolved.connect(_on_choice_resolved)
@@ -25,6 +29,7 @@ func _refresh() -> void:
 	selection_label.text = "%d/%d selected" % [_selected.size(), _request.max_count]
 	
 	confirm_button.disabled =  not _request.is_valid(_selected)
+	battle_button.disabled =  not _request.is_valid(_selected)
 
 #region Generic Methods
 
@@ -119,10 +124,23 @@ func _on_choice_resolved(request : ChoiceRequest) -> void:
 #region CardChoiceRequest presenting methods
 
 func setup_card_choice(request: CardChoiceRequest) -> void:
-	_set_cards_for_choice(request)
+	match request.context.origin:
+		ChoiceContext.Origin.BATTLE:
+			confirm_button.visible=false
+			battle_button.visible=true
+			_set_cards_for_choice(request)
+		_:
+			_set_cards_for_choice(request)
 
 func _card_request_cleanup(request : CardChoiceRequest) -> void:
 	_clear_card_selection()
+	
+	match request.context.origin:
+		ChoiceContext.Origin.BATTLE:
+			battle_button.visible=false
+			confirm_button.visible=true
+		_:
+			pass
 	
 	for card in request.card_options:
 		var node := CardViewManager.card_node_for(card)

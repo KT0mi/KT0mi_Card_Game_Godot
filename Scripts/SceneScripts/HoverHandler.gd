@@ -64,6 +64,9 @@ func register_hover(control: Control) -> void:
 	control.mouse_entered.connect(_on_control_entered.bind(control))
 	#control.mouse_exited.connect(unfocus.bind(control))
 	control.tree_exiting.connect(unfocus.bind(control), CONNECT_ONE_SHOT)
+	control.visibility_changed.connect(unfocus.bind(control))
+
+
 
 func _on_control_entered(control: Control) -> void:
 	if control is BaseButton and control.disabled:
