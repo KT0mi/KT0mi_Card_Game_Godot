@@ -119,8 +119,8 @@ func _apply_layers(start : Variant, matches: Array) -> Variant:
 	var value : Variant = start
 	for m in matches:
 		if m.ce.layer == ContinuousEffect.Layer.SET:
-			value = m.ce.effect.call(value)
+			value = m.ce.effect.call(value, m.source)
 	for m in matches:
 		if m.ce.layer == ContinuousEffect.Layer.DELTA:
-			value = m.ce.effect.call(value)
+			value = m.ce.effect.call(value, m.source)
 	return value

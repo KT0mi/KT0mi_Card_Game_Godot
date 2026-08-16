@@ -3,10 +3,14 @@ extends SpellCardDefinition
 func _init() -> void:
 	id = &"magma_burst"
 	card_name = "Magma Burst"
-	card_text = "Choose any card in play: If it is a player card deal 1 damage, else deal 2 damage."
+	card_text = "Choose any card in play: Damage it for 1"
 	gate = CardGate.None()
 	cast_type = CastType.INSTANT
-	sets = ["eruption_attack"]
+	damage_tags = [&"magma_burst"]
+	sets = ["fiery_tradition"]
+	
+func get_display_text(card: CardInstance) -> String:
+	return "Choose any card in play: Damage it for %d" % CheckSystem.effect_damage_of(card, 1)
 
 func resolve_effect(card: CardInstance, _event: PlayCardEvent) -> void:
 	var target := await ChoiceManager.request_card(
@@ -16,8 +20,5 @@ func resolve_effect(card: CardInstance, _event: PlayCardEvent) -> void:
 		ChoiceContext.DAMAGE_EFFECT(card, 1)
 	)
 	
-	if target.current_zone == Zone.Type.PLAYER:
-		DamagePipeline.apply_damage(target, 1, card)
-	else: 
-		DamagePipeline.apply_damage(target, 2, card)
+	await DamagePipeline.apply_damage(target, CheckSystem.effect_damage_of(card, 1), card)
 	

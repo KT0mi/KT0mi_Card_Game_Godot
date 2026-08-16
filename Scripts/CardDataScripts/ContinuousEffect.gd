@@ -19,7 +19,7 @@ var layer : Layer
 ## x is defined by kind
 var applies_to : Callable
 
-#(value) -> value:
+#(value:Variant, source : CardInstance) -> value:
 var effect : Callable
 
 func _init(k: Kind, target_predicate: Callable, e:Callable, l:Layer = Layer.DELTA) -> void:

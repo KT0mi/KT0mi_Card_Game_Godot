@@ -17,7 +17,7 @@ func _build_continuous_effects() -> Array[ContinuousEffect]:
 				if source.lane >= source.owner.ARENA_LANES - 1:
 					return false
 				return candidate == source.owner.arena_lanes[source.lane + 1],
-			func(attack : int) -> int:
+			func(attack : int, _source : CardInstance) -> int:
 				return attack + 1,
 		)
 	]
