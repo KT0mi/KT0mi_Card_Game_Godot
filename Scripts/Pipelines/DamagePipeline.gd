@@ -13,13 +13,15 @@ func apply_damage(target: CardInstance, amount: int, source: CardInstance) -> vo
 	if event.cancelled:
 		return
 	
+	var actual_target := event.target
+	
 	##DEBUG: This is to inform ui objects that player card health has changed
-	if target.current_zone == Zone.Type.PLAYER:
-		for c in target.owner.hand:
+	if actual_target.current_zone == Zone.Type.PLAYER:
+		for c in actual_target.owner.hand:
 			change_card_endurance.emit(c)
 	
 	
-	target.current_endurance -= event.amount
-	change_card_endurance.emit(target)
+	actual_target.current_endurance -= event.amount
+	change_card_endurance.emit(actual_target)
 	RulesEngine.check_state_based_actions()
 	await TriggerSystem.emit(Events.DAMAGE_RESOLVED, event)

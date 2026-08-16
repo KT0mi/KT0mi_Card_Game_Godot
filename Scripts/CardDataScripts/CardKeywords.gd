@@ -20,6 +20,8 @@ const BLEEDING_HEART := &"bleeding_heart"
 static func QUICK_ABILITY() -> Ability:
 	return Ability.new(Events.EMPTY, func(c,e): return, func(c,e): return false, [QUICK])
 
+##Taunt Ability: A taunt card redirects all attacks that would target the player
+##towards itself.
 static func TAUNT_ABILITY() -> Ability:
 	return Ability.new(
 		Events.ATTACK_REQUEST,
@@ -36,6 +38,8 @@ static func _taunt_con(card : CardInstance, event: AttackEvent) -> bool:
 		return false
 	return true
 
+##Block Ability: A block ability recieves all damage that is dealt by a creature in the opposing lane
+##Opposing lane is the same lane index but on the opposing player's side.
 static func BLOCK_ABILITY() -> Ability:
 	return Ability.new(
 		Events.DAMAGE_REQUEST,

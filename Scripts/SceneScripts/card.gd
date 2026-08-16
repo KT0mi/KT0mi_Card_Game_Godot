@@ -1,4 +1,5 @@
-class_name Card extends Area2D
+class_name Card 
+extends Area2D
 
 signal picked_up(card: Card)
 signal dropped(card: Card)
