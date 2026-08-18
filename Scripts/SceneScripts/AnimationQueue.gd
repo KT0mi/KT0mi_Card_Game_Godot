@@ -1,27 +1,21 @@
 extends Node
 ##Autoload
-##
-## Serializes presentation-only steps (tweens, FX) per GROUP, not globally.
-## Steps within the same group run strictly in order. Different groups run
-## concurrently. Game logic (GameActions, DamagePipeline, TriggerSystem)
-## never awaits this -- it's purely a view-layer cache/queue.
-##
-## Usage:
-##   AnimationQueue.enqueue(func() -> void:
-##       var tween := node.create_tween()
-##       tween.tween_property(node, "position", target, 0.2)
-##       await tween.finished
-##   , "card:123")
+
+##Serializes view-only steps (tweens, fx, etc.) PER GROUP, not globally.
+##Steps enqueued under the same group run strictly in order (one at a time).
+##Steps in DIFFERENT groups run concurrently -- that's what lets unrelated
+##cards animate at the same time instead of queuing behind each other.
+##Actual game logic systems are never touched by this.
 
 signal queue_started(group: StringName)
-signal group_idle(group: StringName)
+signal queue_idle(group: StringName)
 signal all_idle
 
 class _Group:
 	var steps: Array[Callable] = []
 	var running: bool = false
 
-var _groups: Dictionary = {}  # StringName -> _Group
+var _groups: Dictionary = {} # StringName -> _Group
 
 func enqueue(step: Callable, group: StringName = &"default") -> void:
 	var g: _Group = _groups.get(group)
@@ -42,6 +36,15 @@ func is_busy() -> bool:
 			return true
 	return false
 
+func clear(group: StringName = &"") -> void:
+	if group == &"":
+		for g: _Group in _groups.values():
+			g.steps.clear()
+	else:
+		var g: _Group = _groups.get(group)
+		if g:
+			g.steps.clear()
+
 func _run(group: StringName, g: _Group) -> void:
 	if g.running:
 		return
@@ -51,6 +54,6 @@ func _run(group: StringName, g: _Group) -> void:
 		var step: Callable = g.steps.pop_front()
 		await step.call()
 	g.running = false
-	group_idle.emit(group)
+	queue_idle.emit(group)
 	if not is_busy():
 		all_idle.emit()
