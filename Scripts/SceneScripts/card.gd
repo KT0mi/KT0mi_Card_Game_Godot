@@ -262,16 +262,16 @@ func _snap_back_to_current_holder() -> void:
 
 #region Animation Methods
 
-func play_attack_lunge(target_global_pos:Vector2, lunge_ratio:float =0.20) -> void:
+func play_attack_lunge(target_global_pos:Vector2, lunge_ratio:float =0.80) -> void:
 	var start_pos := global_position
 	var start_rot := global_rotation
 	var lunge_pos := start_pos.lerp(target_global_pos, lunge_ratio)
 	
 	
 	var tween := create_tween()
-	tween.tween_property(self, "global_position", lunge_pos, 0.12) \
-		.set_trans(Tween.TRANS_ELASTIC).set_ease(Tween.EASE_OUT)
-	tween.tween_property(self, "global_position", start_pos, 0.12) \
+	tween.tween_property(self, "global_position", lunge_pos, 0.30) \
+		.set_trans(Tween.TRANS_BOUNCE).set_ease(Tween.EASE_OUT)
+	tween.tween_property(self, "global_position", start_pos, 0.30) \
 		.set_trans(Tween.TRANS_BOUNCE).set_ease(Tween.EASE_IN)
 	await tween.finished
 	

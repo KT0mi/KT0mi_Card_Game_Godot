@@ -191,3 +191,5 @@ theme = ExtResource("7_c264a")
 text = "BATTLE!"
 
 [node name="PixelNoiseBackground" parent="UI" unique_id=281833876 instance=ExtResource("9_5rbs6")]
+process_mode = 4
+physics_interpolation_mode = 2

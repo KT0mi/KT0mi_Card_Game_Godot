@@ -4,9 +4,13 @@ extends Node
 # Main script to sync visuals and card game logic
 
 const CARD_SCENE := preload("res://Scenes/Card.tscn")
+const DAMAGE_PROJECTILE_SCRIPT := preload("res://Scripts/SceneScripts/DamageProjectile.gd")
 
 var _card_nodes: Dictionary = {} #CardInstance -> Card (Scene)
 var _holder_nodes: Dictionary = {} #"player id: zone type" : CardHolder (Scene)
+
+var _fx_layer : CanvasLayer
+var _pending_group: Dictionary = {}  
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -16,6 +20,11 @@ func _ready() -> void:
 	
 	#AnimationQueue Points
 	GameActions.attack_performed.connect(_on_attack_performed)
+	DamagePipeline.effect_damage_dealt.connect(_on_effect_damage_dealt)
+	
+	_fx_layer = CanvasLayer.new()
+	_fx_layer.layer = 5
+	add_child(_fx_layer)
 
 #region Animation Methods
 func _on_attack_performed(attacker: CardInstance, target:CardInstance) -> void:
@@ -29,12 +38,25 @@ func _on_attack_performed(attacker: CardInstance, target:CardInstance) -> void:
 		attacker_node.set_interaction_mode(prev_mode)
 	)
 
+func _card_group(card: CardInstance) -> StringName:
+	return "card:%d" % card.get_instance_id()
 
-func _on_zone_changed(card: CardInstance, from_zone: Zone.Type, to_zone: Zone.Type, from_lane: int = -1, to_lane: int = -1) -> void:
+
+func _on_zone_changed(card: CardInstance, from_zone: Zone.Type, to_zone: Zone.Type, from_lane: int = -1, to_lane: int = -1, anim_group:StringName=&"") -> void:
 	var node: Card = _card_nodes.get(card)
 	if node == null:
 		return  # card has no visual representation yet/anymore -- fine, e.g. still in deck
-		
+	
+	#Priority: an explicit group from the caller (e.g. "deal") > a pending
+	#combat pin from an in-flight attack (correctness, not pacing -- keeps
+	#a death from racing the lunge that caused it) > this card's own
+	#independent group, which is the default for everything else.
+	var group: StringName = anim_group
+	if group == &"":
+		group = _pending_group.get(card, _card_group(card))
+	_pending_group.erase(card)
+	
+	
 	AnimationQueue.enqueue(func() -> void:
 		var old_holder : CardHolder = _holder_nodes.get(_key(card.owner, from_zone, from_lane))
 		if old_holder:
@@ -42,13 +64,28 @@ func _on_zone_changed(card: CardInstance, from_zone: Zone.Type, to_zone: Zone.Ty
 	
 		var holder: CardHolder = _holder_nodes.get(_key(card.owner, to_zone, to_lane))
 		if holder:
-			#var prev_mode := node.interaction_mode
-			#node.set_interaction_mode(Card.InteractionMode.DISABLED)
+			var prev_mode := node.interaction_mode
+			node.set_interaction_mode(Card.InteractionMode.DISABLED)
 			await holder.add_card(node)
-			#node.set_interaction_mode(prev_mode)
+			node.set_interaction_mode(prev_mode)
 		
 		refresh_cards(GameState.all_visible_cards())
 		)
+
+func _on_effect_damage_dealt(target:CardInstance, source:CardInstance, amount:int):
+	if source == null or source == target: return
+	
+	AnimationQueue.enqueue(func() -> void:
+		var source_node := card_node_for(source)
+		var target_node := card_node_for(target)
+		if source_node == null or target_node == null:
+			return
+		
+		var projectile: DamageProjectile = DAMAGE_PROJECTILE_SCRIPT.new()
+		_fx_layer.add_child(projectile)
+		projectile.global_position = source_node.global_position
+		await projectile.fly_to(target_node.global_position)
+	)
 #endregion
 
 func create_card_node(card_instance : CardInstance) -> Card:

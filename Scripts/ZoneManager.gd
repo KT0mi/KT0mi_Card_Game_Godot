@@ -12,7 +12,8 @@ func move_to(
 	card: CardInstance, 
 	to_zone: Zone.Type,
 	reason: ZoneChangeEvent.Reason = ZoneChangeEvent.Reason.MANUAL, 
-	lane: int = -1) -> void:
+	lane: int = -1,
+	anim_group : StringName = &"") -> void:
 	
 	var from_zone := card.current_zone
 	var from_lane := card.lane
@@ -33,6 +34,6 @@ func move_to(
 	card.current_zone = to_zone
 	if GameState.is_continuous_source_active(card):
 		card.continuous_since = GameState.next_timestamp()
-	card_zone_changed.emit(card, from_zone, to_zone, from_lane, lane)
+	card_zone_changed.emit(card, from_zone, to_zone, from_lane, lane, anim_group)
 	await TriggerSystem.emit(Events.ZONE_CHANGE, 
 		ZoneChangeEvent.new(card, from_zone, to_zone, reason, lane))

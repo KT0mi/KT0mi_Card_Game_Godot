@@ -74,16 +74,8 @@ func _setup_players() -> void:
 		var instances: Array[CardInstance] = build_deck(player, deck)
 		for instance in instances:
 			CardViewManager.create_card_node(instance)
-			await ZoneManager.move_to(instance, Zone.Type.DECK, ZoneChangeEvent.Reason.MANUAL)
- 
-		# Give the player their face card. This arguably belongs in
-		# RulesEngine.setup_match() long-term, alongside the special-card
-		# rule it already has -- kept here for now so the test harness
-		# stays self-contained and doesn't presume that decision for you.
-		var face := CardFactory.create_instance(&"test_player_card", player)
-		face.definition.card_name = "You" if player == GameState.local_player else "Opponent"
-		CardViewManager.create_card_node(face)
-		await ZoneManager.move_to(face, Zone.Type.PLAYER, ZoneChangeEvent.Reason.MANUAL)
+			await ZoneManager.move_to(instance, Zone.Type.DECK, ZoneChangeEvent.Reason.MANUAL, -1, &"setup")
+		
 
 func build_deck(player: Player, deck: DeckData) -> Array[CardInstance]:
 	if deck:

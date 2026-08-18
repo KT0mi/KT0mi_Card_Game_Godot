@@ -102,14 +102,14 @@ func try_attack(attacker: CardInstance, target: CardInstance) -> bool:
 	
 	attack_performed.emit(attacker, actual_target)
 	
-	await DamagePipeline.apply_damage(actual_target, attacker.get_attack(), attacker)
-	await DamagePipeline.apply_damage(event.attacker, actual_target.get_attack(), actual_target)
+	await DamagePipeline.apply_damage(actual_target, attacker.get_attack(), attacker, DamageEvent.Reason.ATTACK)
+	await DamagePipeline.apply_damage(event.attacker, actual_target.get_attack(), actual_target, DamageEvent.Reason.ATTACK)
 	
 	print("GameActions: Resolved try_attack action sucessfully")
 	await TriggerSystem.emit(Events.ATTACK_RESOLVED, event)
 	return true
 
-func draw_cards(player: Player, amount: int, reason : DrawCardEvent.Reason) -> void:
+func draw_cards(player: Player, amount: int, reason : DrawCardEvent.Reason, anim_group:StringName=&"") -> void:
 	print("GameActions: Requested draw_cards action for player %s of %d cards" % ["1" if player == GameState.player_one else "2", amount])
 	var event := DrawCardEvent.new(player, amount, reason)
 	for i in amount:
@@ -120,7 +120,7 @@ func draw_cards(player: Player, amount: int, reason : DrawCardEvent.Reason) -> v
 			print("GameActions: Failed draw_cards action. Reason: Forgetting Turn")
 			return
 		var card: CardInstance = player.deck.pop_back()
-		await ZoneManager.move_to(card, Zone.Type.HAND, ZoneChangeEvent.Reason.DRAW)
+		await ZoneManager.move_to(card, Zone.Type.HAND, ZoneChangeEvent.Reason.DRAW,-1,anim_group)
 	await TriggerSystem.emit(Events.DRAW_CARD_RESOLVED, event)
 
 ## For DURABLE, source-independent modifications only (e.g. a spell that
