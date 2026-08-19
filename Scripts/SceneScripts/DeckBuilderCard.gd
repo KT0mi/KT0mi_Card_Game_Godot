@@ -28,7 +28,7 @@ func setup(def: CardDefinition) -> void:
 	sprite.texture = def.art
 	name_label.text = def.card_name
 	card_text_label.text = def.card_text
-	gate_label.text = _setup_gate_label(def)
+	gate_label.text = CardViewManager.format_gate_label(def.gate)
 
 	if def is CreatureCardDefinition:
 		attack_label.text = str(def.attack)
@@ -40,22 +40,6 @@ func setup(def: CardDefinition) -> void:
 func set_context(c: Context) -> void:
 	context = c
 	count_node.visible = context == Context.DECK
-
-func _setup_gate_label(def : CardDefinition) -> String:
-	var gate : CardGate = def.gate
-	if gate == null:
-		return ""
-	match gate.gate_type:
-		CardGate.GateType.NONE:
-			return ""
-		CardGate.GateType.LESS_THAN:
-			return "<%d" % gate.value
-		CardGate.GateType.GREATER_THAN:
-			return ">%d" % gate.value
-		CardGate.GateType.INTERVAL:
-			return "%d-%d" % [gate.lower_bound, gate.upper_bound]
-		_:
-			return ""
 
 func refresh_state(count: int, max_copies: int, can_add: bool, can_remove: bool) -> void:
 	add_disabled = not can_add

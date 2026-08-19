@@ -33,7 +33,7 @@ func _build_continuous_effects() -> Array[ContinuousEffect]:
 		ContinuousEffect.new(
 			ContinuousEffect.Kind.ATTACK,
 			func(src:CardInstance, c:CardInstance) -> bool:
-				return src.has_bag(TARGET_REF),
+				return src.has_bag(TARGET_REF) and src.get_bag(TARGET_REF) == c,
 			func(v:int, src:CardInstance) -> int:
 				return 1,
 			ContinuousEffect.Layer.SET

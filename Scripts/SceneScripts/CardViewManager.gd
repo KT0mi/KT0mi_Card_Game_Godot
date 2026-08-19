@@ -148,8 +148,7 @@ func _refresh_card_visuals(card_instance: CardInstance) -> void:
 	var card := card_node_for(card_instance)
 	card._refresh_visuals()
 
-func refresh_gate_label(card_instance: CardInstance) -> String:
-	var gate := card_instance.get_gate()
+func format_gate_label(gate : CardGate) -> String:
 	if gate == null:
 		return ""
 	match gate.gate_type:

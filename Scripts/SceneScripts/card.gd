@@ -78,7 +78,7 @@ func _refresh_visuals() -> void:
 	var def : CardDefinition = card_instance.definition
 	name_label.text = def.card_name
 	card_text_label.text = card_instance.get_display_text()
-	gate_label.text = CardViewManager.refresh_gate_label(card_instance)
+	gate_label.text = CardViewManager.format_gate_label(card_instance.get_gate())
 	_gated_feedback(card_instance)
 	card_fx.get_active_fx(card_instance)
 	if def is CreatureCardDefinition:
@@ -164,10 +164,14 @@ func _on_input_event(_viewport: Node, event: InputEvent, _shape_idx: int) -> voi
 	if not event is InputEventMouseButton:
 		return
 	
-	if event.button_index != MOUSE_BUTTON_LEFT:
+	if not event.is_pressed():
 		return
 	
-	if not event.is_pressed():
+	if event.button_index == MOUSE_BUTTON_RIGHT:
+		CardInspector.open(card_instance)
+		return
+	
+	if event.button_index != MOUSE_BUTTON_LEFT:
 		return
 	
 	match interaction_mode:

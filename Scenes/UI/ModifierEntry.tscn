@@ -1,0 +1,58 @@
+[gd_scene format=3 uid="uid://m2ppxj3bxj07"]
+
+[ext_resource type="Script" uid="uid://bwirqjrl14y6r" path="res://Scripts/SceneScripts/ModifierEntry.gd" id="1_iyagk"]
+[ext_resource type="Theme" uid="uid://bxjx78kc5nbmv" path="res://Theme/default_theme.tres" id="1_w4vyw"]
+[ext_resource type="Texture2D" uid="uid://dvhlswa4tu7bp" path="res://Assets/Images/Test/arrow_icon.png" id="3_r5yos"]
+
+[node name="ModifierEntry" type="Control" unique_id=1061973721]
+layout_mode = 3
+anchors_preset = 0
+script = ExtResource("1_iyagk")
+
+[node name="ModifierContainer" type="VBoxContainer" parent="." unique_id=159920184]
+layout_mode = 0
+offset_right = 416.0
+offset_bottom = 96.0
+
+[node name="NamesContainer" type="HBoxContainer" parent="ModifierContainer" unique_id=1848149297]
+layout_mode = 2
+
+[node name="KindLabel" type="Label" parent="ModifierContainer/NamesContainer" unique_id=1218380605]
+layout_mode = 2
+size_flags_horizontal = 2
+theme = ExtResource("1_w4vyw")
+theme_override_font_sizes/font_size = 20
+text = "Attack Modifier"
+
+[node name="SourceLabel" type="Label" parent="ModifierContainer/NamesContainer" unique_id=1862241573]
+layout_mode = 2
+size_flags_horizontal = 10
+theme = ExtResource("1_w4vyw")
+theme_override_font_sizes/font_size = 20
+text = "Card Source"
+horizontal_alignment = 2
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="ModifierContainer" unique_id=736969114]
+layout_mode = 2
+
+[node name="ModifierLabel" type="Label" parent="ModifierContainer/HBoxContainer2" unique_id=2078042523]
+layout_mode = 2
+size_flags_horizontal = 3
+theme = ExtResource("1_w4vyw")
+theme_override_font_sizes/font_size = 40
+text = "+1 Attack"
+horizontal_alignment = 1
+
+[node name="Flavour" type="TextureRect" parent="ModifierContainer/HBoxContainer2" unique_id=1662091512]
+layout_mode = 2
+size_flags_horizontal = 10
+texture = ExtResource("3_r5yos")
+stretch_mode = 2
+
+[node name="NewValueLabel" type="Label" parent="ModifierContainer/HBoxContainer2" unique_id=1750881376]
+layout_mode = 2
+size_flags_horizontal = 8
+theme = ExtResource("1_w4vyw")
+theme_override_font_sizes/font_size = 40
+text = "0"
+horizontal_alignment = 1

@@ -22,8 +22,12 @@ var applies_to : Callable
 #(value:Variant, source : CardInstance) -> value:
 var effect : Callable
 
-func _init(k: Kind, target_predicate: Callable, e:Callable, l:Layer = Layer.DELTA) -> void:
+#For inspecting only: optional label
+var label : String
+
+func _init(k: Kind, target_predicate: Callable, e:Callable, l:Layer = Layer.DELTA, lbl : String = "") -> void:
 	kind = k
 	applies_to = target_predicate
 	effect = e
 	layer = l
+	label = lbl
