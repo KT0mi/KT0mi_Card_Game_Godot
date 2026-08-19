@@ -269,10 +269,10 @@ func play_attack_lunge(target_global_pos:Vector2, lunge_ratio:float =0.80) -> vo
 	
 	
 	var tween := create_tween()
-	tween.tween_property(self, "global_position", lunge_pos, 0.30) \
-		.set_trans(Tween.TRANS_BOUNCE).set_ease(Tween.EASE_OUT)
-	tween.tween_property(self, "global_position", start_pos, 0.30) \
-		.set_trans(Tween.TRANS_BOUNCE).set_ease(Tween.EASE_IN)
+	tween.tween_property(self, "global_position", lunge_pos, 0.20) \
+		.set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
+	tween.tween_property(self, "global_position", start_pos, 0.20) \
+		.set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_IN)
 	await tween.finished
 	
 #endregion

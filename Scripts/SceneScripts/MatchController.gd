@@ -74,7 +74,7 @@ func _setup_players() -> void:
 		var instances: Array[CardInstance] = build_deck(player, deck)
 		for instance in instances:
 			CardViewManager.create_card_node(instance)
-			await ZoneManager.move_to(instance, Zone.Type.DECK, ZoneChangeEvent.Reason.MANUAL)
+			await ZoneManager.move_to(instance, Zone.Type.DECK, ZoneChangeEvent.Reason.MANUAL, -1, &"setup")
 		
 
 func build_deck(player: Player, deck: DeckData) -> Array[CardInstance]:

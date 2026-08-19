@@ -9,14 +9,14 @@ class_name ContinuousEffect extends RefCounted
 #layer affected - Layer
 
 enum Kind {ATTACK, ENDURANCE, GATE, EFFECT_DAMAGE}
-enum Layer {DELTA, SET}
+enum Layer {DELTA, SET, FINAL}
 
 var kind : Kind
 var layer : Layer
 
 ##Argument shape depends on kind but is always:
 ##(source: CardInstance, x: CardInstance) -> bool:
-## x is defined by kind
+## x is defined by Kind
 var applies_to : Callable
 
 #(value:Variant, source : CardInstance) -> value:

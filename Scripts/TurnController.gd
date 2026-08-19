@@ -53,6 +53,8 @@ func forget_turn() -> void:
 func _enter_phase(phase: Phase) -> void:
 	var event := PhaseEvent.new(current_player)
 	
+	phase_changed.emit(phase, current_player)
+	
 	match phase:
 		Phase.START_TURN:
 			current_phase = phase
@@ -80,7 +82,6 @@ func _enter_phase(phase: Phase) -> void:
 			await TriggerSystem.emit(Events.END_PHASE_START, event)
 			await RulesEngine.check_end_phase_state()
 			
-	phase_changed.emit(current_phase, current_player)
 
 func _end_turn_and_pass() -> void:
 	var event := PhaseEvent.new(current_player)

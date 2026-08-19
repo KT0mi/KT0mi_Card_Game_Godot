@@ -124,3 +124,24 @@ func _target_rotation(i: int, count: int) -> float:
 		return 0.0
 	var offset_from_center := i - (count - 1) / 2.0
 	return offset_from_center * fan_angle_step_degrees
+	
+func add_card_instant(card: Card) -> void:
+	if card not in held_cards:
+		held_cards.append(card)
+		if card.get_parent() != self:
+			card.reparent(self)
+	_snap_arrange()
+
+func remove_card_instant(card: Card) -> void:
+	held_cards.erase(card)
+	_snap_arrange()
+
+func _snap_arrange() -> void:
+	var count := held_cards.size()
+	for i in count:
+		var c := held_cards[i]
+		var rot := _target_rotation(i, count)
+		c.position = _target_position(i, count)
+		c.rotation_degrees = rot
+		c.set_rest_rotation(rot)
+	queue_redraw()

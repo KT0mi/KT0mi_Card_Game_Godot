@@ -52,10 +52,19 @@ func _on_zone_changed(card: CardInstance, from_zone: Zone.Type, to_zone: Zone.Ty
 	#a death from racing the lunge that caused it) > this card's own
 	#independent group, which is the default for everything else.
 	var group: StringName = anim_group
-	if group == &"":
+	if group == &"" and group != &"setup":
 		group = _pending_group.get(card, _card_group(card))
 	_pending_group.erase(card)
 	
+	if group == &"setup":
+		var old_holder: CardHolder = _holder_nodes.get(_key(card.owner, from_zone, from_lane))
+		if old_holder:
+			old_holder.remove_card_instant(node)
+		var holder: CardHolder = _holder_nodes.get(_key(card.owner, to_zone, to_lane))
+		if holder:
+			holder.add_card_instant(node)
+		node._refresh_visuals()
+		return
 	
 	AnimationQueue.enqueue(func() -> void:
 		var old_holder : CardHolder = _holder_nodes.get(_key(card.owner, from_zone, from_lane))

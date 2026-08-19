@@ -123,4 +123,7 @@ func _apply_layers(start : Variant, matches: Array) -> Variant:
 	for m in matches:
 		if m.ce.layer == ContinuousEffect.Layer.DELTA:
 			value = m.ce.effect.call(value, m.source)
+	for m in matches:
+		if m.ce.layer == ContinuousEffect.Layer.FINAL:
+			value = m.ce.effect.call(value, m.source)
 	return value

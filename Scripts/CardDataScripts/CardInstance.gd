@@ -19,8 +19,13 @@ var continuous_since: int = -1
 signal counter_changed(card : CardInstance, key : StringName)
 signal flag_changed(card : CardInstance, flag : StringName)
 
+#Containers to hold per instance variables that may be used on abilities or game logic
+#Counters holds [key : counter_name (StringName), value: counter_value (int)]
+#Flags holds a [key : flag_name (StringName), value: flag_value (bool)]
+#Bag holds a [key : bag_id (StringName), value: card (CardInstance)]
 var counters: Dictionary = {}
 var flags: Dictionary = {}
+var bag: Dictionary = {}
 
 #Typed modifier arrays for type safety when parsing modifiers
 #These are permanent (Default: Added, auto-cleanup) modifiers.
@@ -113,6 +118,17 @@ func has_flag(key: StringName) -> bool:
 func set_flag(key: StringName, value: bool) -> void:
 	flags[key] = value
 	flag_changed.emit(self, key)
+
+## --- Bag Helpers ---------------------------
+
+func set_bag(key: StringName, card: CardInstance) -> void:
+	return bag.set(key, card)
+	
+func get_bag(key: StringName) -> CardInstance:
+	return bag.get(key)
+	
+func has_bag(key: StringName) -> bool:
+	return bag.has(key)
 
 ## --- Cleanup ----------------------------------------------------------------
  
