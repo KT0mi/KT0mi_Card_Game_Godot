@@ -10,7 +10,7 @@ extends CanvasLayer
 @onready var _gate_label : Label = $Overlay/CardElementContainer/StatContainer/GateLabel
 @onready var _attack_label : Label = $Overlay/CardElementContainer/StatContainer/AttackLabel
 
-@onready var _modifiers_list : VBoxContainer = $CardModifierContainer
+@onready var _modifiers_list : VBoxContainer = $Overlay/CardModifierContainer
 
 var _card : CardInstance = null
 
@@ -84,6 +84,7 @@ func _rebuild_modifiers_list() -> void:
 		_add_header(section[0])
 		for entry in entries:
 			_add_modifier_entry(
+				section[2],
 				section[0],
 				entry[0],
 				entry[1],
@@ -156,11 +157,16 @@ func _add_header(text: String) -> void:
 	label.add_theme_font_size_override("font_size", 22)
 	_modifiers_list.add_child(label)
 
-func _add_modifier_entry(kind_text: String, source_text: String, modifier_text: String, new_value: String) -> void:
+func _add_modifier_entry(against, kind_text: String, source_text: String, modifier_text: String, new_value: String) -> void:
 	var entry := ModifierEntry.new()
 	entry.kind_text = kind_text
 	entry.source_text = source_text
 	if modifier_text == "": entry.modifier_label.visible = false
 	else: entry.modifier_text = modifier_text
+	if not against is CardGate:
+		if against > int(new_value):
+			entry.new_value_label.add_theme_color_override("font_color", Color.RED)
+		elif against < int(new_value):
+			entry.new_value_label.add_theme_color_override("font_color", Color.GREEN)
 	entry.new_value_text = new_value
 	_modifiers_list.add_child(entry)
