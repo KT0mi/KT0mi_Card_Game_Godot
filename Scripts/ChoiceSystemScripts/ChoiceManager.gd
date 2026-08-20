@@ -170,7 +170,11 @@ func submit(selected: Array) -> bool:
 	
 	return true
 
-
 # --- Helpers -----------
 func has_pending_request() -> bool:
 	return _pending != null
+
+# ChoiceManager.gd
+func reset() -> void:
+	_pending = null
+	_queue.clear()

@@ -211,3 +211,9 @@ func _clear_card_selection() -> void:
 	_selected.clear()
 	
 #endregion
+
+func _exit_tree() -> void:
+	if ChoiceManager.choice_requested.is_connected(begin):
+		ChoiceManager.choice_requested.disconnect(begin)
+	if ChoiceManager.choice_resolved.is_connected(_on_choice_resolved):
+		ChoiceManager.choice_resolved.disconnect(_on_choice_resolved)

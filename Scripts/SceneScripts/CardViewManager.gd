@@ -105,8 +105,7 @@ func create_card_node(card_instance : CardInstance) -> Card:
 
 #Called by CardHolder._ready()
 func register_holder(holder: CardHolder) -> void:
-	var player := GameState.player_one if holder.owner_is_player_one else GameState.player_two
-	_holder_nodes[_key(player, holder.zone_type, holder.lane_index)] = holder
+	_holder_nodes["%s:%s:%s" % [holder.owner_is_player_one, holder.zone_type, holder.lane_index]] = holder
 
 #Called by Card._ready()
 func register_card_node(instance: CardInstance, node: Card) -> void:
@@ -119,7 +118,8 @@ func register_card_node(instance: CardInstance, node: Card) -> void:
 
 
 func _key(player: Player, zone: Zone.Type, lane : int = -1) -> String:
-	return "%s:%s:%s" % [player.get_instance_id(), zone, lane]
+	var is_player_one:=player==GameState.player_one
+	return "%s:%s:%s" % [is_player_one, zone, lane]
 	
 func holder_for(card_instance: CardInstance) -> CardHolder:
 	if card_instance == null:
@@ -176,3 +176,9 @@ func refresh_cards(cards : Array[CardInstance]) -> void:
 func refresh_all_cards() -> void:
 	for n: Card in _card_nodes.values():
 		n._refresh_visuals()
+
+
+# CardViewManager.gd
+func reset() -> void:
+	_card_nodes.clear()
+	_pending_group.clear()

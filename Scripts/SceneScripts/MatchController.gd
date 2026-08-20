@@ -28,9 +28,14 @@ var _zones_label : Label
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+	GameState.reset()
+	TurnController.reset()
+	CardViewManager.reset()
+	ChoiceManager.reset()
+	
 	_build_debug_ui()
 	#ChoiceManager.choice_requested.connect(_on_choice_requested)
-	TurnController.phase_changed.connect(func(_phase, _player) -> void: _refresh_ui())
+	TurnController.phase_changed.connect(_on_phase_changed)
 	
 	#Connect UI Elements
 	end_phase_button.pressed.connect(_on_advance_pressed)
@@ -45,6 +50,8 @@ func _ready() -> void:
 	RulesEngine.player_defeated.connect(_game_end)
 	
 	_refresh_ui()
+
+func _on_phase_changed(_phase, _player, _forgetting) -> void: _refresh_ui()
 
 func _setup_decks() -> void:
 	var deck : DeckData
@@ -140,3 +147,9 @@ func _game_end(losing_player : Player) -> void:
 		game_end_label.label_settings.font_color = Color.RED
 	
 	game_end_label.visible = true
+
+func _exit_tree() -> void:
+	if TurnController.phase_changed.is_connected(_on_phase_changed):
+		TurnController.phase_changed.disconnect(_on_phase_changed)
+	if RulesEngine.player_defeated.is_connected(_game_end):
+		RulesEngine.player_defeated.disconnect(_game_end)

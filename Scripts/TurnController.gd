@@ -127,3 +127,11 @@ func _resolve_battle_phase() -> void:
 	
 	for attacker in attackers:
 		await GameActions.try_attack(attacker, face)
+
+
+# TurnController.gd
+func reset() -> void:
+	turn_counter = 0
+	current_phase = Phase.START_TURN
+	current_player = null
+	forgetting = false

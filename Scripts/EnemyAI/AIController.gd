@@ -21,10 +21,10 @@ func _ai_player() -> Player:
 func _think() -> void:
 	await get_tree().create_timer(action_delay).timeout
 
-func _on_phase_changed(phase: TurnController.Phase, player: Player) -> void:
+func _on_phase_changed(phase: TurnController.Phase, player: Player, forgetting) -> void:
 	if player != _ai_player():
 		return
-	if TurnController.forgetting:
+	if forgetting:
 		return
 	if phase == TurnController.Phase.START_TURN:
 		await _take_start_turn_phase_actions()

@@ -89,3 +89,9 @@ var _timestamp: int = 0
 func next_timestamp() -> int:
 	_timestamp += 1
 	return _timestamp
+
+
+func reset() -> void:
+	player_one = Player.new("Player 1")
+	player_two = Player.new("Player 2")
+	_timestamp = 0

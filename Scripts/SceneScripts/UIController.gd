@@ -56,3 +56,7 @@ func _clear_phase_spr() -> void:
 	play_phase_spr.visible = false
 	battle_phase_spr.visible = false
 	end_phase_spr.visible = false
+
+func _exit_tree() -> void:
+	if TurnController.phase_changed.is_connected(_on_phase_changed):
+		TurnController.phase_changed.disconnect(_on_phase_changed)
