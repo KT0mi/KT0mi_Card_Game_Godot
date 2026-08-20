@@ -13,6 +13,7 @@ extends CanvasLayer
 @onready var _modifiers_list : VBoxContainer = $Overlay/CardModifierContainer
 
 var DEFAULT_THEME : Theme = preload("res://Theme/default_theme.tres")
+const MODIFIER_ENTRY_SCENE := preload("res://Scenes/UI/ModifierEntry.tscn")
 
 var _card : CardInstance = null
 
@@ -161,7 +162,7 @@ func _add_header(text: String) -> void:
 	_modifiers_list.add_child(label)
 
 func _add_modifier_entry(against, kind_text: String, source_text: String, modifier_text: String, new_value: String) -> void:
-	var entry := ModifierEntry.new()
+	var entry : ModifierEntry = MODIFIER_ENTRY_SCENE.instantiate()
 	entry.kind_text = kind_text
 	entry.source_text = source_text
 	if modifier_text == "": entry.modifier_label.visible = false
