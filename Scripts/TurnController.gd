@@ -4,7 +4,7 @@ extends Node
 #5-phase State machine
 
 #Signal for systems that are external to game logic (UI, AI, etc.)
-signal phase_changed(phase: Phase, player: Player)
+signal phase_changed(phase: Phase, player: Player, forgetting)
 
 enum Phase {START_TURN, DRAW, PLAY, BATTLE, END_TURN}
 
@@ -81,7 +81,7 @@ func _enter_phase(phase: Phase) -> void:
 			await TriggerSystem.emit(Events.END_PHASE_START, event)
 			await RulesEngine.check_end_phase_state()
 		
-	phase_changed.emit(phase, current_player)
+	phase_changed.emit(phase, current_player, forgetting)
 
 func _end_turn_and_pass() -> void:
 	var event := PhaseEvent.new(current_player)

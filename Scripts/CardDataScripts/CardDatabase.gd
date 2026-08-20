@@ -57,7 +57,7 @@ func _load_card_sprite(def: CardDefinition) -> void:
 func get_definitions_grouped_by_set() -> Dictionary:
 	var result: Dictionary = {}  # StringName -> Array[CardDefinition]
 	for def in get_all_definitions():
-		var set_id : StringName = def.sets[0] if not def.sets.is_empty() else &"unsorted"
+		var set_id : StringName = def.sets[0] if not def.sets.is_empty() else &"test_set"
 		if not result.has(set_id):
 			result[set_id] = []
 		result[set_id].append(def)

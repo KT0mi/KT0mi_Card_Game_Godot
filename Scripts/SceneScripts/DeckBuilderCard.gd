@@ -2,7 +2,7 @@ class_name DeckBuilderCard extends PanelContainer
 
 enum Context {AVAILABLE, DECK}
 
-signal add_requested(id: StringName)
+signal add_requested(id: StringName, add_max: bool)
 signal remove_requested(id: StringName)
 var add_disabled : bool = false
 var remove_disabled : bool = true
@@ -54,7 +54,7 @@ func refresh_state(count: int, max_copies: int, can_add: bool, can_remove: bool)
 func _on_gui_input(event: InputEvent) -> void:
 	if event is InputEventMouseButton and event.is_pressed():
 		if event.button_index == MOUSE_BUTTON_LEFT and not add_disabled:
-			add_requested.emit(definition.id)
+			add_requested.emit(definition.id, event.shift_pressed)
 			get_viewport().set_input_as_handled()
 		elif event.button_index == MOUSE_BUTTON_RIGHT and not remove_disabled:
 			remove_requested.emit(definition.id)

@@ -31,6 +31,7 @@ offset_left = 1216.0
 offset_top = 64.0
 offset_right = 1856.0
 offset_bottom = 1024.0
+mouse_filter = 2
 
 [node name="ModifierListLabel" type="Label" parent="Overlay/CardModifierContainer" unique_id=1410210594]
 layout_mode = 2
@@ -44,6 +45,7 @@ offset_left = 64.0
 offset_top = 64.0
 offset_right = 704.0
 offset_bottom = 1024.0
+mouse_filter = 2
 theme_override_constants/separation = 20
 
 [node name="CardName" type="Label" parent="Overlay/CardElementContainer" unique_id=676601898]
@@ -63,6 +65,7 @@ fit_content = true
 [node name="StatContainer" type="HBoxContainer" parent="Overlay/CardElementContainer" unique_id=2085999786]
 layout_mode = 2
 size_flags_vertical = 0
+mouse_filter = 2
 theme_override_constants/separation = 60
 alignment = 1
 
@@ -96,6 +99,7 @@ offset_left = 768.0
 offset_top = 256.0
 offset_right = 1128.0
 offset_bottom = 876.0
+mouse_filter = 2
 stretch = true
 
 [node name="SubViewport" type="SubViewport" parent="Overlay/CardPreview" unique_id=2128745398]

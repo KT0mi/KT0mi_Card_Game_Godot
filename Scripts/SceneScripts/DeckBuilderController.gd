@@ -42,7 +42,10 @@ func _populate_available() -> void:
 	set_ids.sort()
 
 	for set_id in set_ids:
-		if set_id == &"test_set": continue
+		#Skip card if the card is in a private set
+		var card_set := CardSetDatabase.get_set(set_id)
+		if card_set.is_private: continue
+		
 		_add_set_header(available_list, set_id)
 		var flow := _add_flow_row(available_list)
 		for def in grouped[set_id]:
@@ -59,7 +62,7 @@ func _populate_available() -> void:
 
 func _add_set_header(parent: VBoxContainer, set_id: StringName) -> void:
 	var label := Label.new()
-	label.text = String(set_id).capitalize()
+	label.text = CardSetDatabase.get_set(set_id).display_name
 	label.add_theme_font_size_override("font_size", 22)
 	parent.add_child(label)
 
@@ -97,16 +100,24 @@ func _can_add(def: CardDefinition, count: int, max_copies: int) -> bool:
 		return false  # a different special card is already in the deck
 	return true
 
-func _on_add(id: StringName) -> void:
+func _on_add(id: StringName, add_max: bool = false) -> void:
 	var def := CardDatabase.get_definition(id)
-	var count: int = working_deck.get(id, 0)
-	if not _can_add(def, count, _max_copies_for(def)):
-		return
+	var max_copies := _max_copies_for(def)
 
-	working_deck[id] = count + 1
-	_refresh_entry(id)
-	if def.is_special:
-		_refresh_all_special_entries()  # this add may have just locked out other specials
+	var added_any := false
+	while true:
+		var count: int = working_deck.get(id, 0)
+		if not _can_add(def, count, max_copies):
+			break
+		working_deck[id] = count + 1
+		added_any = true
+		if not add_max:
+			break
+
+	if added_any:
+		_refresh_entry(id)
+		if def.is_special:
+			_refresh_all_special_entries()
 
 func _on_remove(id: StringName) -> void:
 	var def := CardDatabase.get_definition(id)

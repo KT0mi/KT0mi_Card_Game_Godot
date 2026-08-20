@@ -25,10 +25,6 @@ const FALLBACK_DECK_IDS: Array[StringName] = [
 var _canvas: CanvasLayer
 var _phase_label : Label
 var _zones_label : Label
-var _choice_panel: VBoxContainer
-var _choice_checkboxes: Dictionary = {}  # option -> CheckBox
-
-
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -87,7 +83,7 @@ func _build_debug_ui() -> void:
 	add_child(_canvas)
  
 	var vbox := VBoxContainer.new()
-	vbox.position = Vector2(20, 20)
+	vbox.position = Vector2(32, 128)
 	_canvas.add_child(vbox)
  
 	_phase_label = Label.new()

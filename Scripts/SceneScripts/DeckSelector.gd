@@ -23,7 +23,10 @@ func _populate_deck_list() -> void:
 		var i : int = 0
 		var deck_button : Button = Button.new()
 		deck_button.theme = default_theme
-		deck_button.size = Vector2(124, 124)
+		deck_button.custom_minimum_size = Vector2(528, 48)
+		deck_button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		deck_button.clip_text = true
+		deck_button.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
 		if deck.deck_name != "":
 			deck_button.text = deck.deck_name 
 		else: 

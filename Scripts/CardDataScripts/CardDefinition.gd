@@ -34,6 +34,9 @@ func get_abilities() -> Array[Ability]:
 		_abilities_cache = _build_abilities()
 		_abilities_built = true
 	return _abilities_cache
+	
+func get_primary_set() -> CardSet:
+	return CardSetDatabase.get_set(sets[0]) if not sets.is_empty() else null
  
 func has_keyword(keyword: StringName) -> bool:
 	for a in get_abilities():

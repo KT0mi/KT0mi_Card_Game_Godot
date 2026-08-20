@@ -299,3 +299,12 @@ texture = ExtResource("13_8c81w")
 visible = false
 scale = Vector2(2, 2)
 texture = ExtResource("14_fi7j4")
+
+[node name="CloseButton" type="Button" parent="UI" unique_id=475295208]
+layout_mode = 0
+offset_left = 32.0
+offset_top = 32.0
+offset_right = 67.0
+offset_bottom = 57.0
+theme = ExtResource("7_c264a")
+text = "X"

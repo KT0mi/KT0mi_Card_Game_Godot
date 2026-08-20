@@ -1,5 +1,8 @@
 extends Control
 
+##Buttons
+@onready var close_button : Button = $CloseButton
+
 ##AnimationPlayer
 @onready var animation_player : AnimationPlayer = $UIAnimationPlayer
 
@@ -10,11 +13,20 @@ extends Control
 @onready var battle_phase_spr : Sprite2D = $PhaseLabels/BattlePhase
 @onready var end_phase_spr : Sprite2D = $PhaseLabels/EndPhase
 
+#Scene Refs
+const MAIN_SCENE := "res://Scenes/Main.tscn"
+
 func _ready() -> void:
+	#Setup Buttons
+	close_button.pressed.connect(_on_close_button)
+	HoverHandler.register_hover(close_button)
+	#Setup signal connections
 	TurnController.phase_changed.connect(_on_phase_changed)
 	
+func _on_close_button() -> void:
+	get_tree().change_scene_to_file(MAIN_SCENE)
 
-func _on_phase_changed(phase: TurnController.Phase, player: Player) -> void:
+func _on_phase_changed(phase: TurnController.Phase, player: Player, forgetting:bool) -> void:
 	AnimationQueue.enqueue(func() -> void:
 		match phase:
 			TurnController.Phase.START_TURN:
@@ -29,7 +41,7 @@ func _on_phase_changed(phase: TurnController.Phase, player: Player) -> void:
 				end_phase_spr.visible = true
 				
 		
-		if not TurnController.forgetting:
+		if not forgetting:
 			animation_player.play("PhaseLabelTransition",-1, 1.5)
 		else:
 			animation_player.play("PhaseLabelTransition",-1, 3.0)
