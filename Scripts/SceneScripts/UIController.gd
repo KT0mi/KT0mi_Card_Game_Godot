@@ -30,7 +30,7 @@ func _on_phase_changed(phase: TurnController.Phase, player: Player) -> void:
 				
 		
 		if not TurnController.forgetting:
-			animation_player.play("PhaseLabelTransition")
+			animation_player.play("PhaseLabelTransition",-1, 1.5)
 		else:
 			animation_player.play("PhaseLabelTransition",-1, 3.0)
 			

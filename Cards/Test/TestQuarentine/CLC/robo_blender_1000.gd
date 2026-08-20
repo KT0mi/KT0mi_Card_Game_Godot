@@ -7,7 +7,7 @@ func _init() -> void:
 	gate = CardGate.BasicGate(15)
 	attack = 5
 	endurance = 5
-	sets = ["dr_tetheus_appliances"]
+	sets = ["dr_steelwrights_appliances"]
 
 func _build_abilities() -> Array[Ability]:
 	return [

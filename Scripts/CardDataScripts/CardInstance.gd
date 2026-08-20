@@ -64,6 +64,8 @@ func is_battle_ready() -> bool:
 		return definition.is_battle_ready(self)
 	return true
 
+func is_player_card() -> bool:
+	return current_zone == Zone.Type.PLAYER
 
 func reset_stats() -> void:
 	if definition is CreatureCardDefinition:

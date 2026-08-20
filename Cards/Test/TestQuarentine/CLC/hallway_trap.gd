@@ -6,7 +6,7 @@ func _init() -> void:
 	card_text = "Choose 1 arena card. For the next turn: This card becomes a 1/1 card."
 	gate = CardGate.BasicGate(20)
 	cast_type = CastType.PERSISTENT
-	sets = ["dr_tetheus_appliances"]
+	sets = ["dr_steelwrights_appliances"]
 
 const TARGET_REF := &"ht_ref"
 

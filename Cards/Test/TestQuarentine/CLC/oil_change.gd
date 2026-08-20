@@ -6,7 +6,7 @@ func _init() -> void:
 	card_text = "Choose 1 arena card: It gets +1/+3 and becomes Dazed."
 	gate = CardGate.BasicGate(20)
 	cast_type = CastType.INSTANT
-	sets = ["dr_tetheus_appliances"]
+	sets = ["dr_steelwrights_appliances"]
 	
 
 func resolve_effect(card: CardInstance, _event: PlayCardEvent) -> void:

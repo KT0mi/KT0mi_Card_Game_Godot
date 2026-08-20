@@ -4,6 +4,7 @@
 [ext_resource type="Theme" uid="uid://bxjx78kc5nbmv" path="res://Theme/default_theme.tres" id="1_r150o"]
 [ext_resource type="Script" uid="uid://wvcn61nmle6" path="res://Scripts/SceneScripts/DeckSelector.gd" id="3_kln2b"]
 [ext_resource type="PackedScene" uid="uid://xwojdvdygonc" path="res://Scenes/UI/PixelNoiseBackground.tscn" id="4_rgh2o"]
+[ext_resource type="Texture2D" uid="uid://cuvlqj6bydc6m" path="res://Assets/Images/UI/menu_splash.png" id="5_pbw6q"]
 
 [node name="Main" type="Control" unique_id=1236296484]
 layout_mode = 3
@@ -42,3 +43,11 @@ layout_mode = 2
 size_flags_horizontal = 3
 
 [node name="PixelNoiseBackground" parent="." unique_id=281833876 instance=ExtResource("4_rgh2o")]
+
+[node name="MenuIcon" type="TextureRect" parent="." unique_id=1675043572]
+layout_mode = 0
+offset_left = 96.0
+offset_top = 96.0
+offset_right = 1056.0
+offset_bottom = 416.0
+texture = ExtResource("5_pbw6q")

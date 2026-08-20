@@ -7,7 +7,7 @@ func _init() -> void:
 	gate = CardGate.BasicGate(20)
 	attack = 0
 	endurance = 6
-	sets = ["dr_tetheus_appliances"]
+	sets = ["dr_steelwrights_appliances"]
 
 func is_battle_ready(_card: CardInstance) -> bool:
 	return false
