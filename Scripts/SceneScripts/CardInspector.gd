@@ -84,11 +84,11 @@ func _rebuild_modifiers_list() -> void:
 		if entries.is_empty():
 			continue
 		any_entries = true
-		_add_header(section[0])
+		_add_header("All " + section[0] + " Modifiers")
 		for entry in entries:
 			_add_modifier_entry(
 				section[2],
-				section[0],
+				section[0] + "Modifier",
 				entry[0],
 				entry[1],
 				entry[2])
@@ -163,6 +163,8 @@ func _add_header(text: String) -> void:
 
 func _add_modifier_entry(against, kind_text: String, source_text: String, modifier_text: String, new_value: String) -> void:
 	var entry : ModifierEntry = MODIFIER_ENTRY_SCENE.instantiate()
+	_modifiers_list.add_child(entry)
+	
 	entry.kind_text = kind_text
 	entry.source_text = source_text
 	if modifier_text == "": entry.modifier_label.visible = false
@@ -173,4 +175,4 @@ func _add_modifier_entry(against, kind_text: String, source_text: String, modifi
 		elif against < int(new_value):
 			entry.new_value_label.add_theme_color_override("font_color", Color.GREEN)
 	entry.new_value_text = new_value
-	_modifiers_list.add_child(entry)
+	

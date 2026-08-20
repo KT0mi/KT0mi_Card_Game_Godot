@@ -19,5 +19,7 @@ func _build_continuous_effects() -> Array[ContinuousEffect]:
 				return candidate == source.owner.arena_lanes[source.lane + 1],
 			func(attack : int, _source : CardInstance) -> int:
 				return attack + 1,
+			ContinuousEffect.Layer.DELTA,
+			"+1 Attack"
 		)
 	]
