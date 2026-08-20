@@ -10,6 +10,8 @@ extends CanvasLayer
 @onready var _gate_label : Label = $Overlay/CardElementContainer/StatContainer/GateLabel
 @onready var _attack_label : Label = $Overlay/CardElementContainer/StatContainer/AttackLabel
 
+@onready var _preview_card : Card = $Overlay/CardPreview/SubViewport/PreviewCard
+
 @onready var _modifiers_list : VBoxContainer = $Overlay/CardModifierContainer
 
 var DEFAULT_THEME : Theme = preload("res://Theme/default_theme.tres")
@@ -51,6 +53,11 @@ func _on_dim_background_input(event: InputEvent) -> void:
 
 func _refresh() -> void:
 	var def: CardDefinition = _card.definition
+	
+	_preview_card.card_instance = _card
+	_preview_card.set_interaction_mode(Card.InteractionMode.DISABLED)
+	_preview_card._setup_visuals()
+	_preview_card._refresh_visuals()
 	
 	_name_label.text = def.card_name
 	_text_box.text = _card.get_display_text()
