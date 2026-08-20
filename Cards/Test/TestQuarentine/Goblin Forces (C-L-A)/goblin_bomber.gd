@@ -4,7 +4,7 @@ func _init() -> void:
 	id = &"goblin_bomber"
 	card_name = "Goblin Bomber"
 	card_text = "Quick. When this card attacks, it deals 1 damage to your player card and dies."
-	gate = CardGate.BasicGate(30)
+	gate = CardGate.new(CardGate.GateType.INTERVAL, 25, 25, 30) 
 	attack = 4
 	endurance = 1
 	sets = ["goblin_forces"]

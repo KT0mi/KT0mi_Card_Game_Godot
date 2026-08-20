@@ -12,6 +12,8 @@ extends CanvasLayer
 
 @onready var _modifiers_list : VBoxContainer = $Overlay/CardModifierContainer
 
+var DEFAULT_THEME : Theme = preload("res://Theme/default_theme.tres")
+
 var _card : CardInstance = null
 
 func _ready() -> void:
@@ -61,7 +63,7 @@ func _refresh() -> void:
 		_attack_label.visible = false
 		_endurance_label.visible = false
 	
-	_gate_label.text = "Gate:\n%d" % CardViewManager.format_gate_label(_card.get_gate())
+	_gate_label.text = "Gate:\n%s" % CardViewManager.format_gate_label(_card.get_gate())
 	
 	_rebuild_modifiers_list()
 
@@ -93,8 +95,8 @@ func _rebuild_modifiers_list() -> void:
 	if not any_entries:
 		_add_header("No active modifiers or continuous effects.")
 
-func _build_timeline(kind : ContinuousEffect.Kind, start_value, permanent_modifiers:Array) -> Array[String]:
-	var entries : Array[String] = []
+func _build_timeline(kind : ContinuousEffect.Kind, start_value, permanent_modifiers:Array) -> Array[Array]:
+	var entries : Array[Array] = []
 	var value = start_value
 	
 	for mod in permanent_modifiers:
@@ -154,6 +156,7 @@ func _collect_continuous(kind: ContinuousEffect.Kind, layer: ContinuousEffect.La
 func _add_header(text: String) -> void:
 	var label := Label.new()
 	label.text = text
+	label.theme = DEFAULT_THEME
 	label.add_theme_font_size_override("font_size", 22)
 	_modifiers_list.add_child(label)
 

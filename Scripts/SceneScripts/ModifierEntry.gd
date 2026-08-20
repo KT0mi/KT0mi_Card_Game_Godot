@@ -1,9 +1,9 @@
 class_name ModifierEntry extends Control
 
-@onready var kind_label : Label = $ModifierContainer/HBoxContainer/KindLabel
-@onready var source_label : Label = $ModifierContainer/HBoxContainer/SourceLabel
-@onready var modifier_label : Label = $ModifierContainer/ModifierLabel
-@onready var new_value_label : Label = $ModifierContainer/HBoxContainer2/NewValueLabel
+@onready var kind_label : Label = $ModifierContainer/NamesContainer/KindLabel
+@onready var source_label : Label = $ModifierContainer/NamesContainer/SourceLabel
+@onready var modifier_label : Label = $ModifierContainer/ValuesContainer/ModifierLabel
+@onready var new_value_label : Label = $ModifierContainer/ValuesContainer/NewValueLabel
 
 @export var kind_text : String = "":
 	set(s): kind_label.text = s

@@ -32,10 +32,10 @@ theme_override_font_sizes/font_size = 20
 text = "Card Source"
 horizontal_alignment = 2
 
-[node name="HBoxContainer2" type="HBoxContainer" parent="ModifierContainer" unique_id=736969114]
+[node name="ValuesContainer" type="HBoxContainer" parent="ModifierContainer" unique_id=736969114]
 layout_mode = 2
 
-[node name="ModifierLabel" type="Label" parent="ModifierContainer/HBoxContainer2" unique_id=2078042523]
+[node name="ModifierLabel" type="Label" parent="ModifierContainer/ValuesContainer" unique_id=2078042523]
 layout_mode = 2
 size_flags_horizontal = 3
 theme = ExtResource("1_w4vyw")
@@ -43,13 +43,13 @@ theme_override_font_sizes/font_size = 40
 text = "+1 Attack"
 horizontal_alignment = 1
 
-[node name="Flavour" type="TextureRect" parent="ModifierContainer/HBoxContainer2" unique_id=1662091512]
+[node name="Flavour" type="TextureRect" parent="ModifierContainer/ValuesContainer" unique_id=1662091512]
 layout_mode = 2
 size_flags_horizontal = 10
 texture = ExtResource("3_r5yos")
 stretch_mode = 2
 
-[node name="NewValueLabel" type="Label" parent="ModifierContainer/HBoxContainer2" unique_id=1750881376]
+[node name="NewValueLabel" type="Label" parent="ModifierContainer/ValuesContainer" unique_id=1750881376]
 layout_mode = 2
 size_flags_horizontal = 8
 theme = ExtResource("1_w4vyw")
