@@ -32,18 +32,18 @@ func _build_continuous_effects() -> Array[ContinuousEffect]:
 	return [
 		ContinuousEffect.new(
 			ContinuousEffect.Kind.ATTACK,
-			func(src:CardInstance, c:CardInstance) -> bool:
-				return src.has_bag(TARGET_REF) and src.get_bag(TARGET_REF) == c,
-			func(v:int, src:CardInstance, target:CardInstance) -> int:
+			func(src:CardInstance, ctx:AttackCheck) -> bool:
+				return src.has_bag(TARGET_REF) and src.get_bag(TARGET_REF) == ctx.card,
+			func(v:int, src:CardInstance, _ctx:AttackCheck) -> int:
 				return 1,
 			ContinuousEffect.Layer.SET,
 			"This card has 1 Attack."
 		),
 		ContinuousEffect.new(
 			ContinuousEffect.Kind.ENDURANCE,
-			func(src:CardInstance, c:CardInstance) -> bool:
-				return src.has_bag(TARGET_REF) and src.get_bag(TARGET_REF) == c,
-			func(v:int, src:CardInstance, target:CardInstance) -> int:
+			func(src:CardInstance, ctx:EnduranceCheck) -> bool:
+				return src.has_bag(TARGET_REF) and src.get_bag(TARGET_REF) == ctx.card,
+			func(v:int, src:CardInstance, _ctx:EnduranceCheck) -> int:
 				return 1,
 			ContinuousEffect.Layer.SET,
 			"This card has 1 Endurance."

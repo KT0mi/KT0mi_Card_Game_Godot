@@ -13,12 +13,12 @@ func _build_continuous_effects() -> Array[ContinuousEffect]:
 	return [
 		ContinuousEffect.new(
 			ContinuousEffect.Kind.ATTACK,
-			func(source: CardInstance, candidate: CardInstance) -> bool:
+			func(source: CardInstance, ctx:AttackCheck) -> bool:
 				if source.lane >= source.owner.ARENA_LANES - 1:
 					return false
-				return candidate == source.owner.arena_lanes[source.lane + 1],
-			func(attack : int, _source : CardInstance, target:CardInstance) -> int:
-				return attack + 1,
+				return ctx.card == source.owner.arena_lanes[source.lane + 1],
+			func(value : int, _source : CardInstance, _ctx:AttackCheck) -> int:
+				return value + 1,
 			ContinuousEffect.Layer.DELTA,
 			"+1 Attack"
 		)

@@ -1,11 +1,11 @@
 class_name PlayabilityCheck extends CheckContext
 
-enum Requirement {ACTIVE_PLAYER,IN_HAND,PLAY_PHASE,GATE,LANE_OPEN}
+enum Injectable {ACTIVE_PLAYER,IN_HAND,PLAY_PHASE,GATE,LANE_OPEN,CARD_EFFECT}
 
-var requirement: Requirement
+var injectable: Injectable
 var lane : int
 
-func _init(c: CardInstance, req: Requirement, l: int = -1) -> void:
+func _init(c: CardInstance, inj: Injectable, l: int = -1) -> void:
 	super._init(c)
-	requirement = req
+	injectable = inj
 	lane = 1

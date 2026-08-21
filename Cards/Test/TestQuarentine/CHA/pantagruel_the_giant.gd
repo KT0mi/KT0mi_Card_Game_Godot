@@ -16,15 +16,16 @@ func _build_continuous_effects() -> Array[ContinuousEffect]:
 	return [
 		ContinuousEffect.new(
 			ContinuousEffect.Kind.PLAYABILITY,
-			func(src:CardInstance, candidate:CardInstance) -> bool:
-				return candidate.is_creature() and candidate.owner == src.owner,
-			func(playability:bool, src:CardInstance, target:CardInstance) -> bool:
+			func(src:CardInstance, ctx:PlayabilityCheck) -> bool:
+				return ctx.injectable == PlayabilityCheck.Injectable.LANE_OPEN \
+					and ctx.card.is_creature() and ctx.card.owner == src.owner,
+			func(_value:bool, src:CardInstance, ctx:PlayabilityCheck) -> bool:
 				print("Pantagruel Counter: %d" % src.get_counter(COUNT_KEY))
 				if not src.has_counter(COUNT_KEY):
 					print("pantagruel_the_giant: Card not playable. Reason: Can only play one card per turn.")
 					return false
-				return playability,
-			ContinuousEffect.Layer.DELTA,
+				return true,
+			ContinuousEffect.Layer.SET,
 			"Can only play 1 creature per turn"
 		)
 	]
@@ -39,6 +40,7 @@ func _build_abilities() -> Array[Ability]:
 		Ability.new(
 			Events.PLAY_CARD_RESOLVED,
 			func(c:CardInstance,e:PlayCardEvent):
+				print("Resolving pantagruel_the_giant's effect")
 				var sacrifice := e.card
 				
 				GameActions.try_add_attack_modifier(c, StatModifer.delta(sacrifice.get_attack(), c))
@@ -46,6 +48,9 @@ func _build_abilities() -> Array[Ability]:
 				GameActions.try_kill_card(sacrifice)
 				
 				c.tick_counter(COUNT_KEY),
-			func(c:CardInstance,e:PlayCardEvent)->bool:return c.has_counter(COUNT_KEY) and e.card.is_creature()
+				
+			func(c:CardInstance,e:PlayCardEvent)->bool: 
+				print("Attempting to resolve pantagruel_the_giant's effect. variables:\nCard being played: %s\nPlayer playing card: %s" % [e.card.definition.card_name, e.player.get_player_card().definition.card_name])
+				return e.card.is_creature() and e.player == c.owner and e.card != c,
 		)
 	]
