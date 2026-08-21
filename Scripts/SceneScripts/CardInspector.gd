@@ -120,7 +120,7 @@ func _build_timeline(kind : ContinuousEffect.Kind, start_value, permanent_modifi
 		
 	for m in _collect_continuous(kind, ContinuousEffect.Layer.SET):
 		var before = value
-		value = m.ce.effect.call(value, m.source)
+		value = m.ce.effect.call(value, m.source, _card)
 		entries.append([
 			m.source.definition.card_name,
 			m.ce.label,
@@ -129,7 +129,7 @@ func _build_timeline(kind : ContinuousEffect.Kind, start_value, permanent_modifi
 	
 	for m in _collect_continuous(kind, ContinuousEffect.Layer.DELTA):
 		var before = value
-		value = m.ce.effect.call(value, m.source)
+		value = m.ce.effect.call(value, m.source, _card)
 		entries.append([
 			m.source.definition.card_name,
 			m.ce.label,

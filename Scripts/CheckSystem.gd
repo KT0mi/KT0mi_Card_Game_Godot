@@ -21,7 +21,7 @@ func attack_of(card: CardInstance) -> int:
 	for mod in card.attack_modifiers:
 		value = mod.apply(value)
 	var key := "attack:%d" % card.get_instance_id()
-	return _resolve(key, ContinuousEffect.Kind.ATTACK, value,
+	return _resolve(key, ContinuousEffect.Kind.ATTACK, value, card,
 		func(source : CardInstance, ce: ContinuousEffect) -> bool:
 			return ce.applies_to.call(source, card))
 
@@ -30,7 +30,7 @@ func endurance_of(card: CardInstance) -> int:
 	for mod in card.endurance_modifiers:
 		value = mod.apply(value)
 	var key := "endurance:%d" % card.get_instance_id()
-	return _resolve(key, ContinuousEffect.Kind.ENDURANCE, value,
+	return _resolve(key, ContinuousEffect.Kind.ENDURANCE, value, card,
 		func(source: CardInstance, ce: ContinuousEffect) -> bool:
 			return ce.applies_to.call(source, card))
 
@@ -41,7 +41,7 @@ func gate_of(card: CardInstance) -> CardGate:
 	for mod in card.gate_modifiers:
 		gate = mod.apply(gate)
 	var key := "gate:%d" % card.get_instance_id()
-	return _resolve(key, ContinuousEffect.Kind.GATE, gate,
+	return _resolve(key, ContinuousEffect.Kind.GATE, gate, card,
 		func(source: CardInstance, ce: ContinuousEffect) -> bool:
 			return ce.applies_to.call(source, card))
 
@@ -68,7 +68,7 @@ func playability_of(card: CardInstance, lane: int = -1) -> bool:
 		playability = false
 	
 	var key := "playability:%d" % card.get_instance_id()
-	return _resolve(key, ContinuousEffect.Kind.PLAYABILITY, playability,
+	return _resolve(key, ContinuousEffect.Kind.PLAYABILITY, playability, card,
 		func(source: CardInstance, ce: ContinuousEffect) -> bool:
 			return ce.applies_to.call(source, card))
 	
@@ -93,7 +93,7 @@ func playability_of(card: CardInstance, lane: int = -1) -> bool:
 
 func effect_damage_of(dealing_card: CardInstance, base_amount: int) -> int:
 	var key := "effect_damage:%d" % dealing_card.get_instance_id()
-	return _resolve(key, ContinuousEffect.Kind.EFFECT_DAMAGE, base_amount,
+	return _resolve(key, ContinuousEffect.Kind.EFFECT_DAMAGE, base_amount, dealing_card,
 		func(source: CardInstance, ce: ContinuousEffect) -> bool:
 			return ce.applies_to.call(source, dealing_card))
 
@@ -112,13 +112,13 @@ func effect_damage_of(dealing_card: CardInstance, base_amount: int) -> int:
 ## falls back to the pre-continuous-effects base value for that call.
 var _resolving : Dictionary = {}
 
-func _resolve(key: String, kind : ContinuousEffect.Kind, start:Variant, predicate : Callable) -> Variant:
+func _resolve(key: String, kind : ContinuousEffect.Kind, start:Variant, target:Variant, predicate : Callable) -> Variant:
 	if _resolving.has(key):
 		push_warning("CheckSystem: Dependency Cycle detected. Falling back to base value")
 		return start
 	_resolving[key] = true
 	var matches := _collect(kind, predicate)
-	var value : Variant = _apply_layers(start, matches)
+	var value : Variant = _apply_layers(start, target, matches)
 	_resolving.erase(key)
 	return value
 
@@ -143,15 +143,15 @@ func _collect(kind: ContinuousEffect.Kind, predicate: Callable) -> Array:
 
 ##Layer Rules: SET layers resolve first (last established source wins)
 ##Then DELTA layers fold on top of absolute value.
-func _apply_layers(start : Variant, matches: Array) -> Variant:
+func _apply_layers(start : Variant, target: Variant, matches: Array) -> Variant:
 	var value : Variant = start
 	for m in matches:
 		if m.ce.layer == ContinuousEffect.Layer.SET:
-			value = m.ce.effect.call(value, m.source)
+			value = m.ce.effect.call(value, m.source, target)
 	for m in matches:
 		if m.ce.layer == ContinuousEffect.Layer.DELTA:
-			value = m.ce.effect.call(value, m.source)
+			value = m.ce.effect.call(value, m.source, target)
 	for m in matches:
 		if m.ce.layer == ContinuousEffect.Layer.FINAL:
-			value = m.ce.effect.call(value, m.source)
+			value = m.ce.effect.call(value, m.source, target)
 	return value
