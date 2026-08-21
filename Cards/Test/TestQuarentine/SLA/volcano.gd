@@ -13,7 +13,7 @@ func _build_abilities() -> Array[Ability]:
 	return [
 		Ability.new(
 			Events.DRAW_PHASE_START,
-			func(c:CardInstance,e:PhaseEvent):
+			func(c:CardInstance,_e:PhaseEvent):
 				await GameActions.try_summon_card(c.owner, &"magma_burst", Zone.Type.HAND),
 			func(c:CardInstance,e:PhaseEvent) -> bool: return e.player == c.owner
 		)

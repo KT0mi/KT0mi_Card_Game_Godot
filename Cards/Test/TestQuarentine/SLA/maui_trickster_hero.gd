@@ -32,7 +32,7 @@ func _build_continuous_effects() -> Array[ContinuousEffect]:
 			ContinuousEffect.Kind.EFFECT_DAMAGE,
 			func(_src:CardInstance, ctx:EffectDamageCheck) -> bool:
 				return  ctx.card.definition.damage_tags.has(&"magma_burst"),
-			func(_v: int, src:CardInstance, ctx:EffectDamageCheck) -> int:
+			func(_v: int, src:CardInstance, _ctx:EffectDamageCheck) -> int:
 				return src.get_counter(DAMAGE_COUNTER),
 			ContinuousEffect.Layer.SET
 		)

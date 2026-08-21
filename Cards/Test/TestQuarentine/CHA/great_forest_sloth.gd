@@ -1,8 +1,8 @@
 extends CreatureCardDefinition
 
 func _init() -> void:
-	id = &"great_forest_sage"
-	card_name = "Great Forest Sage"
+	id = &"great_forest_sloth"
+	card_name = "Great Forest Sloth"
 	card_text = "This card has 'Dazed' for it's first 3 turns on the arena."
 	gate = CardGate.BasicGate(10)
 	attack = 10

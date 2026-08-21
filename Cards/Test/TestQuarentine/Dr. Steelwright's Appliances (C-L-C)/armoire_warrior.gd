@@ -18,7 +18,7 @@ func _build_abilities() -> Array[Ability]:
 		Ability.new(
 			Events.ATTACK_RESOLVED,
 			func(c:CardInstance, e:AttackEvent):
-				GameActions.try_add_attack_modifier(e.attacker, StatModifer.delta(-1, c)),
+				await GameActions.try_add_attack_modifier(e.attacker, StatModifer.delta(-1, c)),
 			func(c:CardInstance, e:AttackEvent)->bool: return e.target == c
 		)
 	]

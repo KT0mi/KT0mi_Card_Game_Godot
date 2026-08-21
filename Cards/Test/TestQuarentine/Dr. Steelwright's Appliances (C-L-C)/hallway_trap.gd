@@ -54,7 +54,7 @@ func _build_abilities() -> Array[Ability]:
 	return [
 		Ability.new(
 			Events.PLAY_PHASE_START,
-			func(c,_e): ZoneManager.move_to(c,Zone.Type.GRAVEYARD, ZoneChangeEvent.Reason.RESOLVE),
+			func(c,_e): await ZoneManager.move_to(c,Zone.Type.GRAVEYARD, ZoneChangeEvent.Reason.RESOLVE),
 			func(c,e) -> bool: return e.player == c.owner
 		)
 	]

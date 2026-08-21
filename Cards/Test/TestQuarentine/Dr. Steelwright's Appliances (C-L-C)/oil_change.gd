@@ -25,6 +25,6 @@ func resolve_effect(card: CardInstance, _event: PlayCardEvent) -> void:
 		)
 	)
 	
-	GameActions.try_add_attack_modifier(target, StatModifer.delta(1, card))
-	GameActions.try_add_endurance_modifier(target, StatModifer.delta(3, card))
+	await GameActions.try_add_attack_modifier(target, StatModifer.delta(1, card))
+	await GameActions.try_add_endurance_modifier(target, StatModifer.delta(3, card))
 	target.set_flag(CardKeywords.DAZED, true)

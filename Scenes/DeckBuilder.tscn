@@ -2,6 +2,7 @@
 
 [ext_resource type="Theme" uid="uid://bxjx78kc5nbmv" path="res://Theme/default_theme.tres" id="1_3sf4w"]
 [ext_resource type="Script" uid="uid://diqby4l42ot5k" path="res://Scripts/SceneScripts/DeckBuilderController.gd" id="1_7t3uy"]
+[ext_resource type="PackedScene" uid="uid://xwojdvdygonc" path="res://Scenes/UI/PixelNoiseBackground.tscn" id="3_nalej"]
 
 [node name="DeckBuilder" type="Control" unique_id=333503037]
 layout_mode = 3
@@ -70,3 +71,5 @@ offset_right = 155.0
 offset_bottom = 91.0
 theme_override_font_sizes/font_size = 19
 text = "Back"
+
+[node name="PixelNoiseBackground" parent="." unique_id=281833876 instance=ExtResource("3_nalej")]

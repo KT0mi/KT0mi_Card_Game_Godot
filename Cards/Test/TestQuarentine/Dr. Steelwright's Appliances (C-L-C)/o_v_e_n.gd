@@ -3,9 +3,9 @@ extends CreatureCardDefinition
 func _init() -> void:
 	id = &"o_v_e_n"
 	card_name = "O.V.E.N: Orderly Prototype of Exothermic Nexus"
-	card_text = "At the start of your Battle Phase: Discard 1 card from your hand and deal 1 damage to yourself: Choose 1 creature card from the arena and kill it."
+	card_text = "At the start of your Battle Phase: You can discard 1 card from your hand and deal 1 damage to yourself: Choose 1 creature card from the arena and kill it."
 	is_special = true
-	gate = CardGate.BasicGate(20)
+	gate = CardGate.BasicGate(15)
 	attack = 3
 	endurance = 3
 	sets = ["dr_steelwrights_appliances"]
@@ -26,15 +26,21 @@ func _o_v_e_n_effect(card : CardInstance, event : PhaseEvent)-> void:
 	var target_candidates := GameState.all_cards_in_arena()
 	if target_candidates.is_empty(): return
 	
-	var discard := await ChoiceManager.request_card(
-		"Choose 1 card to discard:",
+	var try_discard := await ChoiceManager.request_cards(
+		"Choose 1 card to discard or choose nothing:",
 		candidates,
 		card.owner,
+		0,
+		1,
 		ChoiceContext.SACRIFICE_EFFECT(card)
 	)
 	
-	ZoneManager.move_to(discard, Zone.Type.GRAVEYARD, ZoneChangeEvent.Reason.DISCARD)
-	DamagePipeline.apply_damage(card.owner.get_player_card(), 1, card, DamageEvent.Reason.CARD_EFFECT)
+	if try_discard.is_empty():
+		return
+	var discard := try_discard[0]
+	
+	await ZoneManager.move_to(discard, Zone.Type.GRAVEYARD, ZoneChangeEvent.Reason.DISCARD)
+	await DamagePipeline.apply_damage(card.owner.get_player_card(), 1, card, DamageEvent.Reason.CARD_EFFECT)
 	
 	var target := await ChoiceManager.request_card(
 		"Choose 1 card from the arena:",
@@ -43,4 +49,4 @@ func _o_v_e_n_effect(card : CardInstance, event : PhaseEvent)-> void:
 		ChoiceContext.KILL_EFFECT(card)
 	)
 	
-	GameActions.try_kill_card(target)
+	await GameActions.try_kill_card(target)

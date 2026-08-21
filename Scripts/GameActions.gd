@@ -185,7 +185,7 @@ func try_summon_card(owner : Player, id : StringName, to_zone: Zone.Type, lane :
 		if def.cast_type == SpellCardDefinition.CastType.INSTANT:
 			await ZoneManager.move_to(card_instance, Zone.Type.GRAVEYARD, ZoneChangeEvent.Reason.RESOLVE, lane)
 	else:
-		ZoneManager.move_to(card_instance, to_zone, ZoneChangeEvent.Reason.SUMMON, lane)
+		await ZoneManager.move_to(card_instance, to_zone, ZoneChangeEvent.Reason.SUMMON, lane)
 	
 	print("GameActions: Resolved try_summon_card action sucessfully.")
 	await TriggerSystem.emit(Events.SUMMON_RESOLVED, event)

@@ -15,14 +15,14 @@ func check_state_based_actions() -> void:
 			var card : CardInstance = c
 			if card.get_endurance() <= 0 and card.current_zone != Zone.Type.GRAVEYARD:
 				#Card Death - Specific event when a card ends the turn with no endurance - cancellable
-				GameActions.try_kill_card(card)
+				await GameActions.try_kill_card(card)
 		#Check for player death
 		for card in player.player_zone.duplicate():
 			if card.get_endurance() <= 0:
 				player_defeated.emit(player)
 
 func check_end_phase_state() -> void:
-	check_state_based_actions()
+	await check_state_based_actions()
 	#Creatures lose their dazed status at the end of the turn if they have them
 	for player in GameState.players():
 		#Cards in Arena

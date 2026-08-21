@@ -188,7 +188,7 @@ func _on_input_event(_viewport: Node, event: InputEvent, _shape_idx: int) -> voi
 func _unhandled_input(event: InputEvent) -> void:
 	if dragging and event is InputEventMouseButton:
 		if event.button_index == MOUSE_BUTTON_LEFT and not event.is_pressed():
-			_end_drag()
+			await _end_drag()
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _physics_process(_delta: float) -> void:
@@ -248,7 +248,7 @@ func _end_drag() -> void:
 	HoverHandler.unfocus(self)
 	
 	if not moved:
-		_snap_back_to_current_holder()
+		await _snap_back_to_current_holder()
 
 func _attempt_card_action(holder: CardHolder) -> bool:
 	if card_instance.is_spell() and holder.zone_type == Zone.Type.SPELLBOOK:
@@ -261,7 +261,7 @@ func _snap_back_to_current_holder() -> void:
 	#Illegal move or dropped from empty space
 	var holder: CardHolder = CardViewManager.holder_for(card_instance)
 	if holder:
-		holder.add_card(self)
+		await holder.add_card(self)
 
 
 #region Animation Methods

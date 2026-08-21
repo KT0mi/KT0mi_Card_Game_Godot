@@ -24,7 +24,7 @@ func enqueue(step: Callable, group: StringName = &"default") -> void:
 		_groups[group] = g
 	g.steps.append(step)
 	if not g.running:
-		_run(group, g)
+		await _run(group, g)
 
 func is_group_busy(group: StringName) -> bool:
 	var g: _Group = _groups.get(group)

@@ -44,9 +44,9 @@ func _build_abilities() -> Array[Ability]:
 				e.cancel()
 				var sacrifice := e.card
 				
-				GameActions.try_add_attack_modifier(c, StatModifer.delta(sacrifice.get_attack(), c))
-				GameActions.try_add_endurance_modifier(c, StatModifer.delta(sacrifice.get_endurance(), c))
-				GameActions.try_kill_card(sacrifice)
+				await GameActions.try_add_attack_modifier(c, StatModifer.delta(sacrifice.get_attack(), c))
+				await GameActions.try_add_endurance_modifier(c, StatModifer.delta(sacrifice.get_endurance(), c))
+				await GameActions.try_kill_card(sacrifice)
 				
 				c.tick_counter(COUNT_KEY),
 				

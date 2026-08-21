@@ -37,6 +37,10 @@ HoverHandler="*uid://df4x08a3mum00"
 AnimationQueue="*uid://drkq3imte4kea"
 CardInspector="*uid://4nw1jbk3fpm7"
 
+[debug]
+
+gdscript/warnings/missing_await=1
+
 [display]
 
 window/size/viewport_width=1920

@@ -59,7 +59,7 @@ func _take_start_turn_phase_actions() -> void:
 					return
 	
 	#Then forget
-	TurnController.forget_turn()
+	await TurnController.forget_turn()
 
 func _take_play_phase_actions() -> void:
 	var ai := _ai_player()

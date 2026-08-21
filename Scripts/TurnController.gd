@@ -41,7 +41,7 @@ func forget_turn() -> void:
 	
 	var forgetting_player := current_player
 	forgetting = true
-	DamagePipeline.apply_damage(forgetting_player.get_player_card(), 2, current_player.get_player_card(), DamageEvent.Reason.STATE)
+	await DamagePipeline.apply_damage(forgetting_player.get_player_card(), 2, current_player.get_player_card(), DamageEvent.Reason.STATE)
 	for i in range(4):
 		if forgetting_player == current_player:
 			await advance_phase()

@@ -17,7 +17,7 @@ func resolve_effect(card: CardInstance, _event: PlayCardEvent) -> void:
 		"Choose any card in play:",
 		GameState.all_cards_in_target_areas(),
 		card.owner,
-		ChoiceContext.DAMAGE_EFFECT(card, 1)
+		ChoiceContext.DAMAGE_EFFECT(card, CheckSystem.effect_damage_of(card, 1))
 	)
 	
 	await DamagePipeline.apply_damage(target, CheckSystem.effect_damage_of(card, 1), card)
