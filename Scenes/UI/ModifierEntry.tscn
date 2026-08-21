@@ -7,6 +7,8 @@
 [node name="ModifierEntry" type="Control" unique_id=1061973721]
 layout_mode = 3
 anchors_preset = 0
+offset_right = 416.0
+offset_bottom = 64.0
 script = ExtResource("1_iyagk")
 
 [node name="ModifierContainer" type="VBoxContainer" parent="." unique_id=159920184]

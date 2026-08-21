@@ -11,30 +11,15 @@ signal attack_performed(attacker: CardInstance, target: CardInstance)
 
 func try_play_card(player: Player, card: CardInstance, lane : int = -1) -> bool:
 	print("GameActions: Requested try_play_card action")
-	if card.current_zone != Zone.Type.HAND:
-		print("GameActions: Failed try_play_card action. Reason: Card is not in hand")
-		return false
-	
-	if TurnController.current_phase != TurnController.Phase.PLAY:
-		print("GameActions: Failed try_play_card action. Reason: Not in play phase")
-		return false
-		
-	if TurnController.current_player != player:
-		print("GameActions: Failed try_play_card action: Reason: Not active player")
-		return false
-	
 	if ChoiceManager.has_pending_request():
 		print("GameActions: Cannot play card while a choice is pending")
 		return false
 	
-	if !card.is_playable(player.get_player_card().get_endurance()):
-		print("GameActions: Failed try_play_card action: Reason: Card gated")
+	#Check with CheckSystem to see if the card is playable
+	if not card.is_playable(lane):
+		print("GameActions: Failed try_play_card action. Reason: Card not playable.")
 		return false
 	
-	if card.is_creature() and not player.is_lane_open(lane):
-		print("GameActions: Failed try_play_card action. Reason: Arena lane not open")
-		return false
-		
 	var event := PlayCardEvent.new(player, card)
 	await TriggerSystem.emit(Events.PLAY_CARD_REQUEST, event)
 	if event.cancelled:

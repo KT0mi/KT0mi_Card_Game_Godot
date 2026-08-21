@@ -45,6 +45,34 @@ func gate_of(card: CardInstance) -> CardGate:
 		func(source: CardInstance, ce: ContinuousEffect) -> bool:
 			return ce.applies_to.call(source, card))
 
+func playability_of(card: CardInstance, lane: int = -1) -> bool:
+	var playability := true
+	if TurnController.current_player != card.owner:
+		print("CheckSystem: Card is not playable. Reason: Not active player")
+		playability = false
+	
+	if card.current_zone != Zone.Type.HAND:
+		print("CheckSystem: Card is not playable. Reason: Card is not in hand")
+		playability = false
+	
+	if TurnController.current_phase != TurnController.Phase.PLAY:
+		print("CheckSystem: Card is not playable. Reason: Not in play phase")
+		playability = false
+	
+	if !card.is_not_gated(card.owner.get_player_card().get_endurance()):
+		print("CheckSystem: Card is not playable. Reason: Card gated")
+		playability = false
+		
+	if card.is_creature() and not card.owner.is_lane_open(lane):
+		print("GameActions: Failed try_play_card action. Reason: Arena lane not open")
+		playability = false
+	
+	var key := "playability:%d" % card.get_instance_id()
+	return _resolve(key, ContinuousEffect.Kind.PLAYABILITY, playability,
+		func(source: CardInstance, ce: ContinuousEffect) -> bool:
+			return ce.applies_to.call(source, card))
+	
+
 ## Effect-damage query: "how much damage does `dealing_card`'s effect deal,
 ## starting from `base_amount`, given every ContinuousEffect currently in
 ## play that cares about it?" This is the Magma Burst case -- a card with

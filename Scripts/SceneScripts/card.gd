@@ -94,7 +94,7 @@ func _refresh_visuals() -> void:
 
 func _gated_feedback(card : CardInstance) -> void:
 	if card.current_zone == Zone.Type.HAND:
-		if card.is_playable(card.owner.get_player_card().get_endurance()):
+		if card.is_not_gated(card.owner.get_player_card().get_endurance()):
 			gate_label.add_theme_color_override("font_color", Color(0.0, 0.823, 0.0, 1.0))
 		else:
 			gate_label.add_theme_color_override("font_color", Color(0.82, 0.0, 0.0, 1.0))

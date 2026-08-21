@@ -18,7 +18,7 @@ func _init(
 	lower_bound = lb
 	upper_bound = ub
 
-func is_playable(against : int) -> bool:
+func is_not_gated(against : int) -> bool:
 	match gate_type:
 		GateType.NONE:
 			return true
@@ -35,8 +35,8 @@ func is_playable(against : int) -> bool:
 			return true
 
 ## COMMON CASE USES
-static func BasicGate(value : int) -> CardGate:
-	return CardGate.new(GateType.LESS_THAN, value)
+static func BasicGate(v : int) -> CardGate:
+	return CardGate.new(GateType.LESS_THAN, v)
 	
 static func None() -> CardGate:
 	return CardGate.new(GateType.NONE)

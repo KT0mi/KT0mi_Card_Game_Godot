@@ -50,11 +50,11 @@ func is_creature() -> bool:
 func is_spell() -> bool:
 	return definition is SpellCardDefinition
 	
-func is_playable(against : int) -> bool:
+func is_not_gated(against : int) -> bool:
 	var gate := get_gate()
 	if gate == null:
 		return true
-	return gate.is_playable(against)
+	return gate.is_not_gated(against)
 
 func is_battle_ready() -> bool:
 	#If the card is dazed
@@ -86,6 +86,9 @@ func get_endurance() -> int:
 	
 func get_gate() -> CardGate:
 	return CheckSystem.gate_of(self)
+	
+func is_playable(lane :int= -1) -> bool:
+	return CheckSystem.playability_of(self, lane)
 
 ## --- Counters --------------------------------
 func get_counter(key: StringName) -> int:

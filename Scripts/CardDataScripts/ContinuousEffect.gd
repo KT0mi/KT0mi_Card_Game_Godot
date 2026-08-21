@@ -8,7 +8,7 @@ class_name ContinuousEffect extends RefCounted
 #value affected - Kind 
 #layer affected - Layer
 
-enum Kind {ATTACK, ENDURANCE, GATE, EFFECT_DAMAGE}
+enum Kind {ATTACK, ENDURANCE, GATE, EFFECT_DAMAGE, PLAYABILITY}
 enum Layer {DELTA, SET, FINAL}
 
 var kind : Kind

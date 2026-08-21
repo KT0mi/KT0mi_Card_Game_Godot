@@ -43,7 +43,7 @@ func _take_start_turn_phase_actions() -> void:
 	
 	#If you can play any cards in your hand
 	for card : CardInstance in _ai_player().hand:
-		if card.is_playable(_ai_player().get_player_card().get_endurance()):
+		if card.is_not_gated(_ai_player().get_player_card().get_endurance()):
 			return
 	
 	#If you have 3 or fewer cards in hand
@@ -71,7 +71,7 @@ func _take_play_phase_actions() -> void:
 	var p_spells : Array[CardInstance]
 	
 	for card:CardInstance in ai.hand.duplicate():
-		if card.is_playable(_ai_player().get_player_card().get_endurance()):
+		if card.is_not_gated(_ai_player().get_player_card().get_endurance()):
 			if card.is_creature(): p_creatures.append(card)
 			else: p_spells.append(card)
 	
@@ -126,7 +126,7 @@ func _choose_cards(request : CardChoiceRequest) -> Array:
 					#Mulligan any card that you cannot play on the first turn
 					var selected : Array
 					for c : CardInstance in request.options:
-						if c.is_playable(_ai_player().get_player_card().get_endurance()):
+						if c.is_not_gated(_ai_player().get_player_card().get_endurance()):
 							continue
 						selected.append(c)
 					return selected
