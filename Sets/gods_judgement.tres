@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="CardSet" format=3 uid="uid://dswcwf4pdq00h"]
+
+[ext_resource type="Script" uid="uid://btpg74qh4o4sw" path="res://Scripts/CardDataScripts/CardSet.gd" id="1_gb6mm"]
+
+[resource]
+script = ExtResource("1_gb6mm")
+id = &"gods_judgement"
+display_name = "God's Judgement"
+metadata/_custom_type_script = "uid://btpg74qh4o4sw"

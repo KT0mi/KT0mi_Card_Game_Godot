@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="CardSet" format=3 uid="uid://b5bc33evsq3qx"]
+
+[ext_resource type="Script" uid="uid://btpg74qh4o4sw" path="res://Scripts/CardDataScripts/CardSet.gd" id="1_b36ko"]
+
+[resource]
+script = ExtResource("1_b36ko")
+id = &"dr_steelwrights_appliances"
+display_name = "Dr. Steelwright's Appliances"
+metadata/_custom_type_script = "uid://btpg74qh4o4sw"

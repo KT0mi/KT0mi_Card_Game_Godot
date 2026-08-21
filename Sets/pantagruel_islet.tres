@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="CardSet" format=3 uid="uid://ca8me1a7hfwb5"]
+
+[ext_resource type="Script" uid="uid://btpg74qh4o4sw" path="res://Scripts/CardDataScripts/CardSet.gd" id="1_o1sfs"]
+
+[resource]
+script = ExtResource("1_o1sfs")
+id = &"pantagruel_islet"
+display_name = "Pantagruel Islet"
+metadata/_custom_type_script = "uid://btpg74qh4o4sw"

@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="CardSet" format=3 uid="uid://j3m55x47ch4d"]
+
+[ext_resource type="Script" uid="uid://btpg74qh4o4sw" path="res://Scripts/CardDataScripts/CardSet.gd" id="1_76txn"]
+
+[resource]
+script = ExtResource("1_76txn")
+id = &"fiery_tradition"
+display_name = "Fiery Tradition"
+metadata/_custom_type_script = "uid://btpg74qh4o4sw"

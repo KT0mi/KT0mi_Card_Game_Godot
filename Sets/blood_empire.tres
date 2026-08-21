@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="CardSet" format=3 uid="uid://dcr15roeinpa4"]
+
+[ext_resource type="Script" uid="uid://btpg74qh4o4sw" path="res://Scripts/CardDataScripts/CardSet.gd" id="1_xf1sm"]
+
+[resource]
+script = ExtResource("1_xf1sm")
+id = &"blood_empire"
+display_name = "Blood Empire"
+metadata/_custom_type_script = "uid://btpg74qh4o4sw"
