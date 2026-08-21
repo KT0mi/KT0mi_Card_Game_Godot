@@ -6,8 +6,8 @@ func _init() -> void:
 	card_text = "While this card is in play: You can only play one creature card per turn, once you play it, sacrifice it and add it's Attack and Endurance to this card."
 	is_special = true
 	gate = CardGate.BasicGate(15)
-	attack = 5
-	endurance = 5
+	attack = 3
+	endurance = 3
 	sets = ["pantagruel_islet"]
 	
 const COUNT_KEY := &"ptg_count"
@@ -38,9 +38,10 @@ func _build_abilities() -> Array[Ability]:
 			func(c:CardInstance,e:PhaseEvent)->bool:return e.player == c.owner,
 		),
 		Ability.new(
-			Events.PLAY_CARD_RESOLVED,
+			Events.PLAY_CARD_REQUEST,
 			func(c:CardInstance,e:PlayCardEvent):
 				print("Resolving pantagruel_the_giant's effect")
+				e.cancel()
 				var sacrifice := e.card
 				
 				GameActions.try_add_attack_modifier(c, StatModifer.delta(sacrifice.get_attack(), c))
@@ -51,6 +52,6 @@ func _build_abilities() -> Array[Ability]:
 				
 			func(c:CardInstance,e:PlayCardEvent)->bool: 
 				print("Attempting to resolve pantagruel_the_giant's effect. variables:\nCard being played: %s\nPlayer playing card: %s" % [e.card.definition.card_name, e.player.get_player_card().definition.card_name])
-				return e.card.is_creature() and e.player == c.owner and e.card != c,
+				return e.card.is_creature() and e.player == c.owner and e.card != c and not e.cancelled,
 		)
 	]

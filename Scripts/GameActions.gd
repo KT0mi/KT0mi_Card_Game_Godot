@@ -15,15 +15,15 @@ func try_play_card(player: Player, card: CardInstance, lane : int = -1) -> bool:
 		print("GameActions: Cannot play card while a choice is pending")
 		return false
 	
+	#Check with CheckSystem to see if the card is playable
+	if not card.is_playable(lane):
+		print("GameActions: Failed try_play_card action. Reason: Card not playable.")
+		return false
+	
 	var event := PlayCardEvent.new(player, card)
 	await TriggerSystem.emit(Events.PLAY_CARD_REQUEST, event)
 	if event.cancelled:
 		print("GameActions: Failed try_play_card action. Reason: Request intercepted")
-		return false
-	
-	#Check with CheckSystem to see if the card is playable
-	if not card.is_playable(lane):
-		print("GameActions: Failed try_play_card action. Reason: Card not playable.")
 		return false
 	
 	if card.is_creature():
