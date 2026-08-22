@@ -75,8 +75,8 @@ func reset_stats() -> void:
 ## Attribute Parsers - methods for parsing the current stats of the card given any modifiers
 ##Mostly delegated to CheckSystem
 
-func get_display_text() -> String:
-	return definition.get_display_text(self)
+func get_display_text(context : bool = false) -> String:
+	return definition.get_display_text(self, context)
 
 func get_attack() -> int:
 	return CheckSystem.attack_of(self)

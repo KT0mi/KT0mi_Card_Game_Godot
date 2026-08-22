@@ -51,3 +51,12 @@ offset_top = 64.0
 offset_right = 1024.0
 offset_bottom = 384.0
 texture = ExtResource("5_pbw6q")
+
+[node name="QuitButton" type="Button" parent="." unique_id=300536963]
+layout_mode = 0
+offset_left = 576.0
+offset_top = 800.0
+offset_right = 736.0
+offset_bottom = 960.0
+theme = ExtResource("1_r150o")
+text = "Quit"

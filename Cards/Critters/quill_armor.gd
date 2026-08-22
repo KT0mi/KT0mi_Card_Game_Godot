@@ -7,7 +7,7 @@ func _init() -> void:
 	cast_type = CastType.PERSISTENT
 	sets = [&"critters"]
 
-func get_display_text(instance: CardInstance) -> String:
+func get_display_text(instance: CardInstance, _context : bool = false) -> String:
 	return "For the next %s attacks to your player card: If the attacker is a creature card, deal 1 damage to it." % CardText.dynamic(instance.counters.get(ARMOR_KEY, 3))
 
 const ARMOR_KEY := &"qa_armor"

@@ -10,7 +10,7 @@ func _init() -> void:
 	
 const COUNTER_KEY := &"ot_counter"
 
-func get_display_text(instance: CardInstance) -> String:
+func get_display_text(instance: CardInstance, _context : bool = false) -> String:
 	return "For the next %s times your player card gets damaged: Add 1 'Bleeding Heart' to your Spellbook" \
 		% CardText.dynamic(instance.counters.get(COUNTER_KEY, 5))
 

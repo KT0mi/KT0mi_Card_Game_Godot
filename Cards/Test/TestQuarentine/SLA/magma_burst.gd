@@ -9,7 +9,7 @@ func _init() -> void:
 	damage_tags = [&"magma_burst"]
 	sets = ["fiery_tradition"]
 	
-func get_display_text(card: CardInstance) -> String:
+func get_display_text(card: CardInstance, _context : bool = false) -> String:
 	return "Choose any card in play: Damage it for %d" % CheckSystem.effect_damage_of(card, 1)
 
 func resolve_effect(card: CardInstance, _event: PlayCardEvent) -> void:

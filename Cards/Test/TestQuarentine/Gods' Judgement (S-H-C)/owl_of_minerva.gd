@@ -10,7 +10,7 @@ func _init() -> void:
 
 const TIMER_KEY := &"ofm_timer"
 
-func get_display_text(instance: CardInstance) -> String:
+func get_display_text(instance: CardInstance, _context : bool = false) -> String:
 	return "After %s of player's turns: Draw 2 cards." \
 	 % CardText.dynamic(instance.counters.get(TIMER_KEY, 2))
 

@@ -17,7 +17,7 @@ class_name CardDefinition extends Resource
 #Overrideable on specific card definitions to inject dynamic instance state into
 #the displayed text. Defaults to card_text so that any card that doesn't have.
 #Dynamic text isn't affected and doesn't even have to touch this
-func get_display_text(_instance: CardInstance) -> String:
+func get_display_text(_instance: CardInstance, _context : bool = false) -> String:
 	return card_text
 
 var _abilities_cache: Array[Ability] = []

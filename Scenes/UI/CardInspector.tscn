@@ -59,6 +59,7 @@ layout_mode = 2
 theme = ExtResource("2_fxm2w")
 theme_override_font_sizes/normal_font_size = 30
 theme_override_font_sizes/bold_font_size = 30
+bbcode_enabled = true
 text = "CARD TEXT CARD TEXT CARD TEXT CARD TEXT CARD TEXT CARD TEXT CARD TEXT CARD TEXT CARD TEXT CARD TEXT"
 fit_content = true
 

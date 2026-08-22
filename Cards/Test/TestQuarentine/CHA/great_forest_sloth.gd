@@ -11,7 +11,7 @@ func _init() -> void:
 
 const TIMER_KEY := "gfs_timer"
 
-func get_display_text(instance: CardInstance) -> String:
+func get_display_text(instance: CardInstance, _context : bool = false) -> String:
 	return "This card has 'Dazed' for it's first %s turns on the arena." \
 		% CardText.dynamic(instance.counters.get(TIMER_KEY, 3))
 

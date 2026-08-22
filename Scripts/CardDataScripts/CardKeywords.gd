@@ -4,13 +4,43 @@ class_name CardKeywords extends RefCounted
 #Because any card could have them since they are tied to Game State actions 
 #and not specific card actions
 
+class Keyword extends RefCounted:
+	static var _keywords : Dictionary[StringName,Keyword]
+	var id : StringName
+	var name: String
+	var description: String
+	
+	func _init(i:StringName, nm: String, dscpt: String) -> void:
+		id = i
+		name = nm
+		description = dscpt
+		_keywords[id] = self
+	
+	static func get_keyword(i : StringName) -> Keyword:
+		return _keywords.get(i)
+
 ## ------ Flags ------
 const DAZED := &"dazed"
 
 ## ------ Keywords ------
 const TAUNT := &"taunt"
+static var Taunt : Keyword = Keyword.new(
+	TAUNT,
+	"Taunt",
+	"All attacks against your player card are redirected to this card if they weren't redirected already."
+)
 const QUICK := &"quick"
+static var Quick : Keyword = Keyword.new(
+	QUICK,
+	"Quick",
+	"When this card is played, it doesn't become 'Dazed'."
+)
 const BLOCK := &"block"
+static var Block : Keyword = Keyword.new(
+	BLOCK,
+	"Block",
+	"This card receives all damage that the card on the opposing lane deals."
+)
 
 ## -------- IDs -----
 const BLEEDING_HEART := &"bleeding_heart"

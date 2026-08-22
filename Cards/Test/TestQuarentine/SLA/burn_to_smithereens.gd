@@ -9,7 +9,7 @@ func _init() -> void:
 	damage_tags = [&"magma_burst"]
 	sets = ["fiery_tradition"]
 
-func get_display_text(instance: CardInstance) -> String:
+func get_display_text(instance: CardInstance, _context : bool = false) -> String:
 	return "This card counts as a 'Magma Burst'. Choose 1 arena card: Deal 4 damage to it, if it dies deal %s damage to it's owner" \
 		% CheckSystem.effect_damage_of(instance, 1)
 

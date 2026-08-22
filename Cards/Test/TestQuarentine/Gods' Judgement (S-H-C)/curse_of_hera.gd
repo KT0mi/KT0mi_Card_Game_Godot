@@ -10,7 +10,7 @@ func _init() -> void:
 
 const CURSE_KEY = &"coh_counter"
 
-func get_display_text(_instance: CardInstance) -> String:
+func get_display_text(_instance: CardInstance, _context : bool = false) -> String:
 	return "For the next %s times the opposing player plays a card: Deal 1 damage to his player card" \
 		% CardText.dynamic(_instance.counters.get(CURSE_KEY, 3))
 

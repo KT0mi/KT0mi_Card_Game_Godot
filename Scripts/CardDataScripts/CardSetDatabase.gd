@@ -18,6 +18,11 @@ func _scan_dir(path: String) -> void:
 	while entry != "":
 		if entry.ends_with(".tres"):
 			_load_set(path.path_join(entry))
+		elif entry.ends_with(".tres.remap"):
+			# Exported builds replace foo.tres with foo.tres.remap + a
+			# binary resource. load() still resolves the original ".tres"
+			# path correctly -- Godot follows the remap internally.
+			_load_set(path.path_join(entry).trim_suffix(".remap"))
 		entry = dir.get_next()
 	dir.list_dir_end()
 

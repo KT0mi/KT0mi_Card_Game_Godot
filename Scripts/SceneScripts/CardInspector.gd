@@ -60,7 +60,7 @@ func _refresh() -> void:
 	_preview_card._refresh_visuals()
 	
 	_name_label.text = def.card_name
-	_text_box.text = _card.get_display_text()
+	_text_box.text = _card.get_display_text(true)
 	
 	if def is CreatureCardDefinition:
 		_attack_label.visible = true

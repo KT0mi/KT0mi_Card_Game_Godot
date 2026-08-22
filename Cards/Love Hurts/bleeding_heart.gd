@@ -10,7 +10,7 @@ func _init() -> void:
 
 const TIMER_KEY := &"bh_timer"
 
-func get_display_text(_instance: CardInstance) -> String:
+func get_display_text(_instance: CardInstance, _context : bool = false) -> String:
 	return "After %s of your turns: Deal 2 damage to your player card." \
 		% CardText.dynamic(_instance.counters.get(TIMER_KEY, 2))
 

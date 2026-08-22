@@ -8,7 +8,7 @@ func _init() -> void:
 	cast_type = CastType.INSTANT
 	sets = ["test_set"]
 
-func get_display_text(instance: CardInstance) -> String:
+func get_display_text(instance: CardInstance, _context : bool = false) -> String:
 	return "Choose 1 lane: Deal %s+%s damage to all cards there, if any card was killed, deal %s damage to the player" \
 		% CardText.dynamic(CheckSystem.effect_damage_of(instance, 1))
 
